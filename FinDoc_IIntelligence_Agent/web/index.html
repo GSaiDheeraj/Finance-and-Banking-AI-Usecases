@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinDoc Intelligence Agent</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .upload-section {
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+        
+        .upload-section:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+        
+        .upload-section h2 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .upload-section p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .results-section {
+            display: none;
+        }
+        
+        .results-section.active {
+            display: block;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .status-message {
+            color: #666;
+            font-size: 1.1em;
+        }
+        
+        .result-card {
+            background: #f8f9ff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .result-card h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .metric {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .metric-label {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+        
+        .metric-value {
+            color: #333;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        
+        .research-note {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .research-note h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .research-note p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        
+        .error-message {
+            background: #fee;
+            color: #c33;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 20px 0;
+            border-left: 4px solid #c33;
+        }
+
+        .line-items-heading {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+            margin-top: 28px;
+            margin-bottom: 14px;
+        }
+
+        .line-items-heading h3 {
+            color: #333;
+        }
+
+        .line-items-count {
+            color: #999;
+            font-size: 0.9em;
+        }
+
+        /* Statement-level group (top of the hierarchy) */
+        .statement-group {
+            border: 1px solid #e2e2f0;
+            border-radius: 10px;
+            margin-bottom: 14px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+        }
+
+        .statement-group > summary {
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1.05em;
+            color: #fff;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 12px 18px;
+            list-style: none;
+        }
+
+        .statement-group > summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .statement-group > summary::before {
+            content: '▸';
+            display: inline-block;
+            margin-right: 8px;
+            transition: transform 0.15s ease;
+        }
+
+        .statement-group[open] > summary::before {
+            transform: rotate(90deg);
+        }
+
+        .statement-group-body {
+            padding: 14px 18px 18px;
+        }
+
+        /* section_path node — recursive, nests arbitrarily deep */
+        .section-node {
+            border-left: 3px solid #d8dcf5;
+            margin: 10px 0 10px 6px;
+            padding-left: 14px;
+        }
+
+        .section-node > summary {
+            cursor: pointer;
+            font-weight: 600;
+            color: #4a4a6a;
+            padding: 4px 0;
+            list-style: none;
+        }
+
+        .section-node > summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .section-node > summary::before {
+            content: '▸';
+            display: inline-block;
+            width: 1em;
+            color: #667eea;
+            transition: transform 0.15s ease;
+        }
+
+        .section-node[open] > summary::before {
+            transform: rotate(90deg);
+        }
+
+        .line-items-scroll {
+            overflow-x: auto;
+        }
+
+        .line-items table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 6px;
+            font-size: 0.88em;
+        }
+
+        .line-items th,
+        .line-items td {
+            text-align: left;
+            padding: 8px 12px;
+            white-space: nowrap;
+        }
+
+        .line-items tbody tr:nth-child(odd) {
+            background: #fafbff;
+        }
+
+        .line-items tbody tr:hover {
+            background: #f0f1ff;
+        }
+
+        .line-items th {
+            background: #f0f1ff;
+            color: #4a4a6a;
+            font-size: 0.82em;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            border-bottom: 2px solid #d8dcf5;
+        }
+
+        .line-items td {
+            border-bottom: 1px solid #f0f0f5;
+            color: #333;
+        }
+
+        .line-items td.label-cell {
+            white-space: normal;
+            min-width: 200px;
+        }
+
+        .line-items td.value-cell {
+            font-variant-numeric: tabular-nums;
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .scale-pill {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 999px;
+            background: #eef0ff;
+            color: #5a4fcf;
+            font-size: 0.85em;
+        }
+
+        /* Top-level tabs (Upload / Documents) */
+        .tabs {
+            display: flex;
+            gap: 4px;
+            padding: 0 30px;
+            background: #f8f9ff;
+            border-bottom: 1px solid #e2e2f0;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 16px 20px;
+            font-size: 1em;
+            font-weight: 600;
+            color: #888;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn:hover {
+            color: #667eea;
+        }
+
+        .tab-btn.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .tab-panel {
+            display: none;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        /* Documents tab layout: picker list + detail pane */
+        .documents-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 24px;
+        }
+
+        .documents-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .document-row {
+            text-align: left;
+            background: #f8f9ff;
+            border: 1px solid #e2e2f0;
+            border-radius: 8px;
+            padding: 12px 14px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .document-row:hover {
+            border-color: #667eea;
+        }
+
+        .document-row.active {
+            border-color: #667eea;
+            background: #eef0ff;
+        }
+
+        .document-row .doc-filename {
+            font-weight: 600;
+            color: #333;
+            word-break: break-word;
+        }
+
+        .document-row .doc-meta {
+            color: #888;
+            font-size: 0.85em;
+            margin-top: 4px;
+        }
+
+        .document-detail-header {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>FinDoc Intelligence Agent</h1>
+            <p>Financial Document Analysis & Investment Research</p>
+        </div>
+        
+        <nav class="tabs" id="tabs">
+            <button class="tab-btn active" data-tab="upload">📤 Upload</button>
+            <button class="tab-btn" data-tab="documents">📄 Documents</button>
+        </nav>
+
+        <div class="content">
+            <section id="tab-upload" class="tab-panel active">
+                <div class="upload-section" id="uploadSection">
+                    <h2>Upload Financial Documents</h2>
+                    <p>Upload annual reports, financial statements, or other financial documents for analysis</p>
+                    <input type="file" id="fileInput" class="file-input" multiple accept=".pdf">
+                    <button class="btn" onclick="document.getElementById('fileInput').click()">Select Files</button>
+                    <div id="selectedFiles" style="margin-top: 15px; color: #666;"></div>
+                    <button class="btn" id="analyzeBtn" style="margin-top: 20px;" disabled>Analyze Documents</button>
+                </div>
+
+                <div class="loading" id="loadingSection" style="display: none;">
+                    <div class="loading-spinner"></div>
+                    <p class="status-message" id="statusMessage">Processing documents...</p>
+                </div>
+
+                <div class="results-section" id="uploadDoneSection">
+                    <div class="result-card">
+                        <h3>✅ Extraction complete</h3>
+                        <p id="uploadDoneSummary"></p>
+                        <button class="btn" id="viewResultsBtn" style="margin-top: 15px;">View results</button>
+                    </div>
+                </div>
+
+                <div class="error-message" id="errorSection" style="display: none;"></div>
+            </section>
+
+            <section id="tab-documents" class="tab-panel">
+                <div class="documents-layout">
+                    <div class="documents-list" id="documentsList"></div>
+                    <div id="documentDetail">
+                        <p class="status-message">Select a document to view its extracted data.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = window.location.origin;
+
+        const fileInput = document.getElementById('fileInput');
+        const selectedFiles = document.getElementById('selectedFiles');
+        const analyzeBtn = document.getElementById('analyzeBtn');
+        const uploadSection = document.getElementById('uploadSection');
+        const loadingSection = document.getElementById('loadingSection');
+        const uploadDoneSection = document.getElementById('uploadDoneSection');
+        const uploadDoneSummary = document.getElementById('uploadDoneSummary');
+        const viewResultsBtn = document.getElementById('viewResultsBtn');
+        const errorSection = document.getElementById('errorSection');
+        const statusMessage = document.getElementById('statusMessage');
+        const documentsList = document.getElementById('documentsList');
+        const documentDetail = document.getElementById('documentDetail');
+
+        let selectedFilesList = [];
+        let lastUploadedDocuments = []; // [{document_id, filename}, ...] from the upload that just finished
+
+        fileInput.addEventListener('change', (e) => {
+            selectedFilesList = Array.from(e.target.files);
+            selectedFiles.textContent = selectedFilesList.length > 0
+                ? `Selected: ${selectedFilesList.map(f => f.name).join(', ')}`
+                : '';
+            analyzeBtn.disabled = selectedFilesList.length === 0;
+        });
+
+        analyzeBtn.addEventListener('click', async () => {
+            if (selectedFilesList.length === 0) return;
+
+            uploadSection.style.display = 'none';
+            loadingSection.style.display = 'block';
+            errorSection.style.display = 'none';
+            uploadDoneSection.classList.remove('active');
+
+            try {
+                const formData = new FormData();
+                selectedFilesList.forEach(file => {
+                    formData.append('files', file);
+                });
+                formData.append('project_name', 'FinDoc Analysis');
+
+                const response = await fetch(`${API_BASE_URL}/projects`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to create project');
+                }
+
+                const project = await response.json();
+                lastUploadedDocuments = project.documents || [];
+                statusMessage.textContent = 'Processing documents...';
+
+                // Poll for status
+                await pollProjectStatus(project.project_id);
+
+            } catch (error) {
+                showError(error.message);
+                uploadSection.style.display = 'block';
+                loadingSection.style.display = 'none';
+            }
+        });
+
+        async function pollProjectStatus(projectId) {
+            const pollIntervalMs = 10000;
+            const maxAttempts = 360; // up to 60 minutes — exhaustive page-by-page
+                                      // extraction on a large filing takes a while
+            let attempts = 0;
+
+            while (attempts < maxAttempts) {
+                try {
+                    const response = await fetch(`${API_BASE_URL}/projects/${projectId}/status`);
+                    const status = await response.json();
+
+                    if (status.status === 'failed') {
+                        showError('Analysis failed. Check the server logs for details.');
+                        uploadSection.style.display = 'block';
+                        loadingSection.style.display = 'none';
+                        return;
+                    }
+
+                    const elapsedMin = ((attempts * pollIntervalMs) / 60000).toFixed(1);
+                    statusMessage.textContent = `Status: ${status.status} (${elapsedMin} min elapsed)`;
+
+                    if (status.status === 'completed') {
+                        showUploadDone();
+                        return;
+                    }
+
+                    await new Promise(resolve => setTimeout(resolve, pollIntervalMs));
+                    attempts++;
+                } catch (error) {
+                    console.error('Error polling status:', error);
+                    await new Promise(resolve => setTimeout(resolve, pollIntervalMs));
+                    attempts++;
+                }
+            }
+
+            showError('Analysis is taking longer than expected. It may still complete — check back later.');
+            uploadSection.style.display = 'block';
+            loadingSection.style.display = 'none';
+        }
+
+        function showUploadDone() {
+            loadingSection.style.display = 'none';
+            uploadDoneSummary.textContent = lastUploadedDocuments.length > 0
+                ? `Processed: ${lastUploadedDocuments.map(doc => doc.filename).join(', ')}`
+                : 'Processing finished.';
+            uploadDoneSection.classList.add('active');
+        }
+
+        viewResultsBtn.addEventListener('click', async () => {
+            switchTab('documents');
+            await loadDocumentsList();
+            if (lastUploadedDocuments.length > 0) {
+                selectDocument(lastUploadedDocuments[0].document_id);
+            }
+        });
+
+        // --------------------------------------------------------------- //
+        // Tabs
+        // --------------------------------------------------------------- //
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.tab === tabName));
+            document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.toggle('active', panel.id === `tab-${tabName}`));
+        }
+
+        document.getElementById('tabs').addEventListener('click', (event) => {
+            const btn = event.target.closest('.tab-btn');
+            if (!btn) return;
+            switchTab(btn.dataset.tab);
+            if (btn.dataset.tab === 'documents') loadDocumentsList();
+        });
+
+        // --------------------------------------------------------------- //
+        // Documents tab — picker list + detail pane
+        // --------------------------------------------------------------- //
+        let activeDocumentId = null;
+
+        async function loadDocumentsList() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/documents`);
+                const documents = await response.json();
+                renderDocumentsList(documents);
+            } catch (error) {
+                documentsList.innerHTML = `<p class="error-message">Failed to load documents: ${escapeHtml(error.message)}</p>`;
+            }
+        }
+
+        function renderDocumentsList(documents) {
+            if (documents.length === 0) {
+                documentsList.innerHTML = '<p class="status-message">No documents uploaded yet.</p>';
+                return;
+            }
+            documentsList.innerHTML = documents.map(doc => `
+                <button class="document-row ${doc.document_id === activeDocumentId ? 'active' : ''}" data-document-id="${doc.document_id}">
+                    <div class="doc-filename">${escapeHtml(doc.filename)}</div>
+                    <div class="doc-meta">${doc.company_name ? escapeHtml(doc.company_name) : (doc.line_item_count === 0 ? 'Processing…' : 'Unknown issuer')}</div>
+                </button>
+            `).join('');
+        }
+
+        documentsList.addEventListener('click', (event) => {
+            const row = event.target.closest('.document-row');
+            if (row) selectDocument(row.dataset.documentId);
+        });
+
+        async function selectDocument(documentId) {
+            activeDocumentId = documentId;
+            documentsList.querySelectorAll('.document-row').forEach(row => {
+                row.classList.toggle('active', row.dataset.documentId === documentId);
+            });
+            documentDetail.innerHTML = '<p class="status-message">Loading…</p>';
+            try {
+                const response = await fetch(`${API_BASE_URL}/documents/${documentId}`);
+                if (!response.ok) throw new Error('document not found');
+                renderDocumentDetail(await response.json());
+            } catch (error) {
+                documentDetail.innerHTML = `<p class="error-message">Failed to load document: ${escapeHtml(error.message)}</p>`;
+            }
+        }
+
+        function renderDocumentDetail(doc) {
+            const header = `
+                <div class="document-detail-header">
+                    <div class="metric-grid">
+                        <div class="metric">
+                            <div class="metric-label">Document name</div>
+                            <div class="metric-value">${escapeHtml(doc.filename)}</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-label">Company name</div>
+                            <div class="metric-value">${escapeHtml(doc.company_name || '—')}</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-label">Document release date</div>
+                            <div class="metric-value">${escapeHtml(doc.period || '—')}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            const heading = `
+                <div class="line-items-heading">
+                    <h3>Extracted Line Items</h3>
+                    <span class="line-items-count">${doc.line_items.length} items</span>
+                </div>
+            `;
+            documentDetail.innerHTML = header + heading
+                + `<div class="line-items">${renderLineItemsByStatement(doc.line_items)}</div>`;
+        }
+
+        const STATEMENT_LABELS = {
+            balance_sheet: 'Balance Sheet',
+            income_statement: 'Income Statement',
+            cash_flow: 'Cash Flow',
+            changes_in_equity: 'Changes in Equity',
+            other: 'KPIs, Ratios & Other',
+        };
+        const STATEMENT_ORDER = ['balance_sheet', 'income_statement', 'cash_flow', 'changes_in_equity', 'other'];
+
+        // Line item labels/snippets originate from LLM-read PDF content, not from
+        // this app — escape before interpolating into innerHTML.
+        function escapeHtml(value) {
+            return String(value ?? '').replace(/[&<>"']/g, (ch) => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+            }[ch]));
+        }
+
+        function renderLineItemsTable(items) {
+            const rows = items.map(item => `
+                <tr>
+                    <td class="label-cell">${escapeHtml(item.label)}</td>
+                    <td class="value-cell">${item.value.toLocaleString()}</td>
+                    <td>${escapeHtml(item.currency || '')}</td>
+                    <td>${escapeHtml(item.unit || '')}</td>
+                    <td>${item.scale ? `<span class="scale-pill">${escapeHtml(item.scale)}</span>` : ''}</td>
+                    <td>${escapeHtml(item.period || '')}</td>
+                    <td>${escapeHtml(item.period_end_date || '')}</td>
+                    <td>${item.period_length_months != null ? escapeHtml(item.period_length_months) + ' mo' : ''}</td>
+                    <td>${item.page ?? ''}</td>
+                </tr>
+            `).join('');
+            return `
+                <div class="line-items-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Label</th><th>Value</th><th>Currency</th><th>Unit</th><th>Scale</th>
+                                <th>Period</th><th>Period End</th><th>Length</th><th>Page</th>
+                            </tr>
+                        </thead>
+                        <tbody>${rows}</tbody>
+                    </table>
+                </div>
+            `;
+        }
+
+        // Groups items under their `section_path` headers, arbitrarily deep — a
+        // leading segment that repeats the statement's own name (e.g. section_path
+        // starting with "Balance Sheet" under the Balance Sheet bucket) is dropped
+        // so it isn't shown twice.
+        function buildSectionTree(items, statementLabel) {
+            const root = { items: [], children: {} };
+            for (const item of items) {
+                let path = item.section_path || [];
+                if (path.length && path[0].trim().toLowerCase() === statementLabel.trim().toLowerCase()) {
+                    path = path.slice(1);
+                }
+                let node = root;
+                for (const segment of path) {
+                    if (!node.children[segment]) {
+                        node.children[segment] = { items: [], children: {} };
+                    }
+                    node = node.children[segment];
+                }
+                node.items.push(item);
+            }
+            return root;
+        }
+
+        function renderSectionNode(node) {
+            let html = '';
+            if (node.items.length > 0) {
+                html += renderLineItemsTable(node.items);
+            }
+            for (const [segment, child] of Object.entries(node.children)) {
+                html += `
+                    <details class="section-node" open>
+                        <summary>${escapeHtml(segment)}</summary>
+                        ${renderSectionNode(child)}
+                    </details>
+                `;
+            }
+            return html;
+        }
+
+        function renderLineItemsByStatement(lineItems) {
+            if (!lineItems || lineItems.length === 0) {
+                return '<p>No line items extracted.</p>';
+            }
+            const grouped = {};
+            for (const item of lineItems) {
+                const key = STATEMENT_LABELS[item.statement] ? item.statement : 'other';
+                (grouped[key] = grouped[key] || []).push(item);
+            }
+            return STATEMENT_ORDER
+                .filter(key => grouped[key] && grouped[key].length > 0)
+                .map(key => {
+                    const tree = buildSectionTree(grouped[key], STATEMENT_LABELS[key]);
+                    return `
+                        <details class="statement-group" open>
+                            <summary>${STATEMENT_LABELS[key]} <span class="line-items-count">(${grouped[key].length} items)</span></summary>
+                            <div class="statement-group-body">${renderSectionNode(tree)}</div>
+                        </details>
+                    `;
+                })
+                .join('');
+        }
+
+        function showError(message) {
+            errorSection.textContent = message;
+            errorSection.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

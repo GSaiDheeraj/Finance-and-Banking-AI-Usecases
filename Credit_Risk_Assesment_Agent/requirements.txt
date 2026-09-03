@@ -1,0 +1,44 @@
+langgraph>=0.2.0
+langchain>=0.3.0
+langchain-core>=0.3.0
+langchain-openai>=0.2.0
+pydantic>=2.0
+PyMuPDF>=1.24.0
+numpy>=1.26
+streamlit>=1.36
+pandas>=2.0
+python-dotenv>=1.0
+plotly>=5.0
+
+# --- free web-sentiment stack (no API keys) ---
+ddgs>=6.0                 # DuckDuckGo web + news search (formerly duckduckgo-search)
+requests>=2.31           # fetch public pages
+beautifulsoup4>=4.12      # parse public pages
+lxml>=5.0                 # fast HTML parser backend
+
+# --- free market-data fallback (no API keys) ---
+yfinance>=0.2.40          # Yahoo Finance financial statements when docs lack a figure
+
+# --- Postgres persistence + pgvector page index (credit_risk/db) ---
+sqlalchemy>=2.0
+psycopg[binary]>=3.1      # psycopg 3, matches the postgresql+psycopg:// URL in db/session.py
+pgvector>=0.2.5
+
+# --- API backend (credit_risk/api) ---
+fastapi>=0.110.0
+uvicorn[standard]>=0.29.0
+python-multipart>=0.0.9  # required by FastAPI for UploadFile/Form parsing
+
+# --- live job-progress tracking (credit_risk/status_tracker.py) ---
+redis>=5.0
+
+# --- structured logging + tracing (credit_risk/logconf.py, tracing.py) ---
+python-json-logger>=3.2
+opentelemetry-api>=1.27
+opentelemetry-sdk>=1.27
+opentelemetry-instrumentation-fastapi>=0.48b0
+
+# --- tests ---
+pytest>=8.0
+pytest-mock>=3.14
+httpx>=0.27               # also used by app_streamlit/ui.py to call the API

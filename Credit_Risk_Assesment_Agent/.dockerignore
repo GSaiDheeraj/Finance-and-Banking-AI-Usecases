@@ -1,0 +1,25 @@
+# Never bake real secrets or local state into an image layer.
+.env
+.env.*
+!.env.example
+
+# Local Python environment / caches — installed fresh by the Dockerfile instead.
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+
+# Local data the container never needs baked in.
+data/
+*.pdf
+*.log
+
+# Streamlit is not part of this image (it's a separate, unchanged local dev tool).
+app_streamlit/
+
+# Version control / editor / OS noise.
+.git/
+.gitignore
+.DS_Store
+.vscode/

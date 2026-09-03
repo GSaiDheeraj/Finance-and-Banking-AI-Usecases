@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Investment Research Copilot</title>
+  <meta name="api-base-url" content="">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="app-header">
+    <h1>Investment Research Copilot <span class="muted">— Portfolio Monitoring</span></h1>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <section class="panel">
+        <h2>Reopen a past run</h2>
+        <select id="case-history"><option value="">(new portfolio)</option></select>
+        <button id="load-case-btn" class="secondary" type="button">Load</button>
+        <p id="history-error" class="error-text" hidden></p>
+      </section>
+
+      <section class="panel">
+        <h2>Upload holdings</h2>
+        <p class="hint">CSV or JSON with symbol, quantity, asset_class. Optional transactions ledger or PDF statement.</p>
+        <label class="hint">Holdings file</label>
+        <input type="file" id="holdings-input" accept=".csv,.json">
+        <label class="hint">Transactions (optional)</label>
+        <input type="file" id="transactions-input" accept=".csv">
+        <label class="hint">PDF statement (optional)</label>
+        <input type="file" id="statement-input" accept="application/pdf">
+      </section>
+
+      <section class="panel">
+        <h2>Or build from scratch</h2>
+        <label class="checkbox-row">
+          <input type="checkbox" id="auto-construct-checkbox">
+          Build a portfolio from scratch instead of uploading holdings
+        </label>
+        <div id="auto-construct-fields" hidden>
+          <label class="hint">Investable amount</label>
+          <input type="text" id="construct-amount-input" value="1000000">
+          <label class="hint">Base currency</label>
+          <input type="text" id="construct-currency-input" value="USD">
+          <label class="hint">Countries (comma-separated)</label>
+          <input type="text" id="construct-countries-input" placeholder="US, India">
+          <p class="hint">Leave blank for a default global mix — country research below only runs when at least one country is named here.</p>
+          <label class="hint">Style</label>
+          <select id="construct-style-select">
+            <option value="multi_cap" selected>Multi-cap</option>
+            <option value="large_cap">Large-cap</option>
+            <option value="mid_cap">Mid-cap</option>
+            <option value="small_cap">Small-cap</option>
+            <option value="fund_of_funds">Fund-of-funds</option>
+            <option value="thematic">Thematic</option>
+            <option value="elss">ELSS</option>
+          </select>
+          <label class="checkbox-row">
+            <input type="checkbox" id="country-research-checkbox" checked>
+            Research countries (geopolitical / sectoral / bond / FD-rate / market)
+          </label>
+          <details class="advanced-details">
+            <summary>Advanced: edit the full construction request (JSON)</summary>
+            <p class="hint">Overrides the fields above when non-empty. Any <code>ConstructionRequest</code> field is valid here (equity_pct, cap_mix, target_return_pct, constraints.min_credit_rating, …).</p>
+            <textarea id="construct-json-textarea" rows="8" placeholder="Leave empty to use the fields above"></textarea>
+          </details>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Mandate &amp; settings</h2>
+        <input type="text" id="portfolio-name-input" placeholder="Portfolio name" value="Client Portfolio">
+        <input type="text" id="client-name-input" placeholder="Client name (optional)">
+        <select id="mandate-select">
+          <option value="conservative">Conservative</option>
+          <option value="balanced" selected>Balanced</option>
+          <option value="growth">Growth</option>
+          <option value="aggressive">Aggressive</option>
+        </select>
+        <select id="mode-select">
+          <option value="both" selected>Briefing: deterministic + LLM</option>
+          <option value="deterministic">Deterministic only</option>
+          <option value="llm">LLM only</option>
+        </select>
+        <label class="checkbox-row">
+          <input type="checkbox" id="news-checkbox" checked>
+          Scan emerging-risk news
+        </label>
+      </section>
+
+      <section class="panel">
+        <input type="text" id="requested-by-input" placeholder="Your name (audit trail)" value="local-advisor">
+        <button id="run-btn" class="primary" type="button">Run portfolio monitoring</button>
+      </section>
+
+      <div id="sidebar-status" class="status-banner" hidden></div>
+    </aside>
+
+    <main class="main-content">
+      <div id="empty-state" class="empty-state">
+        Upload a holdings file, or build one from scratch, and click <strong>Run portfolio monitoring</strong> — or reopen a past run.
+      </div>
+
+      <div id="result-view" hidden>
+        <div id="headline" class="headline"></div>
+
+        <nav class="tabs" id="tabs">
+          <button class="tab-btn active" data-tab="overview">Overview</button>
+          <button class="tab-btn" data-tab="positions" data-result-type="construction">Positions</button>
+          <button class="tab-btn" data-tab="allocation" data-result-type="monitoring">Allocation</button>
+          <button class="tab-btn" data-tab="alerts" data-result-type="monitoring">Alerts</button>
+          <button class="tab-btn" data-tab="rebalance" data-result-type="monitoring">Rebalancing</button>
+          <button class="tab-btn" data-tab="briefing" data-result-type="monitoring">Briefing</button>
+          <button class="tab-btn" data-tab="country-research">Country research</button>
+          <button class="tab-btn" data-tab="trace">Trace</button>
+          <button class="tab-btn" data-tab="audit" data-result-type="monitoring">Audit</button>
+        </nav>
+
+        <div id="tab-overview" class="tab-panel active"></div>
+        <div id="tab-positions" class="tab-panel"></div>
+        <div id="tab-allocation" class="tab-panel"></div>
+        <div id="tab-alerts" class="tab-panel"></div>
+        <div id="tab-rebalance" class="tab-panel"></div>
+        <div id="tab-briefing" class="tab-panel"></div>
+        <div id="tab-country-research" class="tab-panel"></div>
+        <div id="tab-trace" class="tab-panel"></div>
+        <div id="tab-audit" class="tab-panel"></div>
+
+        <section class="panel qa-panel">
+          <h2>Ask a follow-up question</h2>
+          <input type="text" id="question-input" placeholder="e.g. Which sleeve drove the drift breach?">
+          <button id="ask-btn" class="secondary" type="button">Ask</button>
+          <div id="answer-box" class="answer-box" hidden></div>
+        </section>
+
+        <section class="panel rerun-panel">
+          <h2>Rerun this analysis</h2>
+          <p class="hint">Re-runs against the same uploaded documents, with any overrides below applied.</p>
+          <label class="hint">Mandate override</label>
+          <select id="rerun-mandate-select">
+            <option value="" selected>(keep current)</option>
+            <option value="conservative">Conservative</option>
+            <option value="balanced">Balanced</option>
+            <option value="growth">Growth</option>
+            <option value="aggressive">Aggressive</option>
+          </select>
+          <label class="hint">Question override</label>
+          <input type="text" id="rerun-question-input" placeholder="e.g. Has the risk picture changed?">
+          <label class="hint">News scan override</label>
+          <select id="rerun-news-select">
+            <option value="" selected>(keep current)</option>
+            <option value="on">On</option>
+            <option value="off">Off</option>
+          </select>
+          <button id="rerun-btn" class="secondary" type="button">Rerun</button>
+        </section>
+
+        <section class="panel review-panel">
+          <h2>Advisor review</h2>
+          <input type="text" id="reviewer-input" placeholder="Reviewer name" value="local-advisor">
+          <input type="text" id="review-reason-input" placeholder="Reason (optional)">
+          <div class="review-actions">
+            <button id="approve-btn" class="primary" type="button">Approve</button>
+            <button id="reject-btn" class="danger" type="button">Reject</button>
+          </div>
+          <details class="advanced-details">
+            <summary>Mark corrected instead</summary>
+            <p class="hint">JSON of the fields an advisor corrected (e.g. {"health_band": "watch"}).</p>
+            <textarea id="corrected-fields-textarea" rows="4" placeholder='{"field": "corrected value"}'></textarea>
+            <button id="mark-corrected-btn" class="secondary" type="button">Mark corrected</button>
+          </details>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/poll.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

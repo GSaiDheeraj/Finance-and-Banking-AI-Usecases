@@ -1,0 +1,27 @@
+langgraph>=0.2.0
+langchain>=0.3.0
+langchain-core>=0.3.0
+langchain-openai>=0.2.0
+pydantic>=2.0
+PyMuPDF>=1.24.0
+numpy>=1.26
+streamlit>=1.36
+pandas>=2.0
+python-dotenv>=1.0
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+sqlalchemy>=2.0.0
+psycopg2-binary>=2.9.0
+redis>=5.0.0
+httpx>=0.25.0
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+
+# --- free OSINT / web-research stack (no API keys) ---
+googlesearch-python>=1.2  # free Google results scrape (primary web search, region-aware)
+ddgs>=6.0                 # DuckDuckGo web + news search (fallback; formerly duckduckgo-search)
+wikipedia>=1.4            # free biographies
+requests>=2.31           # fetch public pages
+beautifulsoup4>=4.12      # parse public pages
+lxml>=5.0                 # fast HTML parser backend
+feedparser>=6.0           # news RSS fallback

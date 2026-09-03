@@ -1,0 +1,14 @@
+symbol,name,asset_class,sector,region,currency,quantity,price,cost_basis
+AAPL,Apple Inc,equity,Technology,us,USD,700,210.00,98000
+MSFT,Microsoft Corp,equity,Technology,us,USD,300,420.00,84000
+VTI,Vanguard Total US Market ETF,equity,Diversified,us,USD,500,270.00,110000
+VEA,Vanguard Developed Markets ETF,equity,Diversified,developed_ex_us,USD,1000,50.00,46000
+VWO,Vanguard Emerging Markets ETF,equity,Diversified,emerging_markets,USD,1000,45.00,42000
+JPM,JPMorgan Chase & Co,equity,Financials,us,USD,350,200.00,52000
+XOM,Exxon Mobil Corp,equity,Energy,us,USD,700,110.00,71000
+AGG,iShares Core US Aggregate Bond ETF,fixed_income,Fixed Income,us,USD,1500,98.00,150000
+TLT,iShares 20+ Year Treasury Bond ETF,fixed_income,Fixed Income,us,USD,400,92.00,40000
+LQD,iShares IG Corporate Bond ETF,fixed_income,Fixed Income,us,USD,330,109.00,36500
+BIL,SPDR 1-3 Month T-Bill ETF,cash,Cash,us,USD,655,91.60,60000
+GLD,SPDR Gold Shares,alternatives,Commodities,global,USD,200,215.00,38000
+VNQ,Vanguard Real Estate ETF,alternatives,Real Estate,us,USD,307,88.00,28000

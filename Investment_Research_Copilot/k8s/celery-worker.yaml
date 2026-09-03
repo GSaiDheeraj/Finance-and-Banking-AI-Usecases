@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: investment-research-worker
+  labels:
+    app: investment-research-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: investment-research-worker
+  template:
+    metadata:
+      labels:
+        app: investment-research-worker
+    spec:
+      containers:
+        - name: worker
+          image: ghcr.io/OWNER/REPO:latest
+          imagePullPolicy: IfNotPresent
+          command: ["celery", "-A", "portfolio_monitor.celery_app", "worker", "--loglevel=info"]
+          envFrom:
+            - configMapRef:
+                name: investment-research-config
+            - secretRef:
+                name: investment-research-secrets
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "512Mi"
+            limits:
+              cpu: "2"
+              memory: "2Gi"

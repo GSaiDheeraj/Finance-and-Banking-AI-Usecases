@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Credit Risk Assessment Agent</title>
+  <!-- Empty by default: same-origin deployment (this page served by the API itself,
+       see credit_risk/api/main.py's StaticFiles mount) needs no override. Set a value
+       here only when the UI is served from a different origin than the API. -->
+  <meta name="api-base-url" content="">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="app-header">
+    <h1>🏦 Credit Risk Assessment <span class="muted">— SMEs through Large Corporates</span></h1>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <section class="panel">
+        <h2>Reopen a past assessment</h2>
+        <select id="case-history"><option value="">(new assessment)</option></select>
+        <button id="load-case-btn" class="secondary" type="button">Load</button>
+        <p id="history-error" class="error-text" hidden></p>
+      </section>
+
+      <section class="panel">
+        <h2>Upload the credit submission</h2>
+        <p class="hint">Audited accounts (multiple years), interim statements, info memorandum.</p>
+        <input type="file" id="file-input" multiple accept="application/pdf">
+        <p id="previous-documents-note" class="hint" hidden></p>
+      </section>
+
+      <section class="panel">
+        <h2>Market-data fallback <span class="hint-inline">(optional)</span></h2>
+        <p class="hint">A ticker fills any figure the documents don't contain from Yahoo
+          Finance. Documents always take precedence — with a ticker you can even run
+          with no PDFs at all.</p>
+        <input type="text" id="ticker-input" placeholder="e.g. AAPL, TSLA, RELIANCE.NS">
+      </section>
+
+      <section class="panel">
+        <h2>Web sentiment <span class="hint-inline">(optional)</span></h2>
+        <p class="hint">A company name also searches free public web/news (DuckDuckGo)
+          and folds the sentiment into the rating.</p>
+        <input type="text" id="company-input" placeholder="e.g. Acme Manufacturing Ltd">
+        <input type="text" id="region-input" placeholder="Search region (e.g. uk-en) — blank = backend default">
+        <label class="checkbox-row">
+          <input type="checkbox" id="web-sentiment-checkbox" checked>
+          Run web-sentiment search
+        </label>
+      </section>
+
+      <section class="panel">
+        <input type="text" id="requested-by-input" placeholder="Your name (for the audit trail)"
+               value="local-analyst">
+        <button id="run-btn" class="primary" type="button">Run credit assessment</button>
+      </section>
+
+      <div id="sidebar-status" class="status-banner" hidden></div>
+    </aside>
+
+    <main class="main-content">
+      <div id="empty-state" class="empty-state">
+        Upload one or more PDFs (or enter a ticker) and click <strong>Run credit
+        assessment</strong>, or reopen a past case from the sidebar.
+      </div>
+
+      <div id="result-view" hidden>
+        <div id="headline" class="headline"></div>
+
+        <nav class="tabs" id="tabs">
+          <button class="tab-btn active" data-tab="decision">⚖️ Decision</button>
+          <button class="tab-btn" data-tab="ratios">📊 Ratios</button>
+          <button class="tab-btn" data-tab="benchmark">🏭 Benchmark</button>
+          <button class="tab-btn" data-tab="trend">📈 Trend</button>
+          <button class="tab-btn" data-tab="sentiment">🌐 Web Sentiment</button>
+          <button class="tab-btn" data-tab="memo">📝 Credit Memo</button>
+          <button class="tab-btn" data-tab="data">📄 Extracted Data</button>
+          <button class="tab-btn" data-tab="trace">🧠 Trace</button>
+          <button class="tab-btn" data-tab="review">✅ Review &amp; Rerun</button>
+          <button class="tab-btn" data-tab="audit">🕵️ Audit Trail</button>
+        </nav>
+
+        <section id="tab-decision" class="tab-panel active"></section>
+        <section id="tab-ratios" class="tab-panel"></section>
+        <section id="tab-benchmark" class="tab-panel"></section>
+        <section id="tab-trend" class="tab-panel"></section>
+        <section id="tab-sentiment" class="tab-panel"></section>
+        <section id="tab-memo" class="tab-panel"></section>
+        <section id="tab-data" class="tab-panel"></section>
+        <section id="tab-trace" class="tab-panel"></section>
+        <section id="tab-review" class="tab-panel"></section>
+        <section id="tab-audit" class="tab-panel"></section>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/poll.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

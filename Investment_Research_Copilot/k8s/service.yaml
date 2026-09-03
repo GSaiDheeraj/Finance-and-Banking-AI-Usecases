@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: investment-research-api
+  labels:
+    app: investment-research-api
+spec:
+  type: ClusterIP
+  selector:
+    app: investment-research-api
+  ports:
+    - name: http
+      port: 80
+      targetPort: http

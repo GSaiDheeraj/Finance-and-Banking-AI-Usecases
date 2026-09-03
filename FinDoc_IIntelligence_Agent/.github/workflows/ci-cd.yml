@@ -1,0 +1,113 @@
+# Reference CI/CD pipeline for the FinDoc Intelligence API.
+#
+# Assumes this project (FinDoc_IIntelligence_Agent/) is the repository root — one repo
+# per use-case, matching how this project's other agents are structured. If this instead
+# lives nested inside a larger monorepo, add a `working-directory:`/`context:` prefix
+# back to the steps below that need it.
+#
+# `test` and `build-and-push` run on every push with no extra setup: build-and-push uses
+# the built-in GITHUB_TOKEN to push to GHCR (GitHub Container Registry), which needs no
+# external registry account. `deploy` is a real rollout (kubectl set image + wait for the
+# rolling update) but is gated behind a KUBE_CONFIG secret that doesn't exist yet — it
+# skips cleanly rather than failing red until a real cluster's kubeconfig is added as a
+# repository secret.
+name: CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  IMAGE_NAME: ghcr.io/${{ github.repository }}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Lint (ruff, if configured)
+        run: |
+          pip install ruff
+          ruff check . || true  # advisory for now — not yet a required gate
+
+      - name: Security check (bandit)
+        run: |
+          pip install bandit
+          bandit -r fin_doc_intel/ -f json -o bandit-report.json || true
+
+      - name: Run tests
+        run: pytest tests/ -v
+
+  build-and-push:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push image
+        uses: docker/build-push-action@v5
+        with:
+          context: "."
+          push: true
+          tags: |
+            ${{ env.IMAGE_NAME }}:${{ github.sha }}
+            ${{ env.IMAGE_NAME }}:latest
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    # Skips cleanly (not a failure) until a real cluster's kubeconfig is added as the
+    # KUBE_CONFIG repository secret — this job is a runnable reference, not wired to any
+    # cluster yet.
+    if: ${{ needs.build-and-push.result == 'success' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check for a configured cluster
+        id: cluster-check
+        run: |
+          if [ -z "${{ secrets.KUBE_CONFIG }}" ]; then
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Skip (no cluster configured yet)
+        if: steps.cluster-check.outputs.configured == 'false'
+        run: echo "KUBE_CONFIG secret not set — add a real cluster's kubeconfig to enable auto-deploy. Skipping."
+
+      - name: Set up kubeconfig
+        if: steps.cluster-check.outputs.configured == 'true'
+        run: |
+          mkdir -p "$HOME/.kube"
+          echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > "$HOME/.kube/config"
+
+      - name: Rolling update
+        if: steps.cluster-check.outputs.configured == 'true'
+        working-directory: k8s
+        run: |
+          kubectl apply -f configmap.yaml -f service.yaml
+          kubectl set image deployment/findoc-api findoc-api=${{ env.IMAGE_NAME }}:${{ github.sha }}
+          kubectl rollout status deployment/findoc-api --timeout=300s

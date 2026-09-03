@@ -1,0 +1,65 @@
+"""
+PDF loading and a lightweight semantic page index.
+
+Text PDFs only (no OCR). Each page becomes one searchable chunk so that any
+statement, note, or disclosure can be located by meaning and cited by page.
+"""
+from __future__ import annotations
+
+from typing import List
+
+import fitz  # PyMuPDF
+import numpy as np
+from pydantic import BaseModel
+
+from .config import get_embedder
+
+
+class PageChunk(BaseModel):
+    page_number: int          # 1-based
+    text: str
+
+
+def load_pdf_as_pages(pdf_path: str) -> List[PageChunk]:
+    """Read a text PDF into per-page chunks, preserving 1-based page numbers."""
+    doc = fitz.open(pdf_path)
+    pages: List[PageChunk] = []
+    for i, page in enumerate(doc):
+        text = page.get_text("text")
+        if text and text.strip():
+            pages.append(PageChunk(page_number=i + 1, text=text))
+    doc.close()
+    if not pages:
+        raise ValueError(
+            "No extractable text found — the PDF may be scanned/image-only "
+            "(OCR is out of scope for this build)."
+        )
+    return pages
+
+
+class PageIndex:
+    """Cosine-similarity index over page embeddings."""
+
+    def __init__(self, pages: List[PageChunk]):
+        self.pages = pages
+        self.embedder = get_embedder()
+        self.embeddings = self._embed_pages(pages)
+
+    def _embed_pages(self, pages: List[PageChunk]) -> np.ndarray:
+        vectors = self.embedder.embed_documents([p.text for p in pages])
+        arr = np.asarray(vectors, dtype="float32")
+        norms = np.linalg.norm(arr, axis=1, keepdims=True) + 1e-10
+        return arr / norms
+
+    def search(self, query: str, k: int = 5) -> List[PageChunk]:
+        q = np.asarray(self.embedder.embed_query(query), dtype="float32")
+        q = q / (np.linalg.norm(q) + 1e-10)
+        sims = self.embeddings @ q
+        top = np.argsort(-sims)[:k]
+        return [self.pages[i] for i in top]
+
+    def get_page(self, page_number: int) -> PageChunk:
+        for p in self.pages:
+            if p.page_number == page_number:
+                return p
+        raise ValueError(f"Page {page_number} not found.")

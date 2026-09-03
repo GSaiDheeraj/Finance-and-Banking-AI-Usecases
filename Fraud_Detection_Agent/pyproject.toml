@@ -1,0 +1,52 @@
+[project]
+name = "onboarding-risk"
+version = "0.1.0"
+description = "HNI/UHNI onboarding KYC and EDD risk scoring with free-OSINT profiling."
+requires-python = ">=3.12"
+dependencies = [
+    "pydantic>=2.0",
+    "python-dotenv>=1.0",
+    "numpy>=1.26",
+    "pandas>=2.0",
+    "streamlit>=1.36",
+    "langchain>=0.3.0",
+    "langchain-core>=0.3.0",
+    "langchain-openai>=0.2.0",
+    "langgraph>=0.2.0",
+    "PyMuPDF>=1.24.0",
+    "googlesearch-python>=1.2",
+    "ddgs>=6.0",
+    "wikipedia>=1.4",
+    "feedparser>=6.0",
+    "requests>=2.31",
+    "beautifulsoup4>=4.12",
+    "lxml>=5.0",
+    "fastapi>=0.104.0",
+    "uvicorn[standard]>=0.24.0",
+    "sqlalchemy>=2.0.0",
+    "psycopg2-binary>=2.9.0",
+    "redis>=5.0.0",
+    "httpx>=0.25.0",
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["onboarding_risk"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+select = ["E", "F", "I", "N", "W", "UP"]
+ignore = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+asyncio_mode = "auto"
