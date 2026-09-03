@@ -1,40 +1,81 @@
-# AI for Banking and Financial Services: Production Systems, Architectures, and Case Studies
+# AI for Banking and Financial Services: Engineering Production Agentic Systems, Architectures, and Technical Case Studies
 
 ---
 
 ## Table of Contents
 1. [Preface: Who This Book Is For](#preface-who-this-book-is-for)
 2. [Chapter 1: The AI Paradigm Shift in Banking & Capital Markets](#chapter-1-the-ai-paradigm-shift-in-banking--capital-markets)
-3. [Chapter 2: Core Architectural Directives & Guiding Principles](#chapter-2-core-architectural-directives--guiding-principles)
+3. [Chapter 2: Core Architectural Directives & Engineering Principles](#chapter-2-core-architectural-directives--engineering-principles)
 4. [Chapter 3: Corporate Credit Risk Assessment Agent](#chapter-3-corporate-credit-risk-assessment-agent)
+   - [3.1 Business Context & Value Proposition](#31-business-context--value-proposition)
+   - [3.2 High-Level Architecture (HLD) & Flow](#32-high-level-architecture-hld--flow)
+   - [3.3 Low-Level Design (LLD): Module & Schema Specifications](#33-low-level-design-lld-module--schema-specifications)
+   - [3.4 LLM Prompts, Grounded Context, & Evidence Blocks](#34-llm-prompts-grounded-context--evidence-blocks)
+   - [3.5 Deterministic Mathematics: Formulas & Scorecard Logic](#35-deterministic-mathematics-formulas--scorecard-logic)
+   - [3.6 Execution Sequence & Call Graph](#36-execution-sequence--call-graph)
+   - [3.7 Case Study & Interview Deep-Dive](#37-case-study--interview-deep-dive)
 5. [Chapter 4: Financial Document Intelligence Agent](#chapter-4-financial-document-intelligence-agent)
+   - [4.1 Business Context & Value Proposition](#41-business-context--value-proposition)
+   - [4.2 High-Level Architecture (HLD) & Flow](#42-high-level-architecture-hld--flow)
+   - [4.3 Low-Level Design (LLD): Module & Schema Specifications](#43-low-level-design-lld-module--schema-specifications)
+   - [4.4 Restatement Resolution & Time-Series Algorithms](#44-restatement-resolution--time-series-algorithms)
+   - [4.5 LLM Prompts, Grounded Context, & Evidence Blocks](#45-llm-prompts-grounded-context--evidence-blocks)
+   - [4.6 Cross-Issuer Quantitative Screening Engine](#46-cross-issuer-quantitative-screening-engine)
+   - [4.7 Execution Sequence & Call Graph](#47-execution-sequence--call-graph)
+   - [4.8 Case Study & Interview Deep-Dive](#48-case-study--interview-deep-dive)
 6. [Chapter 5: Onboarding Risk Scoring & Fraud Detection Agent](#chapter-5-onboarding-risk-scoring--fraud-detection-agent)
+   - [5.1 Business Context & Value Proposition](#51-business-context--value-proposition)
+   - [5.2 High-Level Architecture (HLD) & Dual Ingestion Flow](#52-high-level-architecture-hld--dual-ingestion-flow)
+   - [5.3 Low-Level Design (LLD): Module & Schema Specifications](#53-low-level-design-lld-module--schema-specifications)
+   - [5.4 UBO Resolution Graph Engine (DFS Algorithm)](#54-ubo-resolution-graph-engine-dfs-algorithm)
+   - [5.5 OSINT 360° Profiling & Evidence Assembly](#55-osint-360-profiling--evidence-assembly)
+   - [5.6 LLM Prompts, Grounded Context, & Evidence Blocks](#56-llm-prompts-grounded-context--evidence-blocks)
+   - [5.7 Deterministic Risk Scorecard & Hard Stops](#57-deterministic-risk-scorecard--hard-stops)
+   - [5.8 Execution Sequence & Call Graph](#58-execution-sequence--call-graph)
+   - [5.9 Case Study & Interview Deep-Dive](#59-case-study--interview-deep-dive)
 7. [Chapter 6: Investment Research Copilot](#chapter-6-investment-research-copilot)
-8. [Chapter 7: Deploying, Monitoring, and Operating Agentic AI in Production](#chapter-7-deploying-monitoring-and-operating-agentic-ai-in-production)
-9. [Appendix: Repository Links & Code Index](#appendix-repository-links--code-index)
+   - [6.1 Business Context & Value Proposition](#61-business-context--value-proposition)
+   - [6.2 High-Level Architecture (HLD) & Dual-Mode Pipeline](#62-high-level-architecture-hld--dual-mode-pipeline)
+   - [6.3 Low-Level Design (LLD): Module & Schema Specifications](#63-low-level-design-lld-module--schema-specifications)
+   - [6.4 Statistical Risk Analytics & IPS Drift Mathematics](#64-statistical-risk-analytics--ips-drift-mathematics)
+   - [6.5 Iterative Water-Filling Guardrail Algorithm](#65-iterative-water-filling-guardrail-algorithm)
+   - [6.6 Dual-Mode Portfolio Construction Engine](#66-dual-mode-portfolio-construction-engine)
+   - [6.7 LLM Prompts, Grounded Context, & Evidence Blocks](#67-llm-prompts-grounded-context--evidence-blocks)
+   - [6.8 Execution Sequence & Call Graph](#68-execution-sequence--call-graph)
+   - [6.9 Case Study & Interview Deep-Dive](#69-case-study--interview-deep-dive)
+8. [Chapter 7: Operating Enterprise Financial AI in Production](#chapter-7-operating-enterprise-financial-ai-in-production)
+   - [7.1 Infrastructure, Containerization, & Kubernetes Manifests](#71-infrastructure-containerization--kubernetes-manifests)
+   - [7.2 Task Queues & Concurrency (Celery, Redis, Threads)](#72-task-queues--concurrency-celery-redis-threads)
+   - [7.3 Enterprise Security, Vaults, & Data Governance](#73-enterprise-security-vaults--data-governance)
+   - [7.4 Production Observability, Alerting, & Telemetry Metrics](#74-production-observability-alerting--telemetry-metrics)
+9. [Appendix: Repository Links & Complete Code Index](#appendix-repository-links--complete-code-index)
 
 ---
 
 ## Preface: Who This Book Is For
 
-The integration of Artificial Intelligence—specifically Large Language Models (LLMs), Retrieval-Augmented Generation (RAG), and Agentic Workflows—into Banking, Financial Services, and Insurance (BFSI) has transitioned from experimental innovation labs to core infrastructure. However, financial engineering and enterprise software development in banking operate under strict constraints that do not exist in consumer technology:
-1. **Zero Tolerance for Unbacked Claims / Hallucinations**: A model cannot "guess" a borrower's EBITDA, invent a covenant breach, or miscalculate a Value-at-Risk (VaR) figure.
-2. **Deterministic Governance & Reproducibility**: Financial regulators (SEC, FCA, PRA, BaFin, MAS) and credit committees require that identical inputs, rule sets, and model versions yield identical numerical and rating outcomes.
-3. **Auditability & Traceability**: Every rating, alert, UBO (Ultimate Beneficial Owner) determination, or portfolio rebalance recommendation must trace directly back to primary evidence (e.g., specific PDF pages, raw line items, or licensed market feeds).
+The introduction of Artificial Intelligence—specifically Large Language Models (LLMs), Retrieval-Augmented Generation (RAG), and Agentic Workflows—into Banking, Financial Services, and Insurance (BFSI) represents a fundamental paradigm shift. However, building production-grade financial software requires adhering to strict regulatory, mathematical, and operational constraints that rarely apply in general enterprise applications:
+
+1. **Zero Tolerance for Hallucinated Financial Figures**: An LLM cannot "guess" a borrower's EBITDA, invent a covenant breach, or miscalculate a Value-at-Risk (VaR) number.
+2. **Deterministic Governance & Reproducibility**: Financial regulators (SEC, FCA, PRA, BaFin, MAS, FINMA) and internal credit/compliance committees require that identical inputs, rule sets, and model parameters yield 100% identical numerical ratings and decisions.
+3. **Auditability & Provenance**: Every credit grade, UBO (Ultimate Beneficial Owner) determination, risk alert, or portfolio trade recommendation must carry an unbroken audit trail tracing directly back to primary evidence (specific PDF pages, raw line items, or licensed market feeds).
 
 ### Who Should Read This Book?
-- **Financial Technology Consultants & Solutions Architects**: Looking for proven, production-grade architectural patterns to implement AI solutions for enterprise financial clients.
-- **Enterprise Software Engineers & AI Engineers**: Transitioning from general AI development into high-stakes financial domains such as credit underwriting, equity research, KYC/AML compliance, and wealth management.
-- **Financial Analysts, Credit Officers, & Portfolio Managers**: Wanting to understand how AI copilots operate under the hood, how deterministic validation guarantees accuracy, and how human-in-the-loop controls function.
-- **Students & Graduates**: Aspiring to join quantitative finance, financial software engineering, or fintech consultancy with real-world case study experience.
+- **Financial Technology Consultants & Solutions Architects**: Seeking complete, field-tested technical blueprints and code architectures to implement AI solutions for enterprise financial clients.
+- **Enterprise Software Engineers & AI Engineers**: Transitioning into banking and capital markets who need to master hybrid deterministic-agentic engineering patterns.
+- **Credit Officers, Compliance Directors, & Portfolio Managers**: Wanting an insider's look into how AI copilots operate under the hood, how deterministic validation guarantees accuracy, and how human-in-the-loop controls function.
+- **Students & Quantitative Finance Graduates**: Looking to bridge the gap between academic AI theory and industrial financial software engineering.
 
-### How to Use This Book
-This book is structured as a technical handbook and interview-style case study collection. Each case study chapter covers a real-world enterprise agent, detailing:
-- **Business Narrative & Requirement**: The underlying financial domain problem and organizational ROI.
-- **Data & Compliance Requirements**: Inputs, reference data, regulatory bounds, and security constraints.
-- **Agentic Solution & Architecture**: System context, component diagrams, sequence flows, and LLD/HLD breakdowns.
-- **Deterministic vs. Agentic Split**: The architectural division of responsibility between LLMs (reading, transcribing, explaining) and deterministic Python (calculating, scoring, enforcing hard stops).
-- **Code Repository Links**: Direct pointers to source code files within this repository for immediate inspection and execution.
+### Structure of This Book
+This book is structured as a comprehensive technical treatise and case study handbook. Each system chapter provides:
+- **Business Context & Value Proposition**: Domain analysis, workflow friction, and ROI.
+- **High-Level Architecture (HLD)**: System topology, component boundaries, and container diagrams.
+- **Low-Level Design (LLD)**: Complete Pydantic schemas, database models, and function signatures.
+- **Agent Pipeline & Algorithms**: Step-by-step mathematical logic, graph traversal, and restatement algorithms.
+- **Exact LLM Prompts & Evidence Blocks**: Literal system prompts, user prompts, and structured evidence blocks passed to model call sites.
+- **Sequence Diagrams**: Mermaid call graphs detailing the exact runtime execution flow.
+- **Case Study Interview**: Comprehensive Q&A detailing edge cases, error handling, and trade-offs.
+- **Code Repository Links**: Direct file-level links to the implementation source code within this repository.
 
 ---
 
@@ -66,7 +107,7 @@ In this paradigm:
 
 ---
 
-## Chapter 2: Core Architectural Directives & Guiding Principles
+## Chapter 2: Core Architectural Directives & Engineering Principles
 
 Across all four enterprise agents detailed in this book, a set of non-negotiable architectural directives governs the code structure:
 
@@ -108,7 +149,7 @@ The **Credit Risk Assessment Agent** automates the entire ingestion, ratio calcu
 
 ---
 
-### 3.2 High-Level Architecture & End-to-End Flow
+### 3.2 High-Level Architecture (HLD) & Flow
 
 ```mermaid
 flowchart TD
@@ -133,86 +174,257 @@ flowchart TD
 
 ---
 
-### 3.3 Module-by-Module Deep Dive
+### 3.3 Low-Level Design (LLD): Module & Schema Specifications
 
-#### 1. Page Indexing & Grounded Retrieval (`doc_index.py`, `tools.py`, `tool_loop.py`)
-Rather than dumping 300 pages into an LLM context window, `doc_index.PageIndex` parses PDF pages using PyMuPDF and computes page embeddings. Tool-calling agents (`tools.py`) invoke `search_pages` and `get_page` dynamically inside a bounded loop (`tool_loop.py`) to fetch only the exact balance sheet, income statement, or note pages needed.
+#### Key Pydantic Data Contracts (`schemas.py`)
 
-#### 2. Standardized Extraction (`extraction.py`)
-Four parallel/sequential LLM calls transcribe raw values and map company-specific terminology into `StandardLabel` vocabulary:
-- Revenue / Turnover / Net Sales → `StandardLabel.REVENUE`
-- Bank Debt / Borrowings → `StandardLabel.SHORT_TERM_DEBT` / `LONG_TERM_DEBT`
-- Net Profit / PAT → `StandardLabel.NET_INCOME`
-
-Every line item record stores:
 ```python
-LineItem(
-    label="Turnover",
-    standardised_label=StandardLabel.REVENUE,
-    value=1240.0,
-    unit="millions",
-    currency="USD",
-    period="FY2023",
-    statement_type=StatementType.INCOME_STATEMENT,
-    page=47,
-    source_snippet="Turnover 1,240 1,100"
-)
+class StatementType(str, Enum):
+    BALANCE_SHEET = "balance_sheet"
+    INCOME_STATEMENT = "income_statement"
+    CASH_FLOW_STATEMENT = "cash_flow_statement"
+    NOTES = "notes"
+    OTHER = "other"
+
+class StandardLabel(str, Enum):
+    REVENUE = "revenue"
+    EBITDA = "ebitda"
+    EBIT = "ebit"
+    NET_INCOME = "net_income"
+    SHORT_TERM_DEBT = "short_term_debt"
+    LONG_TERM_DEBT = "long_term_debt"
+    TOTAL_DEBT = "total_debt"
+    CASH_AND_EQUIVALENTS = "cash_and_equivalents"
+    TOTAL_EQUITY = "total_equity"
+    TOTAL_ASSETS = "total_assets"
+    CURRENT_ASSETS = "current_assets"
+    CURRENT_LIABILITIES = "current_liabilities"
+    OPERATING_CASH_FLOW = "operating_cash_flow"
+    CAPITAL_EXPENDITURE = "capital_expenditure"
+    INTEREST_EXPENSE = "interest_expense"
+    OTHER = "other"
+
+class LineItem(BaseModel):
+    label: str
+    standardised_label: StandardLabel = StandardLabel.OTHER
+    value: Optional[float] = None
+    currency: Optional[str] = None
+    unit: str = "absolute"  # absolute, thousands, millions
+    period: str  # e.g., FY2023
+    period_type: PeriodType = PeriodType.ANNUAL
+    statement_type: StatementType = StatementType.OTHER
+    page: Optional[int] = None
+    source_snippet: Optional[str] = None
+
+class CompanyMetadata(BaseModel):
+    company_name: Optional[str] = None
+    industry: Optional[str] = None
+    auditor: Optional[str] = None
+    audit_opinion: AuditOpinion = AuditOpinion.UNKNOWN
+    reporting_currency: Optional[str] = None
+    management_commentary: Optional[str] = None
+    page: Optional[int] = None
+
+class FacilityRequest(BaseModel):
+    facility_type: Optional[str] = None
+    amount: Optional[float] = None
+    currency: Optional[str] = None
+    purpose: Optional[str] = None
+    tenor: Optional[str] = None
+    page: Optional[int] = None
 ```
 
-#### 3. Deterministic Ratio Computation (`ratios.py`)
-All values are first converted to absolute units (e.g., `$1,240 \times 1,000,000 = 1,240,000,000`). The engine then computes 18+ financial ratios per period across 6 categories:
-- **Leverage**: Debt/Equity, Debt/Assets, Net Debt/EBITDA.
-- **Liquidity**: Current Ratio, Quick Ratio, Cash Ratio.
-- **Profitability**: EBITDA Margin, EBIT Margin, Net Margin, ROE, ROA, ROCE.
-- **Coverage**: Interest Coverage (`EBITDA / Interest Expense`), DSCR (`(EBITDA - Capex) / (Interest + Principal)`).
-- **Cash Flow Quality**: Cash Conversion (`OCF / Net Income`), FCF Margin.
-- **Efficiency**: Asset Turnover, Inventory Days, DSO.
+#### Core Function Signatures
 
-#### 4. Sector Benchmarking & Trend Analysis (`benchmarks.py`, `reference.py`)
-Ratios are benchmarked against sector quartiles stored in `reference.py`. Multi-period trends compute trajectory (Improving, Stable, Deteriorating, Volatile) and percentage change.
-
-#### 5. 13-Factor Deterministic Scorecard (`scoring.py`)
-The scorecard assigns weights up to 100 points:
-```
-LEVERAGE:               22 pts max
-DEBT_SERVICE_COVERAGE:  22 pts max
-LIQUIDITY:              16 pts max
-PROFITABILITY:          16 pts max
-CASH_FLOW_QUALITY:      14 pts max
-DETERIORATING_TREND:    16 pts max
-SECTOR_UNDERPERFORMANCE:10 pts max
-SIZE_SCALE:              8 pts max
-JURISDICTION:            6 pts max
-AUDIT_QUALITY:          20 pts max  (Adverse opinion = HARD STOP)
-OFF_BALANCE_SHEET:      10 pts max
-ADVERSE_MEDIA:          14 pts max  (Web news, credited with discount)
-MARKET_SENTIMENT:        8 pts max
-```
-
-**Hard Stop Rules**:
-1. **Adverse or Disclaimer Audit Opinion**: Immediately forces rating to **D / Decline**.
-2. **Going-Concern Warning**: Auditor expresses doubt on survival → **D / Decline**.
-
-**Rating Scale & Calibrated Pricing**:
-- **0–20**: AAA/AA (Strong Investment Grade) → SOFR + 80–130 bps
-- **21–35**: A/BBB (Investment Grade) → SOFR + 130–220 bps
-- **36–50**: BB (Sub-Investment Grade) → SOFR + 250–400 bps → Approve with Conditions
-- **51–65**: B/CCC (Speculative) → SOFR + 450–700 bps → Refer to Credit Committee
-- **66–80**: CC/C (Distressed) → Decline / Bespoke
-- **81+**: D (Default) → Decline
-
-#### 6. Grounded Narrative Synthesis (`narrative.py`)
-LLM Call 6 receives the compact JSON scorecard (score, rating, PD, LGD, ratio breakdown, benchmark gaps). It drafts the formal **Credit Memo** (Executive Summary, Financial Analysis, Strengths, Risks, Mitigants, Recommended Covenants). It is explicitly prohibited from changing any number or rating.
+| Module | Function Signature | Return Type | Side Effects / Description |
+|---|---|---|---|
+| `doc_index.py` | `load_pack_as_pages(pdf_paths: List[str])` | `List[PageChunk]` | Reads PDFs via PyMuPDF; extracts raw page text. |
+| `doc_index.py` | `PageIndex.__init__(pages: List[PageChunk])` | `PageIndex` | Batch calls embedding API (`embed_documents`). |
+| `extraction.py` | `extract_line_items(index: PageIndex, k: int = 10)` | `List[LineItem]` | LLM Call: Grounded transcription of balance sheet, P&L, cash flow. |
+| `extraction.py` | `extract_company_metadata(index: PageIndex)` | `CompanyMetadata` | LLM Call: Extracts auditor opinion, industry, commentary. |
+| `ratios.py` | `compute_ratios(line_items: List[LineItem])` | `Tuple[List[str], List[FinancialRatios]]` | Pure Python: Normalizes units, calculates 18+ ratios per period. |
+| `benchmarks.py` | `benchmark_ratios(latest: FinancialRatios, industry: str)` | `SectorBenchmarkResult` | Pure Python: Compares latest ratios against sector quartiles. |
+| `benchmarks.py` | `analyse_trends(periods, ratios_by_period)` | `TrendAnalysis` | Pure Python: Calculates trajectory & magnitude per ratio. |
+| `scoring.py` | `score_case(ratios, benchmark, trend, company, notes, web_sentiment)` | `CreditScorecard` | Pure Python: Applies 13-factor weights and hard-stop rules. |
+| `narrative.py` | `synthesize_credit_memo(assessment: CreditAssessment)` | `CreditMemo` | LLM Call: Drafts executive memo grounded in scorecard JSON. |
 
 ---
 
-### 3.4 Interview Case Study Highlights (Q&A Excerpt)
+### 3.4 LLM Prompts, Grounded Context, & Evidence Blocks
 
-**Interviewer**: How do you prevent an LLM from hallucinating a company's revenue or EBITDA?
-**Candidate**: The LLM is never allowed to perform math or output final ratios. Its sole job in extraction is to transcribe printed labels and numbers alongside global page numbers. Those line items are validated by Pydantic schemas. The ratio engine (`ratios.py`) is 100% deterministic Python code that parses those structured items, converts units, and executes standard financial formulas. If an input item is missing, the engine records `RatioValue.missing_inputs` and marks the ratio as `None` rather than guessing.
+#### 1. Line Item Extraction System & User Prompt (`extraction.py`)
 
-**Interviewer**: What happens if web search returns news for a company with a similar name?
-**Candidate**: In `osint/sentiment.py`, the LLM evaluates `disambiguation_confidence` (`low`, `medium`, `high`). Furthermore, in `scoring.py`, web findings are subjected to a credibility discount: web news severity is capped at `medium` unless corroborated by multiple independent high-severity findings. If `disambiguation_confidence` is low, the `ADVERSE_MEDIA` score contribution is capped at a minor level so unverified internet rumors cannot override clean audited accounts.
+**System Prompt**:
+```text
+You are a senior financial-statement spreading analyst working for a corporate bank.
+Your job is to transcribe every printed financial line item from the provided document page text.
+
+Rules:
+1. Emit ONE record per (line item x period). If a column shows FY2023 and FY2022, emit two records.
+2. Map each printed label to the single best standardised_label from the allowed vocabulary:
+   [revenue, ebitda, ebit, net_income, short_term_debt, long_term_debt, total_debt,
+    cash_and_equivalents, total_equity, total_assets, current_assets, current_liabilities,
+    operating_cash_flow, capital_expenditure, interest_expense, other].
+3. Transcribe value EXACTLY as printed. Do NOT compute, sum, infer, or rescale values.
+4. Record unit as 'absolute', 'thousands', or 'millions' if stated on the statement header.
+5. Record the exact 1-based page number where the line item was read.
+6. Output ONLY a valid JSON array of LineItem objects. No markdown formatting or prose.
+```
+
+**User Context / Evidence Block**:
+```text
+--- PAGE 42 (annual_report_2023.pdf) ---
+CONSOLIDATED BALANCE SHEET
+As at 31 December 2023  (USD millions)
+                          2023    2022
+Total assets             2,456   2,180
+Current assets             890     760
+Cash and equivalents       234     198
+Total liabilities        1,420   1,310
+Current liabilities        510     480
+Short-term borrowings      150     120
+Long-term debt             650     600
+Total equity             1,036     870
+
+--- PAGE 47 (annual_report_2023.pdf) ---
+INCOME STATEMENT
+For the year ended 31 December 2023 (USD millions)
+                          2023    2022
+Revenue                  1,240   1,100
+Operating expenses        (890)   (810)
+EBIT                       350     290
+Interest expense           (45)    (42)
+Net Income                 230     195
+```
+
+**LLM JSON Response**:
+```json
+[
+  {"label": "Revenue", "standardised_label": "revenue", "value": 1240.0, "currency": "USD", "unit": "millions", "period": "FY2023", "period_type": "annual", "statement_type": "income_statement", "page": 47, "source_snippet": "Revenue 1,240 1,100"},
+  {"label": "Revenue", "standardised_label": "revenue", "value": 1100.0, "currency": "USD", "unit": "millions", "period": "FY2022", "period_type": "annual", "statement_type": "income_statement", "page": 47, "source_snippet": "Revenue 1,240 1,100"},
+  {"label": "Cash and equivalents", "standardised_label": "cash_and_equivalents", "value": 234.0, "currency": "USD", "unit": "millions", "period": "FY2023", "period_type": "balance_sheet", "page": 42, "source_snippet": "Cash and equivalents 234 198"}
+]
+```
+
+#### 2. Credit Memo Synthesis Prompt (`narrative.py`)
+
+**System Prompt**:
+```text
+You are a senior credit risk officer writing a formal Credit Memo for the Credit Committee.
+You are given a DETERMINISTICALLY calculated Credit Scorecard and Financial Assessment.
+These numbers, ratings, and decisions are AUTHORITATIVE and FINAL.
+
+CRITICAL DIRECTIVES:
+1. Do NOT recalculate any financial ratios, scores, or default probabilities.
+2. Quote the exact numbers provided in the input JSON (e.g., Net Debt/EBITDA, Interest Coverage, Score, Rating).
+3. Do NOT change the rating grade or lending decision under any circumstances.
+4. Explain the rationale behind active risk factors and benchmark gaps using professional banking language.
+5. Structure your response into JSON matching the CreditMemo schema:
+   executive_summary, financial_analysis, key_strengths, key_risks, mitigants, recommended_covenants, monitoring_triggers.
+```
+
+---
+
+### 3.5 Deterministic Mathematics: Formulas & Scorecard Logic
+
+#### Unit Normalization Logic (`ratios.py`)
+Prior to ratio calculation, every line item value is normalized to absolute base currency:
+$$V_{\text{absolute}} = V_{\text{raw}} \times \text{multiplier}(\text{unit})$$
+where $\text{multiplier}(\text{millions}) = 1,000,000$, $\text{multiplier}(\text{thousands}) = 1,000$, and $\text{multiplier}(\text{absolute}) = 1$.
+
+#### Financial Ratio Mathematical Formulas (`ratios.py`)
+1. **Net Debt**:
+$$\text{Net Debt} = (\text{Short-Term Debt} + \text{Long-Term Debt}) - \text{Cash \& Equivalents}$$
+2. **Net Debt to EBITDA**:
+$$\text{Net Debt / EBITDA} = \frac{\text{Net Debt}}{\text{EBITDA}}$$
+3. **Interest Coverage Ratio**:
+$$\text{Interest Coverage} = \frac{\text{EBITDA}}{\text{Interest Expense}}$$
+4. **Debt Service Coverage Ratio (DSCR)**:
+$$\text{DSCR} = \frac{\text{EBITDA} - \text{Capex}}{\text{Interest Expense} + \text{Principal Repayments}}$$
+5. **Current Ratio**:
+$$\text{Current Ratio} = \frac{\text{Current Assets}}{\text{Current Liabilities}}$$
+6. **Cash Conversion Ratio**:
+$$\text{Cash Conversion} = \frac{\text{Operating Cash Flow}}{\text{Net Income}}$$
+
+#### Scorecard Multiplier & Score Calculation (`scoring.py`)
+Each factor $i \in \{1 \dots 13\}$ has an assigned base weight $W_i$ and severity $S_i \in \{\text{low: } 0.5, \text{medium: } 1.0, \text{high: } 1.5, \text{critical: } 2.0\}$.
+$$\text{Raw Risk Score} = \sum_{i=1}^{13} (W_i \times S_i \times \mathbb{I}(\text{factor}_i \text{ present}))$$
+$$\text{Normalized Score} = \min(100.0, \text{Raw Risk Score})$$
+
+---
+
+### 3.6 Execution Sequence & Call Graph
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Analyst as Credit Analyst
+    participant API as credit_risk/api/routes.py
+    participant Graph as credit_risk/agent_graph.py
+    participant Index as credit_risk/doc_index.py
+    participant Ext as credit_risk/extraction.py
+    participant Ratios as credit_risk/ratios.py
+    participant Bench as credit_risk/benchmarks.py
+    participant OSINT as credit_risk/osint/
+    participant Score as credit_risk/scoring.py
+    participant Memo as credit_risk/narrative.py
+    participant DB as Postgres Database
+
+    Analyst->>API: POST /assessments (PDF files, Ticker, Company Name)
+    API->>DB: Create AssessmentVersion row (status="created")
+    API-->>Analyst: HTTP 202 Accepted (version_id)
+
+    note over API,Graph: Background Execution Starts
+    API->>Graph: run_credit_assessment()
+    Graph->>Index: load_pack_as_pages() + PageIndex.__init__()
+    Index-->>Graph: In-Memory Cosine Semantic Index
+
+    par Parallel Extraction Calls
+        Graph->>Ext: extract_company_metadata(index)
+        Graph->>Ext: extract_line_items(index)
+        Graph->>Ext: extract_notes(index)
+        Graph->>Ext: extract_facility_request(index)
+    end
+    Ext-->>Graph: LineItems, Metadata, Notes, Facility
+
+    opt Ticker Provided
+        Graph->>Graph: yfinance Fallback & Discrepancy Cross-Check
+    end
+
+    opt Company Name Provided
+        Graph->>OSINT: run_web_sentiment(company_name)
+        OSINT-->>Graph: WebSentimentResult
+    end
+
+    Graph->>Ratios: compute_ratios(line_items)
+    Ratios-->>Graph: FinancialRatios by Period
+
+    Graph->>Bench: benchmark_ratios() & analyse_trends()
+    Bench-->>Graph: SectorBenchmarkResult & TrendAnalysis
+
+    Graph->>Score: score_case(ratios, benchmark, trend, metadata, notes, web_sentiment)
+    Score-->>Graph: CreditScorecard (Grade, Band, PD, LGD, Decision)
+
+    Graph->>Memo: synthesize_credit_memo(scorecard)
+    Memo-->>Graph: CreditMemo
+
+    Graph->>DB: Persist LineItems, Ratios, Factors, Memo, update Version (status="awaiting_review")
+
+    Analyst->>API: GET /assessments/{version_id}
+    API->>DB: Query AssessmentVersion
+    DB-->>API: Full Assessment JSON
+    API-->>Analyst: Render Credit Assessment in Workspace
+```
+
+---
+
+### 3.7 Case Study & Interview Deep-Dive
+
+**Interviewer**: Walk me through how you handle a company whose annual report is 250 pages long. How do you prevent hitting context window limits and avoid massive token costs?
+**Candidate**: We use a RAG semantic indexing strategy. During ingestion in `doc_index.py`, PyMuPDF extracts text page by page. Each page is embedded using OpenAI-compatible embeddings and stored in `PageIndex`. When extracting line items, `extraction.py` issues a targeted semantic search query: `"consolidated balance sheet income statement profit loss revenue EBITDA total debt"`. `PageIndex` retrieves only the top 10 most relevant pages based on cosine similarity. Instead of sending 250 pages (over 100,000 tokens), we send approximately 10 pages (around 4,000 tokens) to the LLM. This cuts token cost by over 95% while keeping the context tight and grounded.
+
+**Interviewer**: What happens if the auditor issues a "Disclaimer of Opinion" or notes "Going Concern" doubts?
+**Candidate**: That triggers an explicit **Hard Stop** in `scoring.py`. While the LLM extracts the audit opinion string in `extract_company_metadata()`, the decision logic is purely deterministic Python. If `metadata.audit_opinion` is `ADVERSE` or `DISCLAIMER`, or if `going_concern` is flagged in notes, `scoring.py` overrides the scorecard, sets the score to `100.0`, assigns a rating of `D`, and sets the lending decision to `DECLINE`. No matter how strong the financial ratios are, an adverse audit opinion halts the loan application instantly.
 
 ---
 
@@ -231,7 +443,7 @@ Equity research analysts, credit research desks, and quant funds monitor dozens 
 
 ---
 
-### 4.2 High-Level Architecture & End-to-End Flow
+### 4.2 High-Level Architecture (HLD) & Flow
 
 ```mermaid
 flowchart TD
@@ -255,43 +467,199 @@ flowchart TD
 
 ---
 
-### 4.3 Key Technical Innovations
+### 4.3 Low-Level Design (LLD): Module & Schema Specifications
 
-#### 1. Multi-Document Merge & Restatement Resolution (`timeseries.py`)
-Companies frequently restate prior-year figures in subsequent filings (e.g., FY2022 figures presented as comparatives in the FY2023 report may be adjusted for accounting changes or discontinued operations).
-- `merge_snapshots()` sorts filings chronologically by period.
-- When an overlapping period is encountered (e.g., FY2022 in both the 2022 and 2023 reports), **the later filing's value overrides the earlier filing**.
-- Provenance is maintained so the user can see which document supplied each specific cell.
+#### Key Data Contracts (`schemas.py`)
 
 ```python
-# Deterministic restatement resolution logic in timeseries.py
-for doc_name, snap in docs_sorted:
-    for period, line_map in snap.by_period.items():
-        for key, val in line_map.items():
-            # Later document overwrites earlier document's value for the same period
-            merged_by_period[period][key] = val
-            provenance[period][key] = snap.source_pages.get(key, 0)
-            period_source_doc[period] = doc_name
+class CanonicalKey(str, Enum):
+    REVENUE = "revenue"
+    EBIT = "ebit"
+    EBITDA = "ebitda"
+    NET_INCOME = "net_income"
+    EPS = "eps"
+    TOTAL_ASSETS = "total_assets"
+    CASH = "cash"
+    TOTAL_DEBT = "total_debt"
+    EQUITY = "equity"
+    CFO = "cfo"
+    CAPEX = "capex"
+    OTHER = "other"
+
+class MetricSeries(BaseModel):
+    metric: str
+    points: List[TrendPoint] = Field(default_factory=list)
+    latest: Optional[float] = None
+    latest_yoy_pct: Optional[float] = None
+    cagr_pct: Optional[float] = None
+
+class IssuerTimeSeries(BaseModel):
+    issuer: Optional[str] = None
+    currency: Optional[str] = None
+    periods: List[str] = Field(default_factory=list)  # Chronologically ascending
+    by_period: Dict[str, Dict[str, float]] = Field(default_factory=dict)
+    provenance: Dict[str, Dict[str, int]] = Field(default_factory=dict)
+    fundamentals_series: Dict[str, MetricSeries] = Field(default_factory=dict)
+    ratio_series: Dict[str, MetricSeries] = Field(default_factory=dict)
+
+class ScreeningCriterion(BaseModel):
+    metric: str  # e.g., "Net Debt / EBITDA" or "revenue"
+    op: str      # ">", ">=", "<", "<=", "=="
+    threshold: float
+    weight: float = 1.0
+
+class IssuerScreenResult(BaseModel):
+    issuer: str
+    period: Optional[str] = None
+    outcomes: List[CriterionOutcome] = Field(default_factory=list)
+    pass_count: int = 0
+    weighted_score: float = 0.0
+    all_passed: bool = False
 ```
 
-#### 2. Automated CAGR & Surveillance Signals (`timeseries.py`, `ratios.py`)
-- **CAGR Calculation**:
-$$\text{CAGR} = \left(\frac{\text{Value}_{\text{last}}}{\text{Value}_{\text{first}}}\right)^{\frac{1}{N}} - 1$$
-- **`what_changed()` Surveillance Signal**: A deterministic algorithm scans all metrics and ratios between the two most recent periods and returns the top 6 largest YoY percentage or absolute moves (e.g., `net_income: +34.2% YoY`, `capex: +28.0% YoY`). This signal is injected directly into the research note prompt as unalterable fact.
+---
 
-#### 3. Quantitative Universe Screening Engine (`screening.py`)
-Portfolio managers define multi-metric filter rules:
+### 4.4 Restatement Resolution & Time-Series Algorithms
+
+When companies publish annual reports, they include comparative prior-year columns. If prior-year numbers were restated due to accounting adjustments or discontinued operations, **the later filing contains the authoritative restated number**.
+
+#### Restatement Resolution Algorithm (`timeseries.py`)
+1. Filings are sorted chronologically by period date ($T_1 < T_2 < \dots < T_m$).
+2. A merged matrix $M[\text{period}][\text{canonical\_key}]$ is initialized.
+3. For each document snapshot in chronological order:
+   - For each period $p$ and line item $k$ with value $v$:
+     - $M[p][k] \leftarrow v$ (Overwriting any previously stored value for period $p$).
+     - $\text{Provenance}[p][k] \leftarrow \text{Document ID} \parallel \text{Page Number}$.
+4. Free Cash Flow is derived post-merge: $\text{FCF}_p = \text{CFO}_p - \text{Capex}_p$.
+
 ```python
-criteria = [
-    ScreeningCriterion(metric="Net Debt / EBITDA", op="<", threshold=2.0, weight=2.0),
-    ScreeningCriterion(metric="ROE %", op=">", threshold=15.0, weight=1.5),
-    ScreeningCriterion(metric="revenue", op=">", threshold=0.0, weight=1.0)
-]
+# Complete Restatement & Merge Logic in timeseries.py
+def merge_snapshots(docs: List[Tuple[str, FundamentalsSnapshot]]) -> IssuerTimeSeries:
+    # 1. Sort documents chronologically by period
+    docs_sorted = sorted(docs, key=lambda pair: _sort_key_for_period(pair[1].periods[-1] if pair[1].periods else ""))
+
+    merged_by_period = defaultdict(dict)
+    provenance = defaultdict(dict)
+
+    for doc_name, snap in docs_sorted:
+        for period, line_map in snap.by_period.items():
+            for key, val in line_map.items():
+                # Later document overwrites earlier document for period
+                merged_by_period[period][key] = val
+                provenance[period][key] = snap.source_pages.get(key, 0)
+
+    # 2. Derive chronological period list
+    all_periods = sorted(list(merged_by_period.keys()), key=_sort_key_for_period)
+
+    # 3. Build MetricSeries (YoY % & CAGR %)
+    # ...
 ```
-The screening engine evaluates each issuer in the universe deterministically and ranks them by:
-1. `all_passed` (Boolean flag: did the issuer meet 100% of criteria?)
-2. `weighted_score` (Sum of weights for passed criteria)
-3. `pass_count`
+
+---
+
+### 4.5 LLM Prompts, Grounded Context, & Evidence Blocks
+
+#### Research Note Synthesis Prompt (`research.py`)
+
+**System Prompt**:
+```text
+You are a lead buy-side equity research analyst writing an Institutional Research Note.
+You are provided with a DETERMINISTICALLY merged issuer time series, YoY growth rates,
+CAGR metrics, top YoY changes, and extracted risk disclosures.
+
+RULES:
+1. Ground every single claim in the provided numbers. Quote exact values, YoY %, and CAGR %.
+2. Do NOT recalculate or invent any growth rates, ratios, or financial figures.
+3. Keep what_changed output VERBATIM as provided in the input JSON.
+4. Provide a balanced, objective thesis covering both Bull Case and Bear Case points.
+5. Output ONLY JSON matching the ResearchNote schema:
+   thesis_summary, bull_case, bear_case, what_changed, key_trends, watch_items.
+```
+
+**User Context / Input Snapshot**:
+```json
+{
+  "issuer": "Tata Steel Ltd",
+  "currency": "INR",
+  "periods": ["FY2020", "FY2021", "FY2022", "FY2023", "FY2024"],
+  "fundamentals": {
+    "revenue": {"by_period": {"FY2020": 138000, "FY2021": 131000, "FY2022": 210000, "FY2023": 243000, "FY2024": 245000}, "latest": 245000, "latest_yoy_pct": 0.82, "cagr_pct": 15.4},
+    "net_income": {"by_period": {"FY2020": 2300, "FY2021": 6600, "FY2022": 41700, "FY2023": 8070, "FY2024": 8900}, "latest": 8900, "latest_yoy_pct": 10.28, "cagr_pct": 39.8}
+  },
+  "what_changed": [
+    "net_income: +10.3% YoY",
+    "capex: +28.0% YoY",
+    "Net Debt / EBITDA: -0.4x YoY"
+  ]
+}
+```
+
+---
+
+### 4.6 Cross-Issuer Quantitative Screening Engine
+
+`screening.py` evaluates a universe of $M$ issuers against $N$ screening criteria.
+
+#### Operator Evaluation Logic
+For each criterion $c = (\text{metric}, \text{op}, \text{threshold}, \text{weight})$ and issuer $I$:
+1. Resolve value $V = I.\text{latest\_value}(\text{metric})$.
+2. Evaluate Boolean condition: $\text{passed} = \text{eval}(V \text{ op } \text{threshold})$.
+3. If passed: $\text{score}_I \leftarrow \text{score}_I + \text{weight}_c$.
+
+#### Universe Ranking
+Issuers are sorted by tuple key:
+$$\text{Rank Key}(I) = (\text{all\_passed}_I, \text{weighted\_score}_I, \text{pass\_count}_I)$$
+
+---
+
+### 4.7 Execution Sequence & Call Graph
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Analyst as Research Analyst
+    participant API as fin_doc_intel/agent_graph.py
+    participant Idx as fin_doc_intel/pdf_index.py
+    participant Ext as fin_doc_intel/extraction.py
+    participant TS as fin_doc_intel/timeseries.py
+    participant Screen as fin_doc_intel/screening.py
+    participant Res as fin_doc_intel/research.py
+
+    Analyst->>API: run_research_analysis(pdf_paths, question)
+
+    loop For Each PDF Filing
+        API->>Idx: load_pdf_as_pages() + PageIndex.__init__()
+        Idx-->>API: PageIndex Object
+        API->>Ext: extract_all_statements(index)
+        Ext-->>API: List[LineItem]
+        API->>Ext: extract_risk_disclosures(index)
+        Ext-->>API: List[RiskDisclosure]
+    end
+
+    API->>TS: merge_snapshots(docs)
+    note over TS: Restatement Merge: Later Document Wins
+    TS-->>API: IssuerTimeSeries (Ascending Periods, YoY %, CAGR %)
+
+    API->>TS: what_changed(issuer_time_series)
+    TS-->>API: Top 6 YoY Changes List
+
+    API->>Res: synthesize_research_note(primary_ts, risks)
+    Res-->>API: ResearchNote (Bull/Bear, Grounded Thesis)
+
+    opt Screening Requested
+        Analyst->>Screen: screen_universe(issuers, criteria)
+        Screen-->>Analyst: Ranked IssuerScreenResults List
+    end
+
+    API-->>Analyst: Complete Analysis JSON & Interactive Visualizations
+```
+
+---
+
+### 4.8 Case Study & Interview Deep-Dive
+
+**Interviewer**: How do you ensure that when a company restates its 2022 revenue in its 2023 annual report, the system uses the restated 2022 number rather than the original 2022 report?
+**Candidate**: This is solved in `timeseries.py::merge_snapshots()`. We sort all ingested document snapshots chronologically by period. We iterate through the sorted snapshots and insert values into a merged dictionary `merged_by_period[period][canonical_key]`. Because later documents are processed after earlier documents, any restated prior-year figure in a later document overwrites the previously stored value for that period. We also update `provenance[period][canonical_key]` to record the exact document name and page number that supplied the restated figure.
 
 ---
 
@@ -318,7 +686,7 @@ It executes depth-first search (DFS) graph traversal to determine Ultimate Benef
 
 ---
 
-### 5.2 High-Level Architecture
+### 5.2 High-Level Architecture (HLD) & Dual Ingestion Flow
 
 ```mermaid
 flowchart TD
@@ -343,36 +711,135 @@ flowchart TD
 
 ---
 
-### 5.3 Deep Dive into Graph & Risk Algorithms
+### 5.3 Low-Level Design (LLD): Module & Schema Specifications
 
-#### 1. UBO Resolution Graph Traversal (`ownership.py`)
-Ownership structures form a directed acyclic (or sometimes circular) graph $G = (V, E)$ where vertices $V$ represent parties (individuals, holding companies, trusts) and edges $E$ represent ownership percentages.
+#### Key Data Contracts (`schemas.py`)
 
+```python
+class PartyType(str, Enum):
+    INDIVIDUAL = "individual"
+    TRUST = "trust"
+    FOUNDATION = "foundation"
+    HOLDING_COMPANY = "holding_company"
+    OPERATING_COMPANY = "operating_company"
+    SPV = "spv"
+    NOMINEE = "nominee"
+    OTHER = "other"
+
+class RoleType(str, Enum):
+    APPLICANT = "applicant"
+    SETTLOR = "settlor"
+    TRUSTEE = "trustee"
+    PROTECTOR = "protector"
+    BENEFICIARY = "beneficiary"
+    DIRECTOR = "director"
+    SHAREHOLDER = "shareholder"
+    SIGNATORY = "signatory"
+    NOMINEE = "nominee"
+
+class OwnershipEdge(BaseModel):
+    owner_id: str
+    owned_id: str
+    percentage: Optional[float] = None
+    interest_type: InterestType = InterestType.EQUITY
+    page: Optional[int] = None
+
+class UBO(BaseModel):
+    party_id: str
+    name: str
+    effective_ownership_pct: Optional[float] = None
+    basis: str  # "ownership", "control", "senior_managing_official"
+    control_roles: List[str] = Field(default_factory=list)
+    paths: List[str] = Field(default_factory=list)
+
+class OwnershipGraphResult(BaseModel):
+    applicant_party_id: Optional[str] = None
+    ubos: List[UBO] = Field(default_factory=list)
+    num_entities: int = 0
+    num_parties: int = 0
+    max_layering_depth: int = 0
+    has_nominee: bool = False
+    has_bearer_shares: bool = False
+    has_circular_ownership: bool = False
 ```
-Individual (P1) -- 100% --> Holding Co (P2) -- 100% --> Trust (P3) -- 100% --> Applicant Account
+
+---
+
+### 5.4 UBO Resolution Graph Engine (DFS Algorithm)
+
+The UBO engine in `ownership.py` evaluates complex ownership structures using depth-first search (DFS) traversal over the directed graph $G=(V, E)$.
+
+#### Depth-First Search Path Enumeration
+1. Identify target $A = \text{applicant\_party\_id}$.
+2. For each natural person $P \in V$:
+   - Find all simple paths $p_1, p_2, \dots, p_k$ from $P$ to $A$.
+   - Calculate path weight $W(p) = \prod_{e \in p} \text{edge\_weight}(e)$.
+   - Calculate total effective ownership: $E(P) = \sum_{j=1}^k W(p_j)$.
+3. If $E(P) \ge 25.0\%$, classify $P$ as UBO on **Ownership Basis**.
+4. If $P$ holds a role $r \in \{\text{settlor, trustee, protector, director, signatory}\}$, classify $P$ as UBO on **Control Basis**.
+5. **Fallback Rule**: If no individual qualifies via ownership or control, the senior managing official is designated as UBO.
+
+```python
+# UBO DFS Path Multiplication in ownership.py
+def _paths_to_applicant(owner_id: str, applicant_id: str, edges_by_owner: Dict[str, List[OwnershipEdge]], visited: Set[str]) -> List[Tuple[float, List[str]]]:
+    if owner_id == applicant_id:
+        return [(100.0, [applicant_id])]
+    if owner_id in visited:
+        return []  # Cycle detected (circular ownership)
+
+    visited.add(owner_id)
+    results = []
+
+    for edge in edges_by_owner.get(owner_id, []):
+        pct = edge.percentage if edge.percentage is not None else 100.0
+        sub_paths = _paths_to_applicant(edge.owned_id, applicant_id, edges_by_owner, visited.copy())
+        for sub_pct, path_nodes in sub_paths:
+            effective = (pct / 100.0) * sub_pct
+            results.append((effective, [owner_id] + path_nodes))
+
+    return results
 ```
 
-**Effective Ownership Computation**:
-For any natural person $P$, effective ownership in the applicant entity $A$ is the sum over all simple paths $path(P \to A)$ of the product of edge weights along each path:
-$$\text{Effective Ownership}(P \to A) = \sum_{p \in \text{paths}(P \to A)} \left( \prod_{e \in p} \text{percentage}(e) \right)$$
+---
 
-**Three Criteria for UBO Status**:
-1. **Ownership Basis**: Effective ownership $\ge 25\%$ (configurable via `UBO_THRESHOLD_PCT`).
-2. **Control Basis**: Natural person holding control roles (`settlor`, `trustee`, `protector`, `director`, `signatory`) regardless of ownership percentage.
-3. **Senior Managing Official Fallback**: If no individual meets ownership or control criteria, the senior managing director is recorded as UBO on a control basis (FATF compliant).
+### 5.5 OSINT 360° Profiling & Evidence Assembly
 
-**Structure Opacity Metrics**:
-- `max_layering_depth`: Maximum depth of legal entities stacked between an individual and the applicant. Layering depth $\ge 3$ flags complex structure risk.
-- `has_nominee`: Flagged if nominee shareholders or directors are present.
-- `has_bearer_shares`: Flagged if bearer shares are detected (high opacity).
-- `has_circular_ownership`: Graph cycle detection ($A \to B \to A$). Circular ownership makes UBO resolution impossible and triggers a high-risk flag.
+When no KYC documents exist, `osint/collect.py` executes targeted web and news queries across **8 Research Angles**:
+1. `BIOGRAPHY`: Background, age, education.
+2. `PROFESSIONAL`: Directorships, corporate roles.
+3. `COMPANY_PERFORMANCE`: Financial health of affiliated firms.
+4. `ADVERSE_MEDIA`: Litigation, fraud, investigations.
+5. `PEP`: Political office, government ties.
+6. `SOCIAL_BEHAVIORAL`: Public interviews, conduct.
+7. `RELATIONSHIPS`: Family ties, business associates.
+8. `WEALTH`: Estimated net worth, source of funds.
 
-#### 2. Name Screening & Geography Risk (`screening.py`)
-- **Fuzzy Token Matching**: Matches extracted party names against PEP, OFAC Sanctions, and Adverse Media lists using normalized token similarity.
-- **Sanctions Match = HARD STOP**: Any confirmed sanctions match immediately forces `band = PROHIBITED` and `decision = DECLINE`.
-- **Jurisdiction Risk**: Classifies jurisdictions into Prohibited (North Korea, Iran, Syria, Russia), High-Risk (FATF Grey List), or Offshore Secrecy (BVI, Cayman, Liechtenstein).
+`osint/profile.py` synthesizes collected evidence into a structured `Profile360` object using an LLM call.
 
-#### 3. 11-Factor Risk Scorecard (`scoring.py`)
+---
+
+### 5.6 LLM Prompts, Grounded Context, & Evidence Blocks
+
+#### EDD Rationale Prompt (`edd.py`)
+
+**System Prompt**:
+```text
+You are a Financial Crime / Anti-Money Laundering (AML) Compliance Officer authoring an EDD Rationale.
+You are given an AUTHORITATIVE, DETERMINISTIC Risk Scorecard and UBO Ownership Graph.
+
+RULES:
+1. Do NOT recalculate any risk scores, modify risk bands, or alter the onboarding decision.
+2. Quote exact UBO names, effective ownership %, layering depth, and active risk triggers.
+3. Recommend concrete Enhanced Due Diligence (EDD) measures (e.g., bank references, audited accounts).
+4. List specific information required from the applicant to clear the case.
+5. Output ONLY valid JSON matching the EDDRationale schema.
+```
+
+---
+
+### 5.7 Deterministic Risk Scorecard & Hard Stops
+
+#### 11-Factor Scorecard Base Weights (`scoring.py`)
 ```
 SANCTIONS:                100 pts  (HARD STOP -> PROHIBITED)
 PEP:                       30 pts
@@ -387,11 +854,65 @@ ID_VERIFICATION_GAP:       14 pts
 OFFSHORE_JURISDICTION:     10 pts
 ```
 
-**Score Ranges & Decisions**:
-- **0–24 (LOW)**: `APPROVE_STANDARD_CDD`
-- **25–49 (MEDIUM)**: `APPROVE_WITH_EDD`
-- **50+ (HIGH)**: `ESCALATE_MLRO`
-- **Sanctions / Prohibited Geo**: `DECLINE` (`PROHIBITED`)
+#### Onboarding Decision Mapping
+- **Score 0–24 (LOW)**: `APPROVE_STANDARD_CDD`
+- **Score 25–49 (MEDIUM)**: `APPROVE_WITH_EDD`
+- **Score 50+ (HIGH)**: `ESCALATE_MLRO`
+- **Sanctions / Prohibited Country**: `DECLINE` (`PROHIBITED`)
+
+---
+
+### 5.8 Execution Sequence & Call Graph
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Officer as Compliance Officer
+    participant API as onboarding_risk/api/main.py
+    participant DocGraph as agent_graph.py
+    participant SubjGraph as subject_graph.py
+    participant Ext as extraction.py
+    participant OSINT as osint/
+    participant UBO as ownership.py
+    participant Screen as screening.py
+    participant Score as scoring.py
+    participant EDD as edd.py
+
+    alt Document Ingestion Flow
+        Officer->>API: POST /cases (Upload KYC PDFs)
+        API->>DocGraph: run_onboarding_assessment()
+        DocGraph->>Ext: extract_structure(), extract_source_of_wealth(), extract_identity()
+        Ext-->>DocGraph: Parties, OwnershipEdges, Relationships, SoW, IDs
+    else Name Search OSINT Flow
+        Officer->>API: POST /cases (Subject Name & Context)
+        API->>SubjGraph: run_subject_360()
+        SubjGraph->>OSINT: collect_evidence() & synthesize_profile()
+        OSINT-->>SubjGraph: Profile360
+        SubjGraph->>SubjGraph: profile_to_parties(profile)
+    end
+
+    DocGraph->>UBO: resolve_ubos(parties, edges, relationships)
+    UBO-->>DocGraph: OwnershipGraphResult (UBOs, Layering Depth, Circular Flags)
+
+    DocGraph->>Screen: screen_parties(parties)
+    Screen-->>DocGraph: WatchlistHits & GeographyHits
+
+    DocGraph->>Score: score_case(ownership, hits, sow, identity)
+    Score-->>DocGraph: RiskScorecard (Score, Band, Decision, Triggers)
+
+    DocGraph->>EDD: synthesize_edd_rationale(assessment)
+    EDD-->>DocGraph: EDDRationale
+
+    DocGraph-->>API: Full OnboardingAssessment
+    API-->>Officer: Render UBO Graph & Scorecard in UI
+```
+
+---
+
+### 5.9 Case Study & Interview Deep-Dive
+
+**Interviewer**: How does your graph engine detect circular ownership, and why is that dangerous in KYC?
+**Candidate**: Circular ownership ($A \text{ owns } B \text{ owns } C \text{ owns } A$) is a classic money laundering technique used to obscure the ultimate human owner. In `ownership.py::_paths_to_applicant()`, we implement depth-first search path traversal with a `visited` set tracking the current traversal path. If an entity ID being traversed is already present in `visited`, a cycle is detected. The traversal aborts that path to prevent infinite loops, sets `has_circular_ownership = True` in `OwnershipGraphResult`, and flags a high-severity `COMPLEX_STRUCTURE` factor on the scorecard.
 
 ---
 
@@ -415,7 +936,7 @@ The **Investment Research Copilot** executes both workflows, combining pure NumP
 
 ---
 
-### 6.2 High-Level Architecture & End-to-End Flow
+### 6.2 High-Level Architecture (HLD) & Dual-Mode Pipeline
 
 ```mermaid
 flowchart TD
@@ -451,41 +972,192 @@ flowchart TD
 
 ---
 
-### 6.3 Quantitative Risk Math & Guardrail Algorithms
+### 6.3 Low-Level Design (LLD): Module & Schema Specifications
 
-#### 1. Statistical Risk Analytics (`analytics.py`)
-All statistical metrics are computed using NumPy over 252-day daily price return series $r_t = \frac{P_t - P_{t-1}}{P_{t-1}}$:
-- **Annualized Volatility**:
-$$\sigma_{\text{annual}} = \text{std}(r) \times \sqrt{252}$$
-- **Maximum Drawdown**:
-$$\text{Max Drawdown} = \min_t \left( \frac{P_t}{\max_{\tau \le t} P_\tau} - 1 \right)$$
-- **Value at Risk (VaR 95%, 1-day Historical)**: 5th percentile of daily return distribution.
-- **Herfindahl-Hirschman Index (HHI) & Effective $N$**:
-$$\text{HHI} = \sum_{i=1}^n w_i^2, \quad \text{Effective } N = \frac{1}{\text{HHI}}$$
-High HHI indicates high concentration risk.
+#### Key Data Contracts (`schemas.py`)
 
-#### 2. IPS Drift & Rebalancing Engine (`drift.py`)
-For an asset class sleeve with target weight $w_{\text{target}}$ and tolerance band $b$ (e.g., $60\% \pm 5\%$):
-- Status is `BREACH_OVER` if $w_{\text{actual}} > w_{\text{target}} + b$.
-- Status is `BREACH_UNDER` if $w_{\text{actual}} < w_{\text{target}} - b$.
-- For breached sleeves, the required trade size is:
-$$\text{Trade Value} = (w_{\text{target}} - w_{\text{actual}}) \times \text{Total Portfolio Value}$$
+```python
+class ConstructionConstraints(BaseModel):
+    single_name_cap: float = 0.10  # Max 10% in any single stock
+    sector_cap: float = 0.30       # Max 30% in any single sector
+    min_position: float = 0.01     # Drop positions < 1%
+    exclusions: List[str] = Field(default_factory=list)
 
-#### 3. Hard Guardrail Enforcement via Water-Filling (`construct/guardrails.py`)
-When either the deterministic constructor or the LLM advisor proposes position weights $w$, `guardrails.enforce()` guarantees strict compliance with constraints:
-1. **Exclusions**: Any security or sector on the exclusion list is removed ($w_i = 0$).
-2. **Minimum Position Size**: Positions where $w_i < \text{min\_position}$ (e.g., 1%) are dropped.
-3. **Single-Name Cap via Water-Filling**: If any stock exceeds `single_name_cap` (e.g., 10%), its weight is clamped to 10%. The excess weight $\Delta = w_i - 0.10$ is iteratively redistributed proportionally among unconstrained positions whose weights remain below 10%. If all names reach the cap, the remaining excess becomes cash.
-4. **Sector Cap**: Sectors exceeding `sector_cap` (e.g., 30%) are scaled down proportionally.
-5. All guardrail adjustments are logged in `guardrail_corrections` for auditing.
+class ConstructionRequest(BaseModel):
+    mandate: str = "balanced"  # conservative, balanced, growth, aggressive
+    risk_tolerance: str = "medium"
+    horizon_years: int = 5
+    invest_amount: float = 1000000.0
+    constraints: ConstructionConstraints = Field(default_factory=ConstructionConstraints)
+    weighting_method: WeightingMethod = WeightingMethod.EQUAL_WEIGHT
+    geography_mode: GeographyMode = GeographyMode.GLOBAL
+    countries: List[str] = Field(default_factory=list)
+    style: PortfolioStyle = PortfolioStyle.MULTI_CAP
+
+class SelectedPosition(BaseModel):
+    symbol: str
+    name: Optional[str] = None
+    asset_class: AssetClass = AssetClass.EQUITY
+    sector: Optional[str] = None
+    target_weight: float
+    amount: float
+    shares: Optional[float] = None
+    price: Optional[float] = None
+    rationale: str
+    pros: List[str] = Field(default_factory=list)
+    cons: List[str] = Field(default_factory=list)
+
+class ConstructedPortfolio(BaseModel):
+    method: str  # "deterministic" or "llm"
+    positions: List[SelectedPosition] = Field(default_factory=list)
+    expected_metrics: RiskMetrics
+    guardrail_corrections: List[str] = Field(default_factory=list)
+    narrative: str = ""
+```
 
 ---
 
-## Chapter 7: Deploying, Monitoring, and Operating Agentic AI in Production
+### 6.4 Statistical Risk Analytics & IPS Drift Mathematics
+
+#### 1. Daily Returns & Volatility (`analytics.py`)
+Given daily close prices $P_0, P_1, \dots, P_T$:
+$$r_t = \frac{P_t - P_{t-1}}{P_{t-1}}$$
+$$\sigma_{\text{annual}} = \sqrt{\frac{1}{T-1} \sum_{t=1}^T (r_t - \bar{r})^2} \times \sqrt{252}$$
+
+#### 2. Historical Value at Risk (VaR 95%, 1-day)
+Sorted daily returns $r_{(1)} \le r_{(2)} \le \dots \le r_{(T)}$.
+$$\text{VaR}_{0.95} = - r_{(\lfloor 0.05 \times T \rfloor)}$$
+
+#### 3. Herfindahl-Hirschman Index (HHI) & Effective $N$
+$$\text{HHI} = \sum_{i=1}^n w_i^2, \quad \text{Effective } N = \frac{1}{\text{HHI}}$$
+
+---
+
+### 6.5 Iterative Water-Filling Guardrail Algorithm
+
+`construct/guardrails.py::enforce()` guarantees that proposed security weights $w_1, w_2, \dots, w_n$ strictly satisfy single-name and sector caps:
+
+```python
+# Iterative Water-Filling Algorithm in construct/guardrails.py
+def enforce_single_name_cap(weights: Dict[str, float], cap: float) -> Tuple[Dict[str, float], List[str]]:
+    corrections = []
+    w = weights.copy()
+
+    for iteration in range(200):
+        over_capped = {k: val for k, val in w.items() if val > cap + 1e-6}
+        if not over_capped:
+            break  # Convergence reached
+
+        excess = sum(val - cap for val in over_capped.values())
+        for k in over_capped:
+            w[k] = cap
+            corrections.append(f"Capped {k} at {cap*100:.1f}%")
+
+        under_capped = {k: val for k, val in w.items() if val < cap - 1e-6}
+        if not under_capped:
+            break  # Residual becomes cash
+
+        under_sum = sum(under_capped.values())
+        for k, val in under_capped.items():
+            w[k] += excess * (val / under_sum)
+
+    return w, corrections
+```
+
+---
+
+### 6.6 Dual-Mode Portfolio Construction Engine
+
+The copilot executes two construction paths:
+1. **Deterministic Mode (`construct/deterministic.py`)**:
+   - Maps candidate universe to sleeves based on mandate SAA (e.g., 60% equity, 30% fixed income, 10% cash).
+   - Selects top $N$ securities per sleeve ranked by historical expected return.
+   - Applies equal-weight or inverse-volatility weighting within sleeves.
+   - Passes weights through `guardrails.enforce()`.
+
+2. **LLM Advisor Mode (`construct/llm_advisor.py`)**:
+   - Passes enriched universe candidate stats (symbol, asset class, sector, volatility, yield, news risk) to the LLM.
+   - LLM proposes free-form security selection, weights, and rationales.
+   - **Ticker Whitelisting**: Drops any symbol proposed by the LLM that does not exist in the real candidate universe.
+   - Passes weights through the exact same `guardrails.enforce()` water-filling algorithm.
+
+3. **Comparison Engine (`compare.py`)**:
+   - Computes Jaccard Similarity Index over selected securities:
+$$J(A, B) = \frac{|A \cap B|}{|A \cup B|}$$
+   - Calculates sleeve allocation deltas and metric differences (volatility delta, yield delta, HHI delta).
+
+---
+
+### 6.7 LLM Prompts, Grounded Context, & Evidence Blocks
+
+#### LLM Portfolio Advisor Prompt (`construct/llm_advisor.py`)
+
+**System Prompt**:
+```text
+You are an institutional portfolio manager constructing a portfolio for a client mandate.
+You are provided with a pre-filtered universe of candidate securities with live prices, volatility, and dividend yield stats.
+
+RULES & HARD CONSTRAINTS:
+1. You may ONLY select securities from the provided candidate universe list. Do NOT invent tickers.
+2. Output proposed weights as decimal fractions summing to approximately 1.0.
+3. Respect the target asset class mix near: equity 60%, fixed_income 30%, cash 10%.
+4. Provide a 1-sentence rationale for every security selected.
+5. Your proposed weights WILL be passed through a deterministic water-filling guardrail engine
+   that strictly enforces a 10% single-name cap and a 30% sector cap.
+6. Output ONLY valid JSON matching the schema: {"positions": [{"symbol": str, "target_weight": float, "rationale": str}], "narrative": str}.
+```
+
+---
+
+### 6.8 Execution Sequence & Call Graph
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Advisor as Portfolio Manager
+    participant API as portfolio_monitor/agent_graph.py
+    participant Univ as portfolio_monitor/universe.py
+    participant Det as portfolio_monitor/construct/deterministic.py
+    participant LLMCons as portfolio_monitor/construct/llm_advisor.py
+    participant Guard as portfolio_monitor/construct/guardrails.py
+    participant Comp as portfolio_monitor/compare.py
+
+    Advisor->>API: run_construction(request, mode="both")
+    API->>Univ: build_universe(request)
+    Univ->>Univ: Fetch yfinance Quotes & Price Histories
+    Univ-->>API: Enriched Candidate List
+
+    par Dual Construction Branch
+        API->>Det: construct_deterministic(request, universe)
+        Det->>Guard: enforce(weights, constraints)
+        Guard-->>Det: Guardrailed Deterministic Portfolio
+
+        API->>LLMCons: construct_llm(request, universe)
+        LLMCons->>LLMCons: Ticker Whitelisting Check
+        LLMCons->>Guard: enforce(weights, constraints)
+        Guard-->>LLMCons: Guardrailed LLM Portfolio
+    end
+
+    API->>Comp: compare_constructions(det_portfolio, llm_portfolio)
+    Comp-->>API: ConstructionComparison (Jaccard Index, Metric Diffs)
+
+    API-->>Advisor: Render Side-by-Side Comparison & Rebalancing Trades
+```
+
+---
+
+### 6.9 Case Study & Interview Deep-Dive
+
+**Interviewer**: How do you guarantee that an LLM-advised portfolio never breaches single-stock or sector concentration limits?
+**Candidate**: We use a two-tier defense in `construct/llm_advisor.py` and `construct/guardrails.py`. First, the LLM is instructed via system prompt on the constraints, but we never trust its raw output. Once the LLM returns its proposed weights, we pass them directly into `guardrails.enforce()`. This function executes an iterative water-filling algorithm in Python. If the LLM proposes a 20% weight in Apple when the single-name cap is 10%, Python clamps Apple's weight to 10% and redistributes the excess 10% proportionally across remaining unconstrained positions. If a sector exceeds 30%, Python scales down that sector's positions proportionally. Every modification is logged in `guardrail_corrections`, providing full transparency into how Python brought the LLM's proposal into strict compliance.
+
+---
+
+## Chapter 7: Operating Enterprise Financial AI in Production
 
 Transitioning financial AI agents from local development (Streamlit / CLI) to enterprise production requires robust infrastructure, security controls, and observability.
 
-### 7.1 Production Deployment Topology
+### 7.1 Infrastructure, Containerization, & Kubernetes Manifests
 In production, financial agents operate inside isolated VPCs or on-premise Kubernetes clusters with strict egress controls:
 
 ```mermaid
@@ -527,21 +1199,29 @@ flowchart TB
     EgressProxy --> NewsVendor
 ```
 
-### 7.2 Containerization & Orchestration (`Dockerfile`, `k8s/`)
-Each project in this codebase contains production-ready Dockerfiles and Kubernetes manifests (`k8s/`):
-- **Multi-Stage Docker Build**: Utilizes minimal Python 3.12 slim images, running as non-root users (`uid 10001`).
-- **Resource Limits**: Configured CPU and memory requests/limits (e.g., `500m` CPU, `1Gi` RAM request; `2` CPU, `4Gi` RAM limit).
-- **Probes**: Native `/health` liveness and readiness HTTP endpoints.
-- **Horizontal Pod Autoscaling**: Scaled based on CPU utilization and queue depth.
+---
 
-### 7.3 Enterprise Security & Compliance Checklist
+### 7.2 Task Queues & Concurrency (Celery, Redis, Threads)
+
+Financial assessment tasks take 1–3 minutes to execute due to sequential LLM round trips and market data lookups. Holding open HTTP connections causes load balancer timeouts.
+Production deployments decouple job creation from job execution:
+
+1. `POST /assessments` saves inputs, creates a DB row with `status="queued"`, and returns HTTP 202 in < 100ms.
+2. The job is dispatched to a Celery worker pool backed by Redis.
+3. Workers execute the assessment pipeline synchronously.
+4. Clients poll `GET /status` backed by Redis DB 0 for live execution phase labels (`"extracting_financials"`, `"computing_ratios"`, `"synthesizing_memo"`).
+
+---
+
+### 7.3 Enterprise Security, Vaults, & Data Governance
 1. **No Sensitive PII Egress**: PII and confidential financial figures must be masked or passed through internal gateway proxies.
 2. **Secrets Management**: Replace `.env` files with short-lived secrets fetched from enterprise vaults (AWS Secrets Manager, Azure Key Vault, HashiCorp Vault).
 3. **Data Encryption**: Server-side encryption at rest (AES-256) for PDF object storage and TLS 1.3 in transit.
 4. **Immutable Audit Logging**: Every LLM request/response, prompt version, model name, and user review action must be written to an append-only database table (`reviews`, `assessment_versions`).
 
-### 7.4 Production Observability Metrics
-To maintain operational visibility, monitor four key metric categories:
+---
+
+### 7.4 Production Observability, Alerting, & Telemetry Metrics
 
 | Boundary | Key Metric | Alert Threshold / Target |
 | --- | --- | --- |
@@ -554,9 +1234,7 @@ To maintain operational visibility, monitor four key metric categories:
 
 ---
 
-## Appendix: Repository Links & Code Index
-
-This repository contains full working codebases, test suites, Kubernetes manifests, and sample data for all four agents.
+## Appendix: Repository Links & Complete Code Index
 
 ### Complete Directory Index
 
@@ -601,7 +1279,7 @@ This repository contains full working codebases, test suites, Kubernetes manifes
     └── DOCUMENTATION.md         # Technical documentation
 ```
 
-### Module Direct Links
+### Direct File Links
 
 #### 1. Corporate Credit Risk Assessment Agent
 - [Directory Root](./Credit_Risk_Assesment_Agent/)
