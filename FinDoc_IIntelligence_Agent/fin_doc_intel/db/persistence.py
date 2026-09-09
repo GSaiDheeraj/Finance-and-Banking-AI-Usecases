@@ -115,48 +115,64 @@ def run_and_persist(project_id: str, document_ids: List[str]) -> None:
         start = time.time()
         total_llm_calls = 0
         per_document_summary = []
+        has_success = False
+
         for document_id in document_ids:
-            document = db.get(Document, document_id)
-            pdf_path = document.storage_uri
-            index = PageIndex(load_pdf_as_pages(pdf_path))
-            meta = detect_issuer_metadata(index)
-            items, llm_calls, diagnostics = extract_document_content(pdf_path)
-            total_llm_calls += llm_calls + 1  # +1 for detect_issuer_metadata
+            try:
+                document = db.get(Document, document_id)
+                if document is None:
+                    continue
+                pdf_path = document.storage_uri
+                index = PageIndex(load_pdf_as_pages(pdf_path))
+                meta = detect_issuer_metadata(index)
+                items, llm_calls, diagnostics = extract_document_content(pdf_path)
+                total_llm_calls += llm_calls + 1  # +1 for detect_issuer_metadata
 
-            document.company_name = meta.get("issuer")
-            document.period = meta.get("period")
-            db.query(LineItemRecord).filter(LineItemRecord.document_id == document_id).delete()
+                document.company_name = meta.get("issuer")
+                document.period = meta.get("period")
+                db.query(LineItemRecord).filter(LineItemRecord.document_id == document_id).delete()
 
-            for line_item in items:
-                db.add(LineItemRecord(
-                    document_id=document_id,
-                    statement=line_item.statement.value,
-                    label=line_item.label,
-                    section_path=line_item.section_path,
-                    value=line_item.value,
-                    unit=line_item.unit,
-                    currency=line_item.currency,
-                    period=line_item.period,
-                    period_end_date=line_item.period_end_date,
-                    period_length_months=line_item.period_length_months,
-                    scale=line_item.scale,
-                    consolidated=line_item.consolidated,
-                    page=line_item.page,
-                    source_snippet=line_item.source_snippet,
-                ))
-            per_document_summary.append({
-                "document_id": document_id,
-                "company_name": meta.get("issuer"),
-                "line_items": len(items),
-                "diagnostics": diagnostics,
-            })
+                for line_item in items:
+                    db.add(LineItemRecord(
+                        document_id=document_id,
+                        statement=line_item.statement.value,
+                        label=line_item.label,
+                        section_path=line_item.section_path,
+                        value=line_item.value,
+                        unit=line_item.unit,
+                        currency=line_item.currency,
+                        period=line_item.period,
+                        period_end_date=line_item.period_end_date,
+                        period_length_months=line_item.period_length_months,
+                        scale=line_item.scale,
+                        consolidated=line_item.consolidated,
+                        page=line_item.page,
+                        source_snippet=line_item.source_snippet,
+                    ))
+                db.commit()
+                has_success = True
+                per_document_summary.append({
+                    "document_id": document_id,
+                    "company_name": meta.get("issuer"),
+                    "line_items": len(items),
+                    "diagnostics": diagnostics,
+                })
+            except Exception as doc_exc:
+                logger.exception("extraction failed for document %s in project %s", document_id, project_id)
+                db.rollback()
+                per_document_summary.append({
+                    "document_id": document_id,
+                    "error": str(doc_exc),
+                })
 
-        project.raw_result = {"documents": per_document_summary}
-        project.latency_ms = round((time.time() - start) * 1000.0, 2)
-        project.llm_call_count = total_llm_calls
-        project.status = "completed"
-        project.completed_at = datetime.utcnow()
-        db.commit()
+        project = db.get(Project, project_id)
+        if project is not None:
+            project.raw_result = {"documents": per_document_summary}
+            project.latency_ms = round((time.time() - start) * 1000.0, 2)
+            project.llm_call_count = total_llm_calls
+            project.status = "completed" if (has_success or not document_ids) else "failed"
+            project.completed_at = datetime.utcnow()
+            db.commit()
     except Exception as exc:
         logger.exception("extraction failed for project %s", project_id)
         db.rollback()

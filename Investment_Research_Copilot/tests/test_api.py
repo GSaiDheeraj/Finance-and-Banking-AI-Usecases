@@ -18,53 +18,63 @@ def test_health_check(client):
     response = client.get("/health")
     assert response.status_code == 200
     data = response.json()
-    assert data["status"] == "healthy"
-    assert "timestamp" in data
+    assert data["status"] == "ok"
 
 
-def test_create_portfolio(client):
-    """Test creating a new portfolio."""
-    response = client.post(
-        "/portfolios",
-        json={
-            "portfolio_name": "Test Portfolio",
-            "client_name": "Test Client",
-            "description": "A test portfolio for unit testing"
-        }
-    )
-    assert response.status_code == 200
+def test_create_portfolio(client, tmp_path):
+    """Test creating a new portfolio with a holdings CSV upload."""
+    csv_file = tmp_path / "holdings.csv"
+    csv_file.write_text("symbol,quantity\nAAPL,10\nMSFT,5\n")
+
+    with open(csv_file, "rb") as f:
+        response = client.post(
+            "/portfolios",
+            data={
+                "portfolio_name": "Test Portfolio",
+                "client_name": "Test Client",
+                "mandate": "balanced",
+            },
+            files={"holdings_files": ("holdings.csv", f, "text/csv")},
+        )
+    assert response.status_code == 202
     data = response.json()
     assert "portfolio_id" in data
     assert data["portfolio_name"] == "Test Portfolio"
-    assert data["status"] == "processing"
+    assert data["status"] == "created"
 
 
-def test_get_portfolio(client):
+def test_get_portfolio(client, tmp_path):
     """Test getting portfolio information."""
-    # First create a portfolio
-    create_response = client.post(
-        "/portfolios",
-        json={"portfolio_name": "Test Portfolio", "client_name": "Test Client"}
-    )
+    csv_file = tmp_path / "holdings.csv"
+    csv_file.write_text("symbol,quantity\nAAPL,10\n")
+
+    with open(csv_file, "rb") as f:
+        create_response = client.post(
+            "/portfolios",
+            data={"portfolio_name": "Test Portfolio", "client_name": "Test Client"},
+            files={"holdings_files": ("holdings.csv", f, "text/csv")},
+        )
     portfolio_id = create_response.json()["portfolio_id"]
-    
-    # Then get the portfolio
+
     response = client.get(f"/portfolios/{portfolio_id}")
     assert response.status_code == 200
     data = response.json()
     assert data["portfolio_id"] == portfolio_id
 
 
-def test_get_portfolio_status(client):
+def test_get_portfolio_status(client, tmp_path):
     """Test getting portfolio status."""
-    # First create a portfolio
-    create_response = client.post(
-        "/portfolios",
-        json={"portfolio_name": "Test Portfolio"}
-    )
+    csv_file = tmp_path / "holdings.csv"
+    csv_file.write_text("symbol,quantity\nAAPL,10\n")
+
+    with open(csv_file, "rb") as f:
+        create_response = client.post(
+            "/portfolios",
+            data={"portfolio_name": "Test Portfolio"},
+            files={"holdings_files": ("holdings.csv", f, "text/csv")},
+        )
     portfolio_id = create_response.json()["portfolio_id"]
-    
-    # Then get the status
+
     response = client.get(f"/portfolios/{portfolio_id}/status")
     assert response.status_code == 200
     data = response.json()

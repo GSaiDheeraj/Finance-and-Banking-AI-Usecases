@@ -22,11 +22,11 @@ class DatabaseConfigError(RuntimeError):
 
 
 def _database_url() -> str:
-    host = os.getenv("PG_HOST", "127.0.0.1")
-    port = os.getenv("PG_PORT", "5433")
-    user = os.getenv("PG_USER", "postgres")
-    password = os.getenv("PG_PASSWORD", "7194")
-    database = os.getenv("PG_DATABASE","investment_research" )
+    host = os.getenv("PG_HOST") or os.getenv("PGHOST", "127.0.0.1")
+    port = os.getenv("PG_PORT") or os.getenv("PGPORT", "5433")
+    user = os.getenv("PG_USER") or os.getenv("PGUSER", "postgres")
+    password = os.getenv("PG_PASSWORD") or os.getenv("PGPASSWORD", "7194")
+    database = os.getenv("PG_DATABASE") or os.getenv("PGDATABASE", "investment_research")
     if not database:
         raise DatabaseConfigError(
             "PG_DATABASE is not set — configure Postgres in .env (see .env.example)."

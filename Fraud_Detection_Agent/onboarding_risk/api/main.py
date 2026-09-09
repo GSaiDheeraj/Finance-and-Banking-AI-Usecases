@@ -230,7 +230,7 @@ def save_assessment_to_db(case_id: str, client_name: str, case_type: str, result
             db.close()
     except Exception as e:
         print(f"Failed to save assessment to database: {e}")
-        # Continue without failing the assessment
+        raise e
 
 
 def run_pdf_assessment_wrapper(pdf_paths: List[str], case_id: str, client_name: str):
