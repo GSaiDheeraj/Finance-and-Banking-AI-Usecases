@@ -31,6 +31,12 @@ class Cell(BaseModel):
     value: float
     currency: Optional[str] = None
     scale: Optional[Scale] = None
+    raw_text: Optional[str] = Field(
+        default=None,
+        description="The literal token as printed in the source table (e.g. '(1,234)'), "
+                    "before sign/scale normalization — lets validation check the sign "
+                    "conversion without re-parsing the table HTML.",
+    )
 
 
 class LineItem(BaseModel):

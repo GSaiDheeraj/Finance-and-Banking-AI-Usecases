@@ -25,6 +25,7 @@ from .prompts import (
     LINE_ITEM_EXTRACTION_PROMPT,
     RELEVANCE_PROMPT,
     STATEMENT_CLASSIFIER_PROMPT,
+    build_correction_addendum,
 )
 from .state import ClassifiedTable, ConsolidationFiltered, ExtractedTable, PipelineState, RelevantTable
 from .structured_llm import StructuredExtractor
@@ -226,9 +227,11 @@ def extract_line_items(state: PipelineState) -> Dict[str, Any]:
         ExtractedLineItems, model=state["large_model"], max_tokens=_EXTRACTION_MAX_TOKENS,
     )
 
+    correction_notes = state.get("correction_notes", {})
+
     extracted: List[ExtractedTable] = []
     errors: List[dict] = []
-    for entry in state["consolidation_filtered"]:
+    for index, entry in enumerate(state["consolidation_filtered"]):
         candidate = entry["candidate"]
         meta = entry["meta"]
         kept_columns = meta.consolidated_columns if meta.consolidated_columns else None
@@ -244,6 +247,9 @@ def extract_line_items(state: PipelineState) -> Dict[str, Any]:
             "Table HTML:",
             candidate.html,
         ]
+        notes = correction_notes.get(index)
+        if notes:
+            user_parts.append(build_correction_addendum(notes))
         try:
             result = extractor.extract(
                 [SystemMessage(content=LINE_ITEM_EXTRACTION_PROMPT), HumanMessage(content="\n".join(user_parts))]
@@ -259,6 +265,7 @@ def extract_line_items(state: PipelineState) -> Dict[str, Any]:
             "breakdown_of": entry["breakdown_of"],
             "segment_id": meta.segment_id,
             "line_items": result.line_items,
+            "source_index": index,
         })
 
     return {

@@ -41,7 +41,7 @@ class Config:
     pg_port: int = 5433
     pg_database: str = "findoc_db"
     pg_user: str = "findoc_user"
-    pg_password: str = ""
+    pg_password: str = "7194"
     
     # Redis Configuration
     redis_host: str = "localhost"
@@ -52,14 +52,19 @@ class Config:
     # Application Configuration
     log_level: str = "INFO"
     max_upload_size_mb: int = 100
-    document_storage_dir: str = "./data/uploads"
-    
+    document_storage_dir: str = "./data/Financial document extraction"
+
+    # S3 archive (optional). When unset, DocumentStorage writes local-only —
+    # see storage.py.
+    s3_bucket: Optional[str] = None
+    s3_region: Optional[str] = None
+
     @classmethod
     def from_env(cls) -> "Config":
         """Create configuration from environment variables."""
         default_model = os.getenv("LLM_MODEL_NAME", "anthropic.claude-4-5-haiku")
         return cls(
-            llm_endpoint=os.getenv("LLM_ENDPOINT", "https://llm-dev.fdscloud.io/"),
+            llm_endpoint=os.getenv("LLM_ENDPOINT", ""),
             llm_api_key=os.getenv("LLM_API_KEY", ""),
             llm_model_name=default_model,
             llm_temperature=float(os.getenv("LLM_TEMPERATURE", "0.0")),
@@ -72,14 +77,18 @@ class Config:
             pg_port=int(os.getenv("PGPORT", "5433")),
             pg_database=os.getenv("PGDATABASE", "findoc_db"),
             pg_user=os.getenv("PGUSER", "findoc_user"),
-            pg_password=os.getenv("PGPASSWORD", ""),
+            pg_password=os.getenv("PGPASSWORD", "7194"),
             redis_host=os.getenv("REDISHOST", "localhost"),
             redis_port=int(os.getenv("REDISPORT", "6379")),
             redis_password=os.getenv("REDIS_PASSWORD"),
             redis_db=int(os.getenv("REDIS_DB", "0")),
             log_level=os.getenv("LOG_LEVEL", "INFO"),
             max_upload_size_mb=int(os.getenv("MAX_UPLOAD_SIZE_MB", "100")),
-            document_storage_dir=os.getenv("DOCUMENT_STORAGE_DIR", "./data/uploads"),
+            document_storage_dir=os.getenv(
+                "DOCUMENT_STORAGE_DIR", "./data/Financial document extraction"
+            ),
+            s3_bucket=os.getenv("S3_BUCKET"),
+            s3_region=os.getenv("S3_REGION"),
         )
 
 

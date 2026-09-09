@@ -13,6 +13,8 @@ from typing import List, Literal, Optional
 
 from pydantic import BaseModel, Field
 
+from .fundamentals_pipeline.validators import ValidationFlag
+
 
 class StatementType(str, Enum):
     BALANCE_SHEET = "balance_sheet"
@@ -39,3 +41,9 @@ class LineItem(BaseModel):
     consolidated: Optional[bool] = None
     page: Optional[int] = None
     source_snippet: Optional[str] = None
+    validation_errors: List[ValidationFlag] = Field(
+        default_factory=list,
+        description="Issues still open after the last extraction attempt (see "
+                    "fundamentals_pipeline.validators) — empty when the row was clean "
+                    "or every issue was resolved within the retry budget.",
+    )

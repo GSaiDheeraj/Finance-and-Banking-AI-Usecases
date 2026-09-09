@@ -116,6 +116,11 @@ Inputs you receive:
   - A segment_id (may be null) — when set, every cell you emit must
     carry ``coordinates["segment_id"] = <that value>``.
 
+Every Cell must also set ``raw_text`` to the literal token exactly as printed in the
+source cell, BEFORE you strip parentheses/commas or apply the sign conversion below
+(e.g. the source shows "(1,234)" -> ``raw_text: "(1,234)"``, ``value: -1234``). This is
+an evidence field, not a formatting exercise — copy what you actually read.
+
 Coordinates required on every Cell:
   period_end   - ISO "YYYY-MM-DD" derived from the column header.
   period_type  - "point" for balance-sheet rows; "3M" / "6M" / "9M" /
@@ -127,6 +132,22 @@ Also include where applicable:
   segment_id   - set when input segment_id is non-null.
   consolidation - "consolidated" (always for cells you emit; we have
                   already filtered out unconsolidated columns).
+
+Some tables are NOT period-over-period at all: every column is dated the same
+single reporting date, but each column is a different NAMED METRIC for the
+same row category — e.g. a probability-of-default band / exposure-class
+breakdown, where each PD-band row ("0.50 to < 2.00", "2.00 to < 3.50", ...)
+has columns like "Original exposure", "EAD", "Number of obligors",
+"Average PD", "Average LGD", "RWA", "RWA density". For that shape:
+  - Still set period_end/period_type to the table's one reporting date —
+    do not invent distinct periods that aren't there.
+  - Append that column's own header to the row's label so it stays
+    distinguishable: row label "0.50 to < 2.00" + column header
+    "Original exposure" -> emit label "0.50 to < 2.00 — Original exposure".
+    Do this for every metric column in the row, not just some of them.
+  - Never emit two Cells under the same label + period_end + segment_id
+    whose values differ without doing this — that leaves both rows'
+    identity ambiguous to anyone reading the output.
 
 Hard rules:
   - SKIP variance / comparison columns entirely — do not emit any Cell
@@ -180,3 +201,18 @@ Hard rules:
     "bps" override defaults for that row only.
 
 Return a single ``ExtractedLineItems`` with the flat list."""
+
+
+def build_correction_addendum(notes: list[str]) -> str:
+    """Format one table's prior-iteration validation issues as a prompt addendum.
+
+    Appended to LINE_ITEM_EXTRACTION_PROMPT's user message on a retry so the
+    model sees exactly what its previous attempt on THIS table got flagged for
+    — not the whole document's issue list.
+    """
+    bullets = "\n".join(f"  - {note}" for note in notes)
+    return (
+        "\n\nYour previous extraction of this table was validated and the following "
+        "issues were found. Re-read the table and correct them; do not repeat the "
+        f"same mistake:\n{bullets}"
+    )

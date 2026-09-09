@@ -42,6 +42,11 @@ class ExtractedTable(TypedDict):
     breakdown_of: Optional[str]
     segment_id: Optional[str]
     line_items: List[LineItem]
+    # Index into `consolidation_filtered` this table came from — kept explicit
+    # (rather than relied on via list position) because a table whose
+    # extraction call raises is dropped from this list, which would otherwise
+    # shift every later table's positional index out of alignment.
+    source_index: int
 
 
 class PipelineState(TypedDict):
@@ -62,3 +67,9 @@ class PipelineState(TypedDict):
 
     aggregated: Dict[str, List[LineItem]]
     diagnostics: List[Dict[str, Any]]
+
+    # Populated between validation-loop iterations (see extraction.py): maps a
+    # `consolidation_filtered`/`extracted_per_table` index to the validation
+    # issues attributed to that table, so extract_line_items can ask the model
+    # to fix only what was actually flagged on ITS table.
+    correction_notes: Dict[int, List[str]]

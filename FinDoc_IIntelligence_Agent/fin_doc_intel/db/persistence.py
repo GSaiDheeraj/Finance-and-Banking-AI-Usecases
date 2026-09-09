@@ -11,7 +11,6 @@ from __future__ import annotations
 
 import hashlib
 import logging
-import os
 import time
 import uuid
 from datetime import datetime
@@ -20,25 +19,24 @@ from typing import List, Optional
 import fitz  # PyMuPDF
 from sqlalchemy.orm import Session
 
-from fin_doc_intel.config import get_config
 from fin_doc_intel.db.models import Document, LineItemRecord, Project, ProjectDocument
 from fin_doc_intel.db.session import get_db_session
 from fin_doc_intel.extraction import detect_issuer_metadata, extract_document_content
 from fin_doc_intel.pdf_index import PageIndex, load_pdf_as_pages
+from fin_doc_intel.storage import DocumentStorage
 
 logger = logging.getLogger(__name__)
 
 
-def resolve_document(db: Session, filename: str, content: bytes) -> Document:
+def resolve_document(db: Session, filename: str, content: bytes, storage: DocumentStorage) -> Document:
     """Find-or-create the `Document` row for this file's content.
 
     Documents are deduped globally by SHA-256: re-uploading byte-identical
     content — even under a different project or filename — reuses the same
     document_id and storage folder instead of piling up duplicates. The PDF
-    is (re)written to disk unconditionally: on a hash match the bytes are
-    identical so the write is a no-op, and skipping it would need a branch
-    to handle nothing more than the rare case of a manually-deleted upload
-    folder.
+    is (re)written unconditionally: on a hash match the bytes are identical
+    so the write is a no-op, and skipping it would need a branch to handle
+    nothing more than the rare case of a manually-deleted upload folder.
     """
     sha256_hash = hashlib.sha256(content).hexdigest()
     document = db.query(Document).filter(Document.sha256_hash == sha256_hash).one_or_none()
@@ -52,12 +50,9 @@ def resolve_document(db: Session, filename: str, content: bytes) -> Document:
         )
         db.add(document)
 
-    doc_dir = os.path.join(get_config().document_storage_dir, document.id)
-    os.makedirs(doc_dir, exist_ok=True)
-    file_path = os.path.join(doc_dir, filename)
-    with open(file_path, "wb") as buffer:
-        buffer.write(content)
-    document.storage_uri = file_path
+    local_path, s3_uri = storage.save_pdf(document.id, filename, content)
+    document.storage_uri = local_path
+    document.s3_uri = s3_uri
     return document
 
 
@@ -115,19 +110,22 @@ def run_and_persist(project_id: str, document_ids: List[str]) -> None:
         start = time.time()
         total_llm_calls = 0
         per_document_summary = []
+        storage = DocumentStorage()
         for document_id in document_ids:
             document = db.get(Document, document_id)
             pdf_path = document.storage_uri
             index = PageIndex(load_pdf_as_pages(pdf_path))
             meta = detect_issuer_metadata(index)
-            items, llm_calls, diagnostics = extract_document_content(pdf_path)
-            total_llm_calls += llm_calls + 1  # +1 for detect_issuer_metadata
+            run_result = extract_document_content(pdf_path, document_id, storage)
+            total_llm_calls += run_result.llm_call_count + 1  # +1 for detect_issuer_metadata
 
             document.company_name = meta.get("issuer")
             document.period = meta.get("period")
+            document.document_type = meta.get("document_type")
+            document.validation_iterations = run_result.iterations_run
             db.query(LineItemRecord).filter(LineItemRecord.document_id == document_id).delete()
 
-            for line_item in items:
+            for line_item in run_result.line_items:
                 db.add(LineItemRecord(
                     document_id=document_id,
                     statement=line_item.statement.value,
@@ -143,12 +141,14 @@ def run_and_persist(project_id: str, document_ids: List[str]) -> None:
                     consolidated=line_item.consolidated,
                     page=line_item.page,
                     source_snippet=line_item.source_snippet,
+                    validation_errors=[flag.model_dump() for flag in line_item.validation_errors],
                 ))
             per_document_summary.append({
                 "document_id": document_id,
                 "company_name": meta.get("issuer"),
-                "line_items": len(items),
-                "diagnostics": diagnostics,
+                "line_items": len(run_result.line_items),
+                "iterations_run": run_result.iterations_run,
+                "diagnostics": run_result.diagnostics,
             })
 
         project.raw_result = {"documents": per_document_summary}

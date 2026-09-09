@@ -52,9 +52,14 @@ class Document(Base):
     filename = Column(String(255), nullable=False)
     company_name = Column(String(255), nullable=True)  # detected issuer; known only after extraction
     period = Column(String(64), nullable=True)  # detected fiscal period, e.g. "FY2024"; known only after extraction
+    document_type = Column(String(128), nullable=True)  # detected e.g. "Annual Report", "10-K"; known only after extraction
     storage_uri = Column(Text, nullable=False)
+    s3_uri = Column(Text, nullable=True)  # set only when the PDF was actually mirrored to S3
     page_count = Column(Integer, nullable=False)
     uploaded_at = Column(DateTime, default=datetime.utcnow)
+    # How many validate/correct/re-extract iterations the last run took (1-3,
+    # see fin_doc_intel.extraction) — null until a run has completed.
+    validation_iterations = Column(Integer, nullable=True)
 
     # Relationships
     line_items = relationship("LineItemRecord", back_populates="document", cascade="all, delete-orphan")
@@ -103,6 +108,9 @@ class LineItemRecord(Base):
     consolidated = Column(Boolean, nullable=True)
     page = Column(Integer, nullable=True)
     source_snippet = Column(Text, nullable=True)
+    # List of fin_doc_intel.fundamentals_pipeline.validators.ValidationFlag dicts
+    # ({check, severity, message}) still open after the last extraction attempt.
+    validation_errors = Column(JSON, nullable=False, default=list)
 
     # Relationships
     document = relationship("Document", back_populates="line_items")
