@@ -20,24 +20,24 @@ Each agent runs as an independent **FastAPI + Streamlit** stack with its own Pos
 ## Shared Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────┐
+┌─────────────────────────────────────────────────────────────────────────────────────────┐
 │  Gemini (gemini-3.5-flash-lite) + OpenAI-compatible gateway  ──►  Prompt | LLM | Parser │
-│         │                                    (JsonOutputParser)│
-│         ▼                                                       │
-│  ┌─────────────┐    ┌──────────────┐    ┌──────────────────┐  │
-│  │  Tool Loop  │───►│ PgPageIndex  │───►│  Postgres/pgvector│  │
-│  │ (search_pages,│    │ (per-assess) │    │  (chunks + embed) │  │
-│  │  get_page)   │    └──────────────┘    └──────────────────┘  │
-│  └─────────────┘         │                      │              │
-│         │                ▼                      ▼              │
-│         │        ┌──────────────┐    ┌──────────────────┐    │
-│         └───────►│ Deterministic│    │  Persistence     │    │
-│                  │  Analytics   │    │  (SQLAlchemy)    │    │
-│                  │ (ratios,     │    │  (audit trail,   │    │
-│                  │  scorecard,  │    │   versioning)    │    │
-│                  │  drift, etc) │    └──────────────────┘    │
-│                  └──────────────┘                              │
-└─────────────────────────────────────────────────────────────┘
+│         │                                    (JsonOutputParser)                         │
+│         ▼                                                                               │
+│  ┌─────────────┐    ┌──────────────┐    ┌────────────────────┐                          │
+│  │  Tool Loop  │───►│ PgPageIndex  │───►│  Postgres/pgvector │                          │
+│  │ (search_pages,│    │ (per-assess) │    │  (chunks + embed)│                          │
+│  │  get_page)   │    └──────────────┘    └───────────────────┘                          │
+│  └─────────────┘         │                      │                                       │
+│         │                ▼                      ▼                                       │
+│         │        ┌──────────────┐    ┌──────────────────┐                               │
+│         └───────►│ Deterministic│    │  Persistence     │                               │
+│                  │  Analytics   │    │  (SQLAlchemy)    │                               │
+│                  │ (ratios,     │    │  (audit trail,   │                               │
+│                  │  scorecard,  │    │   versioning)    │                               │
+│                  │  drift, etc) │    └──────────────────┘                               │
+│                  └──────────────┘                                                       │
+└─────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
 **Key Principles**
