@@ -1,0 +1,19 @@
+%%{init: {'theme': 'base', 'themeVariables': {'fontFamily': 'Arial, Helvetica, sans-serif', 'fontSize': '26px', 'primaryTextColor': '#111111', 'lineColor': '#000000', 'primaryBorderColor': '#000000', 'primaryColor': '#ffffff', 'edgeLabelBackground': '#ffffff'}, 'flowchart': {'htmlLabels': true, 'useMaxWidth': false, 'nodeSpacing': 60, 'rankSpacing': 90, 'curve': 'basis', 'padding': 32, 'diagramPadding': 16, 'wrappingWidth': 200}, 'sequence': {'actorFontSize': '26px', 'actorFontWeight': 'bold', 'messageFontSize': '22px', 'noteFontSize': '22px', 'noteFontWeight': 'bold', 'actorMargin': 180, 'width': 230, 'height': 70, 'boxMargin': 15, 'messageMargin': 70, 'noteMargin': 25}, 'er': {'fontSize': 26}, 'state': {'fontSize': 26}}}%%
+sequenceDiagram
+    participant E as Extractor Agent
+    participant TL as Tool Loop
+    participant PI as Page Index
+    participant LLM as LLM
+
+    E->>TL: Start extractor with schema and tools
+    TL->>LLM: System prompt and task prompt
+    LLM->>TL: Call search_pages(query, k)
+    TL->>PI: Semantic search on pgvector
+    PI-->>TL: Top k matching pages
+    TL->>LLM: Return tool result
+    LLM->>TL: Call get_page(page_number)
+    TL->>PI: Fetch full page text
+    PI-->>TL: Full page text
+    TL->>LLM: Return tool result
+    LLM-->>TL: Final strict JSON
+    TL-->>E: Parsed domain object

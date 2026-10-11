@@ -1,0 +1,18 @@
+%%{init: {'theme': 'base', 'themeVariables': {'fontFamily': 'Arial, Helvetica, sans-serif', 'fontSize': '26px', 'primaryTextColor': '#111111', 'lineColor': '#000000', 'primaryBorderColor': '#000000', 'primaryColor': '#ffffff', 'edgeLabelBackground': '#ffffff'}, 'flowchart': {'htmlLabels': true, 'useMaxWidth': false, 'nodeSpacing': 60, 'rankSpacing': 90, 'curve': 'basis', 'padding': 32, 'diagramPadding': 16, 'wrappingWidth': 200}, 'sequence': {'actorFontSize': '26px', 'actorFontWeight': 'bold', 'messageFontSize': '22px', 'noteFontSize': '22px', 'noteFontWeight': 'bold', 'actorMargin': 180, 'width': 230, 'height': 70, 'boxMargin': 15, 'messageMargin': 70, 'noteMargin': 25}, 'er': {'fontSize': 26}, 'state': {'fontSize': 26}}}%%
+sequenceDiagram
+    participant LI as Line Items
+    participant RA as Ratio Engine
+    participant BM as Benchmark Engine
+    participant TR as Trend Engine
+    participant SC as Scorecard Engine
+    participant OUT as Assessment Output
+
+    LI->>RA: Normalized financial values
+    RA-->>BM: Latest ratios
+    RA-->>TR: Multi period ratios
+    BM-->>SC: Sector position and material gaps
+    TR-->>SC: Trajectory and commentary signal
+    RA-->>SC: Liquidity leverage coverage and profitability
+    SC->>SC: Apply factor weights and severity
+    SC->>SC: Check hard stop rules
+    SC-->>OUT: Score grade band PD LGD EL and decision

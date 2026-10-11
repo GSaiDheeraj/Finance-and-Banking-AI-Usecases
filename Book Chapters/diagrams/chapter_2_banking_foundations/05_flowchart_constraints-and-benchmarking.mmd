@@ -1,0 +1,10 @@
+%%{init: {'theme': 'default', 'themeVariables': {'fontFamily': 'Arial, Helvetica, sans-serif', 'fontSize': '22px', 'primaryTextColor': '#000000', 'lineColor': '#000000'}, 'flowchart': {'htmlLabels': true, 'useMaxWidth': true, 'nodeSpacing': 70, 'rankSpacing': 80, 'curve': 'basis', 'padding': 15}}}%%
+flowchart TB
+    O[Client objectives and constraints] --> T[Target allocation]
+    H[Holdings and market data] --> V[Value positions]
+    V --> W[Current weights]
+    T --> D[Compare targets and allowed bands]
+    W --> D
+    D --> R[Proposed rebalance and risk checks]
+    R --> A[Advisor or committee review]
+    A --> X[Authorized execution outside the copilot]

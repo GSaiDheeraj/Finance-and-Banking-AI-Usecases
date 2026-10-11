@@ -1,0 +1,10 @@
+%%{init: {'theme': 'default', 'themeVariables': {'fontFamily': 'Arial, Helvetica, sans-serif', 'fontSize': '22px', 'primaryTextColor': '#000000', 'lineColor': '#000000'}, 'flowchart': {'htmlLabels': true, 'useMaxWidth': true, 'nodeSpacing': 70, 'rankSpacing': 80, 'curve': 'basis', 'padding': 15}}}%%
+flowchart TB
+    A[Untrusted PDF or web text] --> B[Extraction or retrieval sandbox]
+    B --> C[LLM proposes facts or tool calls]
+    C --> D[Validate schema, source, tenant, arguments]
+    D --> E{Authorized and safe?}
+    E -->|No| F[Reject, log, or route to review]
+    E -->|Yes, read only| G[Execute bounded read]
+    E -->|Yes, sensitive write| H[Human approval with exact target]
+    H --> I[Execute one approved action]

@@ -1,0 +1,17 @@
+%%{init: {'theme': 'base', 'themeVariables': {'fontFamily': 'Arial, Helvetica, sans-serif', 'fontSize': '26px', 'primaryTextColor': '#111111', 'lineColor': '#000000', 'primaryBorderColor': '#000000', 'primaryColor': '#ffffff', 'edgeLabelBackground': '#ffffff'}, 'flowchart': {'htmlLabels': true, 'useMaxWidth': false, 'nodeSpacing': 60, 'rankSpacing': 90, 'curve': 'basis', 'padding': 32, 'diagramPadding': 16, 'wrappingWidth': 200}, 'sequence': {'actorFontSize': '26px', 'actorFontWeight': 'bold', 'messageFontSize': '22px', 'noteFontSize': '22px', 'noteFontWeight': 'bold', 'actorMargin': 180, 'width': 230, 'height': 70, 'boxMargin': 15, 'messageMargin': 70, 'noteMargin': 25}, 'er': {'fontSize': 26}, 'state': {'fontSize': 26}}}%%
+flowchart TB
+    A["<b>1. Parties + edges</b><br/>P1 P2 persons + entities<br/>equity + control links"]
+    B["<b>2. Resolve applicant</b><br/>explicit id or APPLICANT role<br/>or single sink"]
+    C["<b>3. Traverse graph</b><br/>DFS owner to owned<br/>path product x 100"]
+    D["<b>4. Qualify UBOs</b><br/>ownership ge 25 pct<br/>or control role<br/>or senior official fallback"]
+    E["<b>5. Opacity flags</b><br/>nominee + bearer<br/>+ circular + depth"]
+    F["<b>6. Screen hits</b><br/>sanctions + PEP + adverse<br/>+ high and prohibited geography"]
+    G["<b>7. Apply 11 weights</b><br/>sanctions 100 + pep 30<br/>adverse 28 + SOW 26<br/>nominee 24 + bearer 24<br/>geography 20 + complex 16<br/>layering 16 + id gap 14 + offshore 10"]
+    H["<b>8. Severity mult</b><br/>low x 0.5<br/>medium x 1.0 + high x 1.5<br/>web hits discounted 1 notch"]
+    I["<b>9. Hard stops</b><br/>sanctions match<br/>or prohibited jurisdiction<br/>forces PROHIBITED"]
+    J["<b>10. Band score 0-100</b><br/>ge 50 HIGH + ge 25 MEDIUM<br/>else LOW"]
+    K["<b>11. Decision</b><br/>PROHIBITED DECLINE<br/>HIGH ESCALATE MLRO<br/>MEDIUM or EDD APPROVE WITH EDD<br/>else APPROVE STANDARD CDD"]
+    L["<b>12. EDD rationale</b><br/>LLM explains band<br/>triggers + UBOs + hits"]
+    A --> B --> C --> D --> E --> F --> G --> H --> I --> J --> K --> L
+    classDef step font-size:26px,font-weight:bold,stroke-width:3px;
+    class A,B,C,D,E,F,G,H,I,J,K,L step;

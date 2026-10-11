@@ -1,0 +1,46 @@
+%%{init: {'theme': 'base', 'themeVariables': {'fontFamily': 'Arial, Helvetica, sans-serif', 'fontSize': '26px', 'primaryTextColor': '#111111', 'lineColor': '#000000', 'primaryBorderColor': '#000000', 'primaryColor': '#ffffff', 'edgeLabelBackground': '#ffffff'}, 'flowchart': {'htmlLabels': true, 'useMaxWidth': false, 'nodeSpacing': 60, 'rankSpacing': 90, 'curve': 'basis', 'padding': 32, 'diagramPadding': 16, 'wrappingWidth': 200}, 'sequence': {'actorFontSize': '26px', 'actorFontWeight': 'bold', 'messageFontSize': '22px', 'noteFontSize': '22px', 'noteFontWeight': 'bold', 'actorMargin': 180, 'width': 230, 'height': 70, 'boxMargin': 15, 'messageMargin': 70, 'noteMargin': 25}, 'er': {'fontSize': 26}, 'state': {'fontSize': 26}}}%%
+flowchart TB
+    UI[Web UI or Streamlit UI]
+    API[FastAPI portfolio service]
+    DISK[Local upload storage]
+    DB[Postgres source of truth]
+    R0[Redis DB0 live phase]
+    R1[Redis DB1 broker backend]
+    DISP{USE CELERY flag}
+    BG[BackgroundTasks same process]
+    CW[Celery worker separate pod]
+    MON[Monitoring pipeline sequential]
+    CON[Construction pipeline sequential]
+    YF[yfinance free quotes history]
+    DDG[DuckDuckGo news search]
+    LG[LangGraph country research]
+    COM[Committees VLRT VCST SQL OF BMV]
+    LLM[LLM gateway language only]
+    UI --> API
+    API --> DISK
+    API --> DB
+    API --> R0
+    API --> DISP
+    DISP -->|No| BG
+    DISP -->|Yes| CW
+    CW <--> R1
+    BG --> MON
+    CW --> MON
+    BG --> CON
+    CW --> CON
+    MON --> YF
+    CON --> YF
+    MON --> DDG
+    CON --> DDG
+    MON --> LG
+    LG --> DDG
+    LG --> LLM
+    CON --> COM
+    COM --> LLM
+    MON --> LLM
+    CON --> LLM
+    MON --> DB
+    CON --> DB
+    MON --> R0
+    CON --> R0
+    classDef default font-size:26px,font-weight:bold,stroke-width:3px;

@@ -1,0 +1,105 @@
+%%{init: {'theme': 'base', 'themeVariables': {'fontFamily': 'Arial, Helvetica, sans-serif', 'fontSize': '26px', 'primaryTextColor': '#111111', 'lineColor': '#000000', 'primaryBorderColor': '#000000', 'primaryColor': '#ffffff', 'edgeLabelBackground': '#ffffff'}, 'flowchart': {'htmlLabels': true, 'useMaxWidth': false, 'nodeSpacing': 60, 'rankSpacing': 90, 'curve': 'basis', 'padding': 32, 'diagramPadding': 16, 'wrappingWidth': 200}, 'sequence': {'actorFontSize': '26px', 'actorFontWeight': 'bold', 'messageFontSize': '22px', 'noteFontSize': '22px', 'noteFontWeight': 'bold', 'actorMargin': 180, 'width': 230, 'height': 70, 'boxMargin': 15, 'messageMargin': 70, 'noteMargin': 25}, 'er': {'fontSize': 26}, 'state': {'fontSize': 26}}}%%
+erDiagram
+    ASSESSMENT_VERSIONS ||--o{ ASSESSMENT_VERSIONS : "parent_version_id (rerun)"
+    ASSESSMENT_VERSIONS ||--o{ ASSESSMENT_DOCUMENTS : has
+    ASSESSMENT_VERSIONS ||--o{ PAGE_CHUNKS : indexes
+    ASSESSMENT_DOCUMENTS ||--o{ PAGE_CHUNKS : produces
+    ASSESSMENT_VERSIONS ||--o{ LINE_ITEMS : extracts
+    ASSESSMENT_VERSIONS ||--o{ RATIOS : computes
+    ASSESSMENT_VERSIONS ||--o{ RATING_FACTORS : scores
+    ASSESSMENT_VERSIONS ||--|| CREDIT_MEMOS : drafts
+    ASSESSMENT_VERSIONS ||--o{ REVIEWS : receives
+
+    ASSESSMENT_VERSIONS {
+        string id PK
+        string parent_version_id FK "self, nullable"
+        string status
+        string company_name
+        string ticker
+        string model_name
+        string embed_model_name
+        string grade
+        string band
+        string decision
+        decimal probability_of_default
+        decimal loss_given_default
+        decimal expected_loss_pct
+        string hard_stop_reason
+        jsonb raw_result "notes, benchmark, trend, web sentiment, reconciliation"
+        jsonb reasoning
+        string requested_by
+        datetime requested_at
+        datetime completed_at
+    }
+    ASSESSMENT_DOCUMENTS {
+        string id PK
+        string assessment_version_id FK
+        string filename
+        string storage_uri
+        string sha256_hash
+        int page_count
+    }
+    PAGE_CHUNKS {
+        string id PK
+        string assessment_version_id FK
+        string document_id FK "nullable"
+        int page_number "global across the pack"
+        string doc_name
+        string text
+        vector embedding "pgvector"
+    }
+    LINE_ITEMS {
+        string id PK
+        string assessment_version_id FK
+        string label
+        string standardised_label
+        decimal value
+        string currency
+        string unit
+        string period
+        string statement_type
+        int page
+        string source_snippet
+    }
+    RATIOS {
+        string id PK
+        string assessment_version_id FK
+        string period
+        string ratio_name
+        decimal value
+        string category
+        jsonb inputs_used
+        jsonb missing_inputs
+        jsonb pages
+    }
+    RATING_FACTORS {
+        string id PK
+        string assessment_version_id FK
+        string factor_type
+        boolean present
+        string severity
+        decimal weight
+        decimal contribution
+        jsonb evidence
+        jsonb pages
+    }
+    CREDIT_MEMOS {
+        string id PK
+        string assessment_version_id FK "unique"
+        string executive_summary
+        string financial_analysis
+        jsonb key_strengths
+        jsonb key_risks
+        jsonb mitigants
+        jsonb recommended_covenants
+        jsonb monitoring_triggers
+    }
+    REVIEWS {
+        string id PK
+        string assessment_version_id FK
+        string reviewer
+        string action "approved | corrected | rejected"
+        jsonb corrected_fields
+        string reason
+        datetime reviewed_at
+    }

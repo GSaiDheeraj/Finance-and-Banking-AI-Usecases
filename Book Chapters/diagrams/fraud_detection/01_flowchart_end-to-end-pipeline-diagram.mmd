@@ -1,0 +1,20 @@
+%%{init: {'theme': 'base', 'themeVariables': {'fontFamily': 'Arial, Helvetica, sans-serif', 'fontSize': '26px', 'primaryTextColor': '#111111', 'lineColor': '#000000', 'primaryBorderColor': '#000000', 'primaryColor': '#ffffff', 'edgeLabelBackground': '#ffffff'}, 'flowchart': {'htmlLabels': true, 'useMaxWidth': false, 'nodeSpacing': 60, 'rankSpacing': 90, 'curve': 'basis', 'padding': 32, 'diagramPadding': 16, 'wrappingWidth': 200}, 'sequence': {'actorFontSize': '26px', 'actorFontWeight': 'bold', 'messageFontSize': '22px', 'noteFontSize': '22px', 'noteFontWeight': 'bold', 'actorMargin': 180, 'width': 230, 'height': 70, 'boxMargin': 15, 'messageMargin': 70, 'noteMargin': 25}, 'er': {'fontSize': 26}, 'state': {'fontSize': 26}}}%%
+flowchart TB
+    S["<b>1. Submit</b><br/>client_name + case_type<br/>+ KYC PDFs if documents"]
+    A["<b>2. Accept fast</b><br/>mint case_id + save uploads<br/>return queued, no DB write"]
+    B["<b>3A. Document branch</b><br/>PageIndex over pack text<br/>4 LLM: structure + SOW<br/>+ identity + metadata"]
+    C["<b>3B. Name-search branch</b><br/>8-angle OSINT collect<br/>profile LLM + bridge<br/>to parties + web hits"]
+    D["<b>4. Resolve UBOs</b><br/>DFS path products<br/>threshold 25 pct + control roles"]
+    E["<b>5. Screen lists</b><br/>0.85 token-set match<br/>PEP + sanctions + adverse<br/>+ geography tier"]
+    F["<b>6. Score 11 factors</b><br/>weights + severity mult<br/>band + triggers + hard stops"]
+    G["<b>7. EDD narrative</b><br/>LLM from compact<br/>scorecard JSON only"]
+    H["<b>8. Version + store</b><br/>analysis folder + Postgres<br/>cases + ubos + hits<br/>+ measures + system review"]
+    I["<b>9. Poll + read</b><br/>GET status + result<br/>+ clients + history"]
+    S --> A
+    A --> B
+    A --> C
+    B --> D
+    C --> D
+    D --> E --> F --> G --> H --> I
+    classDef step font-size:26px,font-weight:bold,stroke-width:3px;
+    class S,A,B,C,D,E,F,G,H,I step;

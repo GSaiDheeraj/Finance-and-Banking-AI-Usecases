@@ -1,0 +1,17 @@
+%%{init: {'theme': 'base', 'themeVariables': {'fontFamily': 'Arial, Helvetica, sans-serif', 'fontSize': '26px', 'primaryTextColor': '#111111', 'lineColor': '#000000', 'primaryBorderColor': '#000000', 'primaryColor': '#ffffff', 'edgeLabelBackground': '#ffffff'}, 'flowchart': {'htmlLabels': true, 'useMaxWidth': false, 'nodeSpacing': 60, 'rankSpacing': 90, 'curve': 'basis', 'padding': 32, 'diagramPadding': 16, 'wrappingWidth': 200}, 'sequence': {'actorFontSize': '26px', 'actorFontWeight': 'bold', 'messageFontSize': '22px', 'noteFontSize': '22px', 'noteFontWeight': 'bold', 'actorMargin': 180, 'width': 230, 'height': 70, 'boxMargin': 15, 'messageMargin': 70, 'noteMargin': 25}, 'er': {'fontSize': 26}, 'state': {'fontSize': 26}}}%%
+flowchart TB
+    A["<b>CASES</b><br/>risk score + band<br/>+ decision header"]
+    B["<b>CASES history</b><br/>client version list<br/>+ storage path"]
+    C["<b>UBOS</b><br/>ownership + UBO section<br/>pct + basis + roles"]
+    D["<b>WATCHLIST_HITS</b><br/>screening results<br/>PEP sanctions adverse"]
+    E["<b>EDD_MEASURES</b><br/>EDD action list<br/>+ rationale text"]
+    F["<b>REVIEWS</b><br/>system review metadata<br/>+ action + reason"]
+    G["<b>raw_result + reasoning</b><br/>detailed evidence<br/>+ step trace"]
+    A --> H["<b>Result tab</b><br/>header + band + decision"]
+    B --> I["<b>Historical KYC tab</b><br/>version timeline"]
+    C --> H
+    D --> H
+    E --> H
+    F --> I
+    G --> J["<b>Evidence view</b><br/>factors + pages + hits"]
+    classDef default font-size:26px,font-weight:bold,stroke-width:3px;

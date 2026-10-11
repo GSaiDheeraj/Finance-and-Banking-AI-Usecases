@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fraud-detection-api
+  labels:
+    app: fraud-detection-api
+spec:
+  # Single replica for now: uploaded documents are written to the pod's local disk
+  # (DOCUMENT_STORAGE_DIR, onboarding_risk/api/routes.py::_save_uploads) — a second replica,
+  # or even a rolling pod replacement, would not see documents an earlier pod received.
+  # Raise this once document storage moves to an object store or a ReadWriteMany PVC;
+  # until then, scaling out would silently lose uploads that land on the "wrong" pod.
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: fraud-detection-api
+  template:
+    metadata:
+      labels:
+        app: fraud-detection-api
+    spec:
+      containers:
+        - name: fraud-detection-api
+          # Replaced by the CI pipeline with the actual built tag (ghcr.io/<owner>/<repo>:<sha>);
+          # this placeholder is only here so the manifest is valid YAML on its own.
+          image: ghcr.io/OWNER/REPO:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: fraud-detection-config
+            - secretRef:
+                name: fraud-detection-secrets
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 3
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 20
+            timeoutSeconds: 5
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "256Mi"
+            limits:
+              cpu: "1"
+              memory: "1Gi"

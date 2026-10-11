@@ -1,0 +1,88 @@
+erDiagram
+    PORTFOLIO_RUNS ||--o{ PORTFOLIO_RUNS : "parent_run_id rerun"
+    PORTFOLIO_RUNS ||--o{ PORTFOLIO_DOCUMENTS : "has"
+    PORTFOLIO_RUNS ||--o{ HOLDINGS : "snapshots"
+    PORTFOLIO_RUNS ||--o{ ALERTS : "raises"
+    PORTFOLIO_RUNS ||--o{ REBALANCING_TRADES : "proposes"
+    PORTFOLIO_RUNS ||--o| BRIEFINGS : "summarizes unique"
+    PORTFOLIO_RUNS ||--o{ REVIEWS : "receives"
+
+    PORTFOLIO_RUNS {
+        uuid id PK
+        uuid parent_run_id FK "rerun only, nullable"
+        string status "created, processing, awaiting_review, validation_review, approved, rejected"
+        string result_type "monitoring | construction"
+        string portfolio_name
+        string client_name "nullable"
+        string mandate "balanced default"
+        string base_currency "USD, label only"
+        string mode "det | llm | both"
+        boolean enable_news
+        string question "nullable"
+        string answer "latest only"
+        string instruction "rerun only"
+        jsonb construction_params "nullable"
+        string model_name "nullable"
+        float health_score "nullable"
+        string health_band "nullable"
+        float latency_ms "nullable"
+        int llm_call_count "nullable"
+        jsonb raw_result "full result dump"
+        jsonb reasoning "step strings"
+        string requested_by
+        datetime requested_at
+        datetime completed_at "success only"
+    }
+    PORTFOLIO_DOCUMENTS {
+        uuid id PK
+        uuid portfolio_run_id FK
+        string filename
+        string storage_uri "abspath"
+        string sha256_hash
+        string doc_type "holdings | transactions | statement"
+    }
+    HOLDINGS {
+        uuid id PK
+        uuid portfolio_run_id FK
+        string symbol
+        string name "nullable"
+        string asset_class "nullable"
+        string sector "nullable"
+        string region "nullable"
+        string currency "nullable"
+        float quantity
+        float market_value "priced snapshot"
+    }
+    ALERTS {
+        uuid id PK
+        uuid portfolio_run_id FK
+        string alert_type
+        string severity
+        string title
+        string message "detail"
+        string recommended_action "nullable"
+    }
+    REBALANCING_TRADES {
+        uuid id PK
+        uuid portfolio_run_id FK
+        string bucket
+        string action "hold | buy | sell"
+        float trade_value "signed"
+        string rationale "nullable"
+    }
+    BRIEFINGS {
+        uuid id PK
+        uuid portfolio_run_id FK "unique"
+        string method "deterministic default"
+        string executive_summary "nullable"
+        jsonb key_findings "actions + watch"
+    }
+    REVIEWS {
+        uuid id PK
+        uuid portfolio_run_id FK
+        string reviewer
+        string action "approved | rejected"
+        jsonb corrected_fields "nullable"
+        string reason "nullable"
+        datetime reviewed_at
+    }

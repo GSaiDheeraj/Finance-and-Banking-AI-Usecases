@@ -1,0 +1,16 @@
+%%{init: {'theme': 'base', 'themeVariables': {'fontFamily': 'Arial, Helvetica, sans-serif', 'fontSize': '22px', 'primaryTextColor': '#111111', 'lineColor': '#222222', 'primaryBorderColor': '#222222'}, 'flowchart': {'htmlLabels': true, 'useMaxWidth': true, 'nodeSpacing': 80, 'rankSpacing': 100, 'curve': 'basis', 'padding': 22}, 'sequence': {'actorFontSize': '22px', 'actorFontWeight': 'bold', 'messageFontSize': '20px', 'noteFontSize': '20px', 'noteFontWeight': 'bold', 'actorMargin': 180, 'width': 230, 'height': 70, 'boxMargin': 15, 'messageMargin': 70, 'noteMargin': 25}, 'er': {'fontSize': 22}, 'state': {'fontSize': 22}}}%%
+stateDiagram-v2
+    [*] --> received
+    received --> validating
+    validating --> needs_ocr: scanned_and_ocr_supported
+    validating --> extracting: readable
+    validating --> validation_review: unsupported_or_empty
+    needs_ocr --> extracting: ocr_success
+    needs_ocr --> validation_review: ocr_failure
+    extracting --> computing: evidence_validated
+    extracting --> validation_review: unresolved_conflict
+    computing --> awaiting_review
+    awaiting_review --> approved: authorized_approval
+    awaiting_review --> rejected: authorized_rejection
+    awaiting_review --> correction_requested: reviewer_correction
+    correction_requested --> extracting: new_version_or_rerun

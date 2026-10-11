@@ -1,0 +1,8 @@
+%%{init: {'theme': 'default', 'themeVariables': {'fontFamily': 'Arial, Helvetica, sans-serif', 'fontSize': '22px', 'primaryTextColor': '#000000', 'lineColor': '#000000'}, 'flowchart': {'htmlLabels': true, 'useMaxWidth': true, 'nodeSpacing': 70, 'rankSpacing': 80, 'curve': 'basis', 'padding': 15}}}%%
+flowchart TB
+    C[Customer or business] -->|Application, documents, instructions| B[Bank or financial institution]
+    B -->|Account, credit, investment service| C
+    B -->|Reports, controls, supervisory information| R[Regulator or supervisor]
+    R -->|Rules, oversight, examinations| B
+    B <-->|Market data, identity, screening, technology| S[Service providers]
+    B -->|Internal review and audit trail| G[Risk, compliance, audit]

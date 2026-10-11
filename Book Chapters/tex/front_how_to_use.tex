@@ -1,0 +1,29 @@
+\chapter*{How to Use This Book}
+
+\section*{How to Use This Book}
+
+\subsection*{For Interview Preparation}
+
+\begin{enumerate}
+\item \textbf{Read the business context first.} Identify the customer, the user, the decision-maker, and the operational pain point before thinking about a model or framework.
+\item \textbf{Pause after the opening prompt.} Write down the questions you would ask the interviewer: inputs, outputs, required controls, data quality, latency, scale, and success metrics.
+\item \textbf{Work through the conversation actively.} Before reading a candidate response, answer the interviewer's question aloud or on paper.
+\item \textbf{Study the solution strategy closely.} Notice how the candidate separates evidence interpretation from arithmetic and policy, and how they distinguish what is implemented from what is still proposed.
+\item \textbf{Treat follow-up challenges as practice questions.} When the interviewer asks ``Why not use one LLM call?'' or ``What happens if the document is scanned?'', defend your answer with a mechanism, a trade-off, and a failure path.
+\item \textbf{Reconstruct the design without looking.} Sketch its workflow, data model, review gate, and observability plan, then compare your version with the chapter.
+\end{enumerate}
+A strong interview answer is not a long list of tools. It is a clear explanation of what the business needs, what the system can prove, where it might fail, and who remains responsible.
+
+\subsection*{For Production Architects}
+
+\begin{enumerate}
+\item \textbf{Start with Chapters 1--2.} Align on the trust boundary among language generation, deterministic decisions, external actions, and human accountability.
+\item \textbf{Choose the closest case study in Chapters 3--6.} Follow its data from input to evidence to calculation to stored result and review.
+\item \textbf{Separate current code from target architecture.} Treat documented limitations as design constraints, not as features that have somehow already been delivered.
+
+\end{enumerate}
+\subsection*{For Code Reference}
+
+Each case study's \textbf{Low-Level Design} explains modules, interfaces, lifecycle, error handling, and orchestration. Its \textbf{Data Modeling} section shows how entities relate, what is stored, and how run or case lineage is maintained. Read both together: a diagram that shows a page index or a review record should correspond to an actual write path, or the chapter should say clearly that it is only a target design.
+
+Look particularly closely at the \textbf{Solution Strategy and Pipeline Logic} discussion. That is where the candidate explains why each stage exists, what data moves into it, what comes out, and whether an LLM, an agent, a deterministic function, or a person owns it. The later design sections make that reasoning concrete through diagrams, schemas, and operational details.

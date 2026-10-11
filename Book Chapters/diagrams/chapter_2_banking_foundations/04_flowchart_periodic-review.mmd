@@ -1,0 +1,12 @@
+%%{init: {'theme': 'base', 'themeVariables': {'fontFamily': 'Arial, Helvetica, sans-serif', 'fontSize': '22px', 'primaryTextColor': '#111111', 'lineColor': '#222222', 'primaryBorderColor': '#222222'}, 'flowchart': {'htmlLabels': true, 'useMaxWidth': true, 'nodeSpacing': 80, 'rankSpacing': 100, 'curve': 'basis', 'padding': 22}, 'sequence': {'actorFontSize': '22px', 'actorFontWeight': 'bold', 'messageFontSize': '20px', 'noteFontSize': '20px', 'noteFontWeight': 'bold', 'actorMargin': 180, 'width': 230, 'height': 70, 'boxMargin': 15, 'messageMargin': 70, 'noteMargin': 25}, 'er': {'fontSize': 22}, 'state': {'fontSize': 22}}}%%
+flowchart TB
+    A[Identify customer and purpose] --> B[Verify identity]
+    B --> C[Map ownership and control]
+    C --> D[Understand wealth and transaction funds]
+    D --> E[Screen PEP, sanctions, geography, adverse media]
+    E --> F[Apply documented risk policy]
+    F --> G{Higher risk or unresolved match?}
+    G -->|Yes| H[EDD, independent review, approval as required]
+    G -->|No| I[Standard CDD route]
+    H --> J[Ongoing monitoring and periodic refresh]
+    I --> J

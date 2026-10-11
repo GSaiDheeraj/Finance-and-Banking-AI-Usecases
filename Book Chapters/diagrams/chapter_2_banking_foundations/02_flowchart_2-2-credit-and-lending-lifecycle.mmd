@@ -1,0 +1,15 @@
+%%{init: {'theme': 'default', 'themeVariables': {'fontFamily': 'Arial, Helvetica, sans-serif', 'fontSize': '22px', 'primaryTextColor': '#000000', 'lineColor': '#000000'}, 'flowchart': {'htmlLabels': true, 'useMaxWidth': true, 'nodeSpacing': 70, 'rankSpacing': 80, 'curve': 'basis', 'padding': 15}}}%%
+flowchart TB
+    A[Customer acquisition] --> B[Application]
+    B --> C[Documents and KYC]
+    C --> D[Financial analysis]
+    D --> E[Credit assessment]
+    E --> F[Credit memo]
+    F --> G[Independent review or committee]
+    G --> H{Approved?}
+    H -->|Yes| I[Documentation and disbursement]
+    H -->|No or more information| C
+    I --> J[Monitoring and renewal]
+    J --> K{Payment stress?}
+    K -->|No| J
+    K -->|Yes| L[Delinquency, workout, recovery]

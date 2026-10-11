@@ -1,0 +1,115 @@
+\chapter*{Preface}
+
+% \section*{The Problem This Book Solves}
+
+% Enterprise AI adoption in banking and financial services faces a particular challenge. Large language models can interpret documents, summarize evidence, and draft clear prose, but fluent output is not the same as a verified calculation, an authorized decision, or an auditable action. Too many projects treat the model as if it were the whole system. The result can be an attractive demonstration that cannot explain where a number came from, recover from a failed workflow, or show who approved a consequential outcome.
+
+% This book approaches agentic AI as a system-design problem. It separates work suited to language models and bounded agents---searching, extraction, classification, explanation, and carefully constrained candidate selection---from work that belongs to deterministic software and accountable people: arithmetic, policy thresholds, scoring, guardrails, authorization, final decisions, and execution.
+
+% \begin{quote}
+% \textbf{Core principle:} LLMs and bounded agents help interpret evidence and propose next steps. Deterministic code enforces calculations and policy. Authorized people remain accountable for consequential decisions.
+% \end{quote}
+% That principle does not mean every useful system must be fully autonomous. Some of the case studies use fixed, multi-step workflows with model-assisted stages; others allow bounded evidence-seeking or research. Calling every pipeline an ``agent'' would obscure the engineering. The chapters therefore ask what the model actually controls, which tools it can use, and where its authority ends.
+
+% The examples also distinguish a working implementation from a proposed production target. A schema declared in a repository is not necessarily populated. A configured dependency is not necessarily used. A user interface may display a broad product vision while the current backend supports a narrower capability. Recognizing those differences is part of designing responsibly.
+
+\section*{The Problem This Book Solves}
+
+Agentic AI is often taught through generic assistants, toy workflows, and isolated demonstrations. Such examples may explain a technology, but they rarely show how to solve a complete banking, financial-services, or insurance problem. In BFSI, a useful system must understand the business process, preserve evidence, perform critical calculations reliably, respect policy boundaries, support human review, and remain explainable when its output influences a financial decision.
+
+This book bridges the gap between learning Agentic AI tools and applying them to realistic BFSI use cases. It presents a repeatable approach for moving from an ambiguous business problem to an implemented, production-oriented solution. The approach begins with business discovery and continues through requirements, success metrics, data contracts, workflow design, high-level architecture, low-level design, evaluation, deployment, and operational controls.
+
+The book helps readers answer practical questions that are commonly missed in technology-focused tutorials:
+
+\begin{itemize}
+  \item What business decision does the system support, and who owns that decision?
+  \item Which steps require an LLM or an agent, and which should use deterministic software?
+  \item How should documents, evidence, calculations, workflow state, and review history be represented?
+  \item How should the system behave when information is missing, contradictory, scanned, stale, or unreliable?
+  \item How can an architecture be defended in a case-study or system-design interview?
+\end{itemize}
+
+The case studies do not stop at conceptual diagrams. They explain the business context, users, requirements, inputs, pipeline logic, system architecture, module-level design, APIs, data models, validation, failure handling, evaluation, security, deployment considerations, current limitations, and future enhancements.
+
+Through these implemented solutions, the book serves four purposes:
+
+\begin{itemize}
+  \item \textbf{BFSI problem solving:} Learn a structured method for applying Agentic AI to banking and financial-services workflows.
+  \item \textbf{System-design preparation:} Learn to discuss architecture, orchestration, data modeling, controls, reliability, and trade-offs.
+  \item \textbf{Case-study preparation:} Practise converting a vague prompt into a well-scoped and defensible solution.
+  \item \textbf{Portfolio development:} Build realistic projects that can be demonstrated and discussed during interviews.
+\end{itemize}
+
+A principle runs through every chapter: models are valuable for finding, interpreting, structuring, and explaining unstructured evidence. Deterministic software should control financial calculations, ownership percentages, ratios, allocations, thresholds, scores, hard stops, and policy rules. Authorized professionals must remain accountable for consequential decisions.
+
+\newpage
+
+\section*{Who This Book Is For}
+
+This book is intended for readers who want to build, understand, or discuss practical Agentic AI systems in the BFSI domain. It is written for both early-career learners seeking realistic projects and experienced professionals seeking a structured understanding of financial-services problems, controls, and solution architecture.
+
+\subsection*{Students, Freshers, and Early-Career Engineers}
+
+Students, fresh graduates, and early-career professionals can use the book to build domain-specific projects instead of another generic chatbot or document-question-answering demonstration. Each case study supplies the business context needed to explain why the project matters, the architecture needed to show how it works, and the implementation detail needed to defend technical choices.
+
+The book is particularly useful for candidates preparing for software engineering, data science, machine learning, Generative AI, applied AI, and backend engineering roles in banks, fintech companies, insurance organizations, consulting firms, and financial-technology teams. Readers can use the projects to practise requirement discovery, API design, data modeling, LLM integration, deterministic validation, evaluation, and production hardening.
+
+\subsection*{Experienced Technical Professionals}
+
+Engineers, data scientists, architects, consultants, technical leads, and product professionals can use the book to understand how BFSI systems differ from general-purpose AI applications. The chapters explain the stakeholders, business vocabulary, decision boundaries, evidence requirements, audit expectations, and failure modes that shape solutions in financial-document processing, credit assessment, customer onboarding, and investment research.
+
+For professionals moving into BFSI, the book provides a practical bridge between technical expertise and domain understanding. It helps readers recognize what the business is trying to achieve, which team owns the final decision, what information must be retained, and why apparently simple AI features require controls in a financial environment.
+
+\subsection*{BFSI Professionals Exploring Agentic AI}
+
+Business analysts, risk professionals, operations specialists, and domain consultants can use the book to understand how Agentic AI solutions are translated into workflows, components, APIs, data stores, and evaluation plans. The emphasis on plain business discovery before architecture makes the material accessible even when the reader does not implement every module personally.
+
+\subsection*{Interview Candidates}
+
+The interview-style case studies are designed for candidates preparing for case-study, system-design, architecture, and project-discussion rounds. They demonstrate how to avoid jumping immediately to a technology stack. Instead, the candidate first clarifies the business objective, identifies users and decision owners, defines functional and non-functional requirements, examines the available data, establishes safety boundaries, and only then proposes the solution.
+
+The book is most valuable to readers who want to do more than memorize architecture diagrams. It is for those who want to explain why a component exists, what could fail, how the output is validated, where human review is required, and how a prototype would evolve into a production system.
+
+\newpage
+
+\section*{How to Use This Book}
+
+The book can be read sequentially or used selectively according to the reader's background and objective. The recommended path is to learn the foundations first, study one case at a time, inspect the corresponding code, and then practise explaining the solution without referring to the chapter.
+
+\subsection*{Build the Foundations}
+
+Readers new to production Agentic AI should begin with the technical foundations. Readers new to financial services should then study the BFSI foundations. These chapters provide the concepts and vocabulary needed to understand why the later case studies separate language tasks, deterministic calculations, policy controls, and human authorization.
+
+\subsection*{Read Every Case in Layers}
+
+For each case study, follow this sequence:
+
+\begin{enumerate}
+  \item \textbf{Business context:} Identify the user, workflow, objective, and accountable decision-maker.
+  \item \textbf{Requirements:} Separate mandatory capabilities from optional enhancements and define success metrics.
+  \item \textbf{Data and evidence:} Examine inputs, metadata, reference data, external sources, and provenance.
+  \item \textbf{Solution strategy:} Decide what belongs to LLMs, agents, deterministic code, and human reviewers.
+  \item \textbf{System design:} Study the architecture, request lifecycle, modules, APIs, storage, and data model.
+  \item \textbf{Reliability:} Review validation, retries, edge cases, evaluation, observability, and deployment limits.
+  \item \textbf{Scope boundaries:} Distinguish implemented functionality from proposed future enhancements.
+\end{enumerate}
+
+\subsection*{Use It for Projects}
+
+Freshers should select one case study and implement it end to end before combining multiple use cases. Do not present the project as a list of technologies. Be prepared to explain the business problem, stakeholders, input and output contracts, complete processing lifecycle, agent boundaries, deterministic calculations, evidence lineage, failure handling, evaluation approach, limitations, and production roadmap.
+
+\subsection*{Use It for Interviews}
+
+Before reading a proposed solution, attempt to solve the opening problem independently. Rehearse each case at three depths:
+
+\begin{itemize}
+  \item \textbf{Two-minute overview:} Business problem, users, workflow, and safety boundary.
+  \item \textbf{Ten-minute design:} Requirements, architecture, data flow, components, and major trade-offs.
+  \item \textbf{Deep discussion:} APIs, schemas, orchestration, persistence, validation, security, evaluation, scaling, and failure recovery.
+\end{itemize}
+
+Prepare for questions such as: Why is an agent needed? Why is a particular calculation not delegated to the LLM? What happens when retrieval fails? How are hallucinations controlled? How is a result traced to its evidence? Which choices are prototype limitations? How would the design change at production scale?
+
+\subsection*{Connect Design With Code}
+
+Use the chapters together with the accompanying GitHub repository. The text explains business reasoning.

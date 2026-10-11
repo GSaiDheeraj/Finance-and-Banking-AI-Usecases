@@ -1,0 +1,12 @@
+%%{init: {'theme': 'base', 'themeVariables': {'fontFamily': 'Arial, Helvetica, sans-serif', 'fontSize': '22px', 'primaryTextColor': '#111111', 'lineColor': '#222222', 'primaryBorderColor': '#222222'}, 'flowchart': {'htmlLabels': true, 'useMaxWidth': true, 'nodeSpacing': 80, 'rankSpacing': 100, 'curve': 'basis', 'padding': 22}, 'sequence': {'actorFontSize': '22px', 'actorFontWeight': 'bold', 'messageFontSize': '20px', 'noteFontSize': '20px', 'noteFontWeight': 'bold', 'actorMargin': 180, 'width': 230, 'height': 70, 'boxMargin': 15, 'messageMargin': 70, 'noteMargin': 25}, 'er': {'fontSize': 22}, 'state': {'fontSize': 22}}}%%
+flowchart TB
+    A[Receive PDF] --> B[Check type, size, integrity, access]
+    B --> C{Usable text layer?}
+    C -->|Yes| D[Extract page text and tables]
+    C -->|No or mixed pages| E{OCR available?}
+    E -->|Yes| F[Render affected pages and OCR]
+    E -->|No| G[Return explicit unsupported or validation status]
+    D --> H[Preserve headings, tables, page references]
+    F --> H
+    H --> I[Classify and extract fields]
+    I --> J[Validate against source and schema]

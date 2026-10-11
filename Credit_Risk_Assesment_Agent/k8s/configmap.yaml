@@ -1,0 +1,34 @@
+# Non-sensitive runtime configuration for the credit-risk API.
+#
+# Postgres and Redis are external/managed here (per the approved plan) — this ConfigMap
+# only points the app at wherever they already run; it doesn't stand them up. Replace
+# PG_HOST/REDIS_HOST with your actual managed instances (a cloud DB host, a shared Redis
+# service, etc.) before applying.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: credit-risk-config
+  labels:
+    app: credit-risk-api
+data:
+  PG_HOST: "postgres.example.internal"
+  PG_PORT: "5432"
+  PG_DATABASE: "credit_risk"
+  EMBED_DIM: "1536"
+
+  REDIS_HOST: "redis.example.internal"
+  REDIS_PORT: "6379"
+  REDIS_DB: "0"
+
+  CREDIT_RISK_API_HOST: "0.0.0.0"
+  CREDIT_RISK_API_PORT: "8000"
+  # DOCUMENT_STORAGE_DIR uses the container's local filesystem — see deployment.yaml's
+  # `replicas: 1` comment for why this doesn't yet scale past one pod.
+  DOCUMENT_STORAGE_DIR: "/app/data/documents"
+
+  CREDIT_RISK_LOG_LEVEL: "INFO"
+  YF_DISCREPANCY_TOL: "0.02"
+  OSINT_REGION: "wt-wt"
+  OSINT_MAX_RESULTS: "5"
+  OSINT_TIMEOUT: "10"
+  OSINT_DEBUG: "0"

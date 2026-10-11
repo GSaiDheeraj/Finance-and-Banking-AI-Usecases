@@ -1,0 +1,14 @@
+date,type,symbol,amount,currency,note
+2025-07-15,dividend,AAPL,1000.00,USD,Q3 dividend (lower than expected)
+2025-10-15,dividend,MSFT,1800.00,USD,Q4 dividend
+2025-09-30,dividend,VTI,2100.00,USD,quarterly distribution
+2025-12-20,dividend,JPM,1600.00,USD,special + regular dividend
+2025-11-10,dividend,XOM,1200.00,USD,quarterly dividend
+2025-08-31,interest,BIL,2900.00,USD,T-bill interest accrual
+2025-09-30,coupon,AGG,5500.00,USD,bond fund distribution
+2025-09-30,coupon,TLT,1400.00,USD,treasury distribution
+2025-12-15,dividend,VNQ,900.00,USD,REIT distribution
+2026-01-31,fee,,-12500.00,USD,annual management fee
+2026-02-15,withdrawal,,-50000.00,USD,client withdrawal
+2025-10-01,contribution,,25000.00,USD,client top-up
+2025-12-31,tax,,-1800.00,USD,dividend withholding tax

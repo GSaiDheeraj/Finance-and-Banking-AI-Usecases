@@ -1,0 +1,56 @@
+%%{init: {'theme': 'base', 'themeVariables': {'fontFamily': 'Arial, Helvetica, sans-serif', 'fontSize': '26px', 'primaryTextColor': '#111111', 'lineColor': '#000000', 'primaryBorderColor': '#000000', 'primaryColor': '#ffffff', 'edgeLabelBackground': '#ffffff'}, 'flowchart': {'htmlLabels': true, 'useMaxWidth': false, 'nodeSpacing': 60, 'rankSpacing': 90, 'curve': 'basis', 'padding': 32, 'diagramPadding': 16, 'wrappingWidth': 200}, 'sequence': {'actorFontSize': '26px', 'actorFontWeight': 'bold', 'messageFontSize': '22px', 'noteFontSize': '22px', 'noteFontWeight': 'bold', 'actorMargin': 180, 'width': 230, 'height': 70, 'boxMargin': 15, 'messageMargin': 70, 'noteMargin': 25}, 'er': {'fontSize': 26}, 'state': {'fontSize': 26}}}%%
+erDiagram
+    PROJECTS ||--o{ PROJECT_DOCUMENTS : contains
+    DOCUMENTS ||--o{ PROJECT_DOCUMENTS : linked_by
+    DOCUMENTS ||--o{ LINE_ITEMS : produces
+    PROJECTS {
+        string id PK
+        string project_name
+        string description
+        string status
+        string model_name
+        string embed_model_name
+        json raw_result
+        json reasoning
+        float latency_ms
+        int llm_call_count
+        string requested_by
+        datetime requested_at
+        datetime completed_at
+    }
+    DOCUMENTS {
+        string id PK
+        string sha256_hash "unique, indexed"
+        string filename
+        string company_name
+        string period
+        string document_type
+        string storage_uri
+        string s3_uri
+        int page_count
+        int validation_iterations
+        datetime uploaded_at
+    }
+    PROJECT_DOCUMENTS {
+        string id PK
+        string project_id FK
+        string document_id FK
+    }
+    LINE_ITEMS {
+        string id PK
+        string document_id FK
+        string statement
+        string label
+        json section_path
+        float value
+        string unit
+        string currency
+        string period
+        date period_end_date
+        int period_length_months
+        string scale
+        boolean consolidated
+        int page
+        string source_snippet
+        json validation_errors
+    }

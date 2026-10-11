@@ -1,0 +1,13 @@
+%%{init: {'theme': 'default', 'themeVariables': {'fontFamily': 'Arial, Helvetica, sans-serif', 'fontSize': '22px', 'primaryTextColor': '#000000', 'lineColor': '#000000'}, 'flowchart': {'htmlLabels': true, 'useMaxWidth': true, 'nodeSpacing': 70, 'rankSpacing': 80, 'curve': 'basis', 'padding': 15}}}%%
+flowchart TB
+    PDF[PDF or policy document] --> X[Extract text and tables]
+    X --> C[Chunk by page, section, or table]
+    C --> M[Attach tenant, document, page, period, access metadata]
+    M --> E[Embed and index]
+    Q[Authorized question] --> F[Permission and metadata filters]
+    F --> K[Keyword and vector retrieval]
+    E --> K
+    K --> R[Rerank candidate chunks]
+    R --> P[Prompt with evidence and source IDs]
+    P --> G[Generate answer or abstain]
+    G --> V[Check claims and citations]

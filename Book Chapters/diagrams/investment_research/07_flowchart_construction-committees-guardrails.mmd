@@ -1,0 +1,19 @@
+%%{init: {'theme': 'base', 'themeVariables': {'fontFamily': 'Arial, Helvetica, sans-serif', 'fontSize': '26px', 'primaryTextColor': '#111111', 'lineColor': '#000000', 'primaryBorderColor': '#000000', 'primaryColor': '#ffffff', 'edgeLabelBackground': '#ffffff'}, 'flowchart': {'htmlLabels': true, 'useMaxWidth': false, 'nodeSpacing': 60, 'rankSpacing': 90, 'curve': 'basis', 'padding': 32, 'diagramPadding': 16, 'wrappingWidth': 200}, 'sequence': {'actorFontSize': '26px', 'actorFontWeight': 'bold', 'messageFontSize': '22px', 'noteFontSize': '22px', 'noteFontWeight': 'bold', 'actorMargin': 180, 'width': 230, 'height': 70, 'boxMargin': 15, 'messageMargin': 70, 'noteMargin': 25}, 'er': {'fontSize': 26}, 'state': {'fontSize': 26}}}%%
+flowchart TB
+    REQ["<b>1. Request</b><br/>mandate amount style<br/>countries constraints"]
+    CR["<b>2. Country research</b><br/>LangGraph optional<br/>per country profile"]
+    UNI["<b>3. Universe</b><br/>curated + live<br/>filters applied"]
+    PSE["<b>4. News scan</b><br/>pseudo allocation<br/>top equity"]
+    DET["<b>5a. Deterministic book</b><br/>sleeve targets<br/>ranked picks"]
+    COM["<b>5b. Committees score</b><br/>VLRT VCST SQL<br/>OF BMV"]
+    ADV["<b>6. LLM advisor</b><br/>digest sorted<br/>LLM picks"]
+    WL["<b>7. Whitelist</b><br/>drop unknown<br/>zero weight"]
+    G["<b>8. Shared guardrails</b><br/>caps water fill<br/>corrections"]
+    FIN["<b>9. Finalise</b><br/>reprice metrics<br/>feasibility"]
+    ANN["<b>10. Annotate</b><br/>pros cons<br/>per holding"]
+    CMP["<b>11. Compare</b><br/>det vs LLM<br/>diff + persist"]
+    REQ --> CR --> UNI --> PSE
+    UNI --> DET --> G
+    PSE --> COM --> ADV --> WL --> G
+    G --> FIN --> ANN --> CMP
+    classDef default font-size:26px,font-weight:bold,stroke-width:3px;

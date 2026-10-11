@@ -1,0 +1,14 @@
+%%{init: {'theme': 'base', 'themeVariables': {'fontFamily': 'Arial, Helvetica, sans-serif', 'fontSize': '26px', 'primaryTextColor': '#111111', 'lineColor': '#000000', 'primaryBorderColor': '#000000', 'primaryColor': '#ffffff', 'edgeLabelBackground': '#ffffff'}, 'flowchart': {'htmlLabels': true, 'useMaxWidth': false, 'nodeSpacing': 60, 'rankSpacing': 90, 'curve': 'basis', 'padding': 32, 'diagramPadding': 16, 'wrappingWidth': 200}, 'sequence': {'actorFontSize': '26px', 'actorFontWeight': 'bold', 'messageFontSize': '22px', 'noteFontSize': '22px', 'noteFontWeight': 'bold', 'actorMargin': 180, 'width': 230, 'height': 70, 'boxMargin': 15, 'messageMargin': 70, 'noteMargin': 25}, 'er': {'fontSize': 26}, 'state': {'fontSize': 26}}}%%
+flowchart TB
+    A[PORTFOLIO_RUNS] --> B[Header portfolio method invested status]
+    A --> C[Overview mandate health score briefing]
+    D[HOLDINGS] --> E[Positions tab weight amount rationale]
+    E --> F[Sector country return pros cons]
+    G[raw_result JSONB] --> H[Country research detailed analytics]
+    G --> I[Trace tab reasoning lineage]
+    J[REBALANCING_TRADES] --> K[Recommended actions trades tab]
+    L[ALERTS] --> M[Risk and monitoring alerts tab]
+    N[BRIEFINGS] --> O[Briefing tab summary actions watch]
+    P[REVIEWS] --> Q[Review status and audit trail]
+    R[PORTFOLIO_DOCUMENTS] --> S[Upload evidence lineage]
+    classDef default font-size:26px,font-weight:bold,stroke-width:3px;

@@ -1,0 +1,509 @@
+\contentsline {chapter}{\numberline {1}Technical Foundations for Agentic AI}{1}{chapter.1}%
+\contentsline {section}{Learning outcomes}{1}{section*.17}%
+\contentsline {section}{\numberline {1.1}Why Agentic AI?}{1}{section.1.1}%
+\contentsline {subsection}{\numberline {1.1.1}Traditional automation, workflow automation, and agentic AI}{2}{subsection.1.1.1}%
+\contentsline {subsection}{\numberline {1.1.2}LLM application, AI workflow, or AI agent?}{2}{subsection.1.1.2}%
+\contentsline {subsection}{\numberline {1.1.3}When is an agent appropriate?}{2}{subsection.1.1.3}%
+\contentsline {subsection}{\numberline {1.1.4}Agent autonomy versus human-controlled execution}{4}{subsection.1.1.4}%
+\contentsline {section}{\numberline {1.2}Large Language Models}{4}{section.1.2}%
+\contentsline {subsection}{\numberline {1.2.1}Tokens and context windows}{5}{subsection.1.2.1}%
+\contentsline {subsection}{\numberline {1.2.2}Prompting and structured outputs}{5}{subsection.1.2.2}%
+\contentsline {subsection}{\numberline {1.2.3}Temperature and deterministic generation}{5}{subsection.1.2.3}%
+\contentsline {subsection}{\numberline {1.2.4}Embeddings}{6}{subsection.1.2.4}%
+\contentsline {subsection}{\numberline {1.2.5}Function calling and tool use}{6}{subsection.1.2.5}%
+\contentsline {subsection}{\numberline {1.2.6}Limitations and hallucinations}{6}{subsection.1.2.6}%
+\contentsline {section}{\numberline {1.3}Retrieval-Augmented Generation}{6}{section.1.3}%
+\contentsline {subsection}{\numberline {1.3.1}The retrieval pipeline}{8}{subsection.1.3.1}%
+\contentsline {subsection}{\numberline {1.3.2}Document ingestion and chunking}{8}{subsection.1.3.2}%
+\contentsline {subsection}{\numberline {1.3.3}Embedding generation and vector search}{8}{subsection.1.3.3}%
+\contentsline {subsection}{\numberline {1.3.4}Metadata filtering and authorization}{8}{subsection.1.3.4}%
+\contentsline {subsection}{\numberline {1.3.5}Hybrid search and reranking}{8}{subsection.1.3.5}%
+\contentsline {subsection}{\numberline {1.3.6}Citations and source traceability}{8}{subsection.1.3.6}%
+\contentsline {subsection}{\numberline {1.3.7}RAG failure modes}{9}{subsection.1.3.7}%
+\contentsline {section}{\numberline {1.4}Documents and Multimodal Inputs}{9}{section.1.4}%
+\contentsline {subsection}{\numberline {1.4.1}Digital versus scanned PDFs}{9}{subsection.1.4.1}%
+\contentsline {subsection}{\numberline {1.4.2}OCR}{9}{subsection.1.4.2}%
+\contentsline {subsection}{\numberline {1.4.3}Tables, layout, headers, footnotes, handwriting}{11}{subsection.1.4.3}%
+\contentsline {subsection}{\numberline {1.4.4}Document classification}{11}{subsection.1.4.4}%
+\contentsline {subsection}{\numberline {1.4.5}Page-level and field-level extraction}{11}{subsection.1.4.5}%
+\contentsline {section}{\numberline {1.5}Agents and Tools}{11}{section.1.5}%
+\contentsline {subsection}{\numberline {1.5.1}Agent state}{11}{subsection.1.5.1}%
+\contentsline {subsection}{\numberline {1.5.2}Tools and tool schemas}{12}{subsection.1.5.2}%
+\contentsline {subsection}{\numberline {1.5.3}Planner, executor, validator, and reviewer patterns}{12}{subsection.1.5.3}%
+\contentsline {subsection}{\numberline {1.5.4}Single-agent versus multi-agent designs}{12}{subsection.1.5.4}%
+\contentsline {subsection}{\numberline {1.5.5}Tool selection and structured outputs}{12}{subsection.1.5.5}%
+\contentsline {subsection}{\numberline {1.5.6}Short-term state versus long-term memory}{13}{subsection.1.5.6}%
+\contentsline {section}{\numberline {1.6}Workflow Orchestration}{13}{section.1.6}%
+\contentsline {subsection}{\numberline {1.6.1}Sequential, conditional, and parallel execution}{13}{subsection.1.6.1}%
+\contentsline {subsection}{\numberline {1.6.2}Human approval nodes}{13}{subsection.1.6.2}%
+\contentsline {subsection}{\numberline {1.6.3}Retry and fallback paths}{13}{subsection.1.6.3}%
+\contentsline {subsection}{\numberline {1.6.4}Checkpointing, idempotency, interrupt and resume}{13}{subsection.1.6.4}%
+\contentsline {section}{\numberline {1.7}Data and Application Components}{15}{section.1.7}%
+\contentsline {subsection}{\numberline {1.7.1}A practical data ownership rule}{15}{subsection.1.7.1}%
+\contentsline {subsection}{\numberline {1.7.2}Batch and asynchronous processing}{16}{subsection.1.7.2}%
+\contentsline {section}{\numberline {1.8}Evaluation and Observability}{16}{section.1.8}%
+\contentsline {subsection}{\numberline {1.8.1}Traditional software testing}{16}{subsection.1.8.1}%
+\contentsline {subsection}{\numberline {1.8.2}LLM and retrieval evaluation}{16}{subsection.1.8.2}%
+\contentsline {subsection}{\numberline {1.8.3}Factuality, groundedness, and completeness}{17}{subsection.1.8.3}%
+\contentsline {subsection}{\numberline {1.8.4}Human review and golden datasets}{17}{subsection.1.8.4}%
+\contentsline {subsection}{\numberline {1.8.5}Tracing and versioning}{17}{subsection.1.8.5}%
+\contentsline {subsection}{\numberline {1.8.6}Cost and latency monitoring}{17}{subsection.1.8.6}%
+\contentsline {section}{\numberline {1.9}Responsible Agent Design}{17}{section.1.9}%
+\contentsline {subsection}{\numberline {1.9.1}Least-privilege tools and access control}{18}{subsection.1.9.1}%
+\contentsline {subsection}{\numberline {1.9.2}PII protection and leakage prevention}{18}{subsection.1.9.2}%
+\contentsline {subsection}{\numberline {1.9.3}Prompt injection defense}{18}{subsection.1.9.3}%
+\contentsline {subsection}{\numberline {1.9.4}Output validation and fail-safe behavior}{18}{subsection.1.9.4}%
+\contentsline {subsection}{\numberline {1.9.5}Human-in-the-loop controls and audit trails}{18}{subsection.1.9.5}%
+\contentsline {section}{\numberline {1.10}Putting the Foundations Together}{20}{section.1.10}%
+\contentsline {chapter}{\numberline {2}Banking and Financial Services Foundations}{21}{chapter.2}%
+\contentsline {section}{Learning outcomes}{21}{section*.23}%
+\contentsline {section}{\numberline {2.1}Banking Business Overview}{22}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}Retail banking}{22}{subsection.2.1.1}%
+\contentsline {subsection}{\numberline {2.1.2}Corporate and commercial banking}{22}{subsection.2.1.2}%
+\contentsline {subsection}{\numberline {2.1.3}Private banking and wealth management}{22}{subsection.2.1.3}%
+\contentsline {subsection}{\numberline {2.1.4}Investment banking}{22}{subsection.2.1.4}%
+\contentsline {subsection}{\numberline {2.1.5}Lending institutions and NBFCs}{23}{subsection.2.1.5}%
+\contentsline {subsection}{\numberline {2.1.6}Fintech platforms}{23}{subsection.2.1.6}%
+\contentsline {subsection}{\numberline {2.1.7}Banks, customers, regulators, and service providers}{23}{subsection.2.1.7}%
+\contentsline {section}{\numberline {2.2}Credit and Lending Lifecycle}{23}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Customer acquisition and application}{23}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Document collection}{25}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}Financial analysis and credit assessment}{25}{subsection.2.2.3}%
+\contentsline {subsection}{\numberline {2.2.4}Review, approval, and disbursement}{25}{subsection.2.2.4}%
+\contentsline {subsection}{\numberline {2.2.5}Monitoring, renewal, delinquency, and recovery}{25}{subsection.2.2.5}%
+\contentsline {section}{\numberline {2.3}Financial Statements}{26}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Balance sheet}{26}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}Income statement}{26}{subsection.2.3.2}%
+\contentsline {subsection}{\numberline {2.3.3}Cash-flow statement}{26}{subsection.2.3.3}%
+\contentsline {subsection}{\numberline {2.3.4}Notes, schedules, and disclosures}{26}{subsection.2.3.4}%
+\contentsline {subsection}{\numberline {2.3.5}Ratios and indicators}{26}{subsection.2.3.5}%
+\contentsline {subsection}{\numberline {2.3.6}Consolidated versus standalone statements}{27}{subsection.2.3.6}%
+\contentsline {subsection}{\numberline {2.3.7}Fiscal periods and comparative figures}{27}{subsection.2.3.7}%
+\contentsline {section}{\numberline {2.4}KYC, AML, and Customer Due Diligence}{28}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}Customer identification}{28}{subsection.2.4.1}%
+\contentsline {subsection}{\numberline {2.4.2}Beneficial ownership}{28}{subsection.2.4.2}%
+\contentsline {subsection}{\numberline {2.4.3}Source of wealth and source of funds}{29}{subsection.2.4.3}%
+\contentsline {subsection}{\numberline {2.4.4}PEP, sanctions, and adverse media}{29}{subsection.2.4.4}%
+\contentsline {subsection}{\numberline {2.4.5}Risk classification and enhanced due diligence}{29}{subsection.2.4.5}%
+\contentsline {subsection}{\numberline {2.4.6}Periodic review}{29}{subsection.2.4.6}%
+\contentsline {section}{\numberline {2.5}HNI and Private Banking}{29}{section.2.5}%
+\contentsline {subsection}{\numberline {2.5.1}Relationship manager and specialist roles}{31}{subsection.2.5.1}%
+\contentsline {subsection}{\numberline {2.5.2}Net worth, liquidity, and cash flow}{31}{subsection.2.5.2}%
+\contentsline {subsection}{\numberline {2.5.3}Objectives, risk appetite, and suitability}{31}{subsection.2.5.3}%
+\contentsline {subsection}{\numberline {2.5.4}Concentration and exposure risk}{31}{subsection.2.5.4}%
+\contentsline {section}{\numberline {2.6}Investments and Portfolio Management}{31}{section.2.6}%
+\contentsline {subsection}{\numberline {2.6.1}Main asset categories}{31}{subsection.2.6.1}%
+\contentsline {subsection}{\numberline {2.6.2}Asset allocation and diversification}{32}{subsection.2.6.2}%
+\contentsline {subsection}{\numberline {2.6.3}Risk and return}{32}{subsection.2.6.3}%
+\contentsline {subsection}{\numberline {2.6.4}Rebalancing}{32}{subsection.2.6.4}%
+\contentsline {subsection}{\numberline {2.6.5}Constraints and benchmarking}{33}{subsection.2.6.5}%
+\contentsline {section}{\numberline {2.7}Risk, Compliance, and Governance}{33}{section.2.7}%
+\contentsline {subsection}{\numberline {2.7.1}Regulatory reporting}{33}{subsection.2.7.1}%
+\contentsline {subsection}{\numberline {2.7.2}Four-eyes review}{35}{subsection.2.7.2}%
+\contentsline {subsection}{\numberline {2.7.3}Segregation of duties and auditability}{35}{subsection.2.7.3}%
+\contentsline {section}{\numberline {2.8}Common BFSI Data and Terminology}{35}{section.2.8}%
+\contentsline {subsection}{\numberline {2.8.1}Customers, products, and obligations}{35}{subsection.2.8.1}%
+\contentsline {subsection}{\numberline {2.8.2}Portfolio objects}{36}{subsection.2.8.2}%
+\contentsline {subsection}{\numberline {2.8.3}KYC and evidence objects}{36}{subsection.2.8.3}%
+\contentsline {subsection}{\numberline {2.8.4}Decisions and uncertainty}{36}{subsection.2.8.4}%
+\contentsline {section}{\numberline {2.9}How to Read the Case Studies}{37}{section.2.9}%
+\contentsline {subsection}{\numberline {2.9.1}Common structure}{37}{subsection.2.9.1}%
+\contentsline {subsection}{\numberline {2.9.2}Four domain lenses}{38}{subsection.2.9.2}%
+\contentsline {subsection}{\numberline {2.9.3}Case-study chapter format}{38}{subsection.2.9.3}%
+\contentsline {subsection}{\numberline {2.9.4}Questions to keep asking}{38}{subsection.2.9.4}%
+\contentsline {chapter}{\numberline {3}Financial Document Data Extraction Agent}{41}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Business Context and Stakeholders}{41}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Stakeholders}{42}{subsection.3.1.1}%
+\contentsline {section}{\numberline {3.2}Requirements and Success Metrics}{42}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Input Requirements}{42}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Processing Requirements}{43}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.3}Output Requirements}{44}{subsection.3.2.3}%
+\contentsline {subsection}{\numberline {3.2.4}Failure and Retry Requirements}{44}{subsection.3.2.4}%
+\contentsline {subsection}{\numberline {3.2.5}Non-Functional Requirements}{44}{subsection.3.2.5}%
+\contentsline {section}{\numberline {3.3}Success Metrics}{45}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Product Metrics}{45}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}Extraction Metrics}{45}{subsection.3.3.2}%
+\contentsline {subsection}{\numberline {3.3.3}Validation Metrics}{46}{subsection.3.3.3}%
+\contentsline {subsection}{\numberline {3.3.4}Operational Metrics}{46}{subsection.3.3.4}%
+\contentsline {section}{\numberline {3.4}Solution Strategy and Pipeline Logic}{47}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}End-to-End Flow}{47}{subsection.3.4.1}%
+\contentsline {section}{\numberline {3.5}Input Processing in Depth}{49}{section.3.5}%
+\contentsline {subsection}{\numberline {3.5.1}File Validation}{49}{subsection.3.5.1}%
+\contentsline {subsection}{\numberline {3.5.2}Text and Scanned PDFs}{49}{subsection.3.5.2}%
+\contentsline {subsection}{\numberline {3.5.3}Markdown as the Internal Contract}{49}{subsection.3.5.3}%
+\contentsline {section}{\numberline {3.6}Metadata and Table Discovery}{50}{section.3.6}%
+\contentsline {subsection}{\numberline {3.6.1}Issuer Metadata}{50}{subsection.3.6.1}%
+\contentsline {subsection}{\numberline {3.6.2}Finding Tables Without the LLM}{50}{subsection.3.6.2}%
+\contentsline {subsection}{\numberline {3.6.3}Relevance Filtering}{51}{subsection.3.6.3}%
+\contentsline {section}{\numberline {3.7}Classification and Consolidation}{51}{section.3.7}%
+\contentsline {subsection}{\numberline {3.7.1}Statement Classification}{51}{subsection.3.7.1}%
+\contentsline {subsection}{\numberline {3.7.2}Consolidated Column Selection}{51}{subsection.3.7.2}%
+\contentsline {section}{\numberline {3.8}Line-Item Extraction}{52}{section.3.8}%
+\contentsline {section}{\numberline {3.9}Validation and Retry}{53}{section.3.9}%
+\contentsline {subsection}{\numberline {3.9.1}Retry Flow}{55}{subsection.3.9.1}%
+\contentsline {section}{\numberline {3.10}Data Modeling}{56}{section.3.10}%
+\contentsline {subsection}{\numberline {3.10.1}Why Separate Projects and Documents?}{56}{subsection.3.10.1}%
+\contentsline {subsection}{\numberline {3.10.2}Entity Relationship Diagram}{56}{subsection.3.10.2}%
+\contentsline {subsection}{\numberline {3.10.3}Data Model Table}{56}{subsection.3.10.3}%
+\contentsline {subsection}{\numberline {3.10.4}Join Examples}{58}{subsection.3.10.4}%
+\contentsline {section}{\numberline {3.11}API Design}{59}{section.3.11}%
+\contentsline {section}{\numberline {3.12}High-Level Design}{61}{section.3.12}%
+\contentsline {section}{\numberline {3.13}Low-Level Design}{63}{section.3.13}%
+\contentsline {subsection}{\numberline {3.13.1}FastAPI Application}{63}{subsection.3.13.1}%
+\contentsline {subsection}{\numberline {3.13.2}Extraction Orchestrator}{63}{subsection.3.13.2}%
+\contentsline {subsection}{\numberline {3.13.3}LangGraph Pipeline}{63}{subsection.3.13.3}%
+\contentsline {subsection}{\numberline {3.13.4}LLM Model Tiers}{63}{subsection.3.13.4}%
+\contentsline {subsection}{\numberline {3.13.5}Structured Outputs}{64}{subsection.3.13.5}%
+\contentsline {section}{\numberline {3.14}Edge Cases and Failure Scenarios}{64}{section.3.14}%
+\contentsline {subsection}{\numberline {3.14.1}Case 1: Missing Project Name}{64}{subsection.3.14.1}%
+\contentsline {subsection}{\numberline {3.14.2}Case 2: No Files}{64}{subsection.3.14.2}%
+\contentsline {subsection}{\numberline {3.14.3}Case 3: XBRL Upload}{64}{subsection.3.14.3}%
+\contentsline {subsection}{\numberline {3.14.4}Case 4: Image-Only PDF}{64}{subsection.3.14.4}%
+\contentsline {subsection}{\numberline {3.14.5}Case 5: Narrative-Only Report}{65}{subsection.3.14.5}%
+\contentsline {subsection}{\numberline {3.14.6}Case 6: OCR-Merged Cell}{65}{subsection.3.14.6}%
+\contentsline {subsection}{\numberline {3.14.7}Case 7: Conflicting Duplicate Label}{65}{subsection.3.14.7}%
+\contentsline {subsection}{\numberline {3.14.8}Case 8: Re-upload with a New Filename}{65}{subsection.3.14.8}%
+\contentsline {subsection}{\numberline {3.14.9}Case 9: S3 Failure}{65}{subsection.3.14.9}%
+\contentsline {subsection}{\numberline {3.14.10}Case 10: Database Failure During Finalization}{65}{subsection.3.14.10}%
+\contentsline {subsection}{\numberline {3.14.11}Case 11: Background Process Crash}{65}{subsection.3.14.11}%
+\contentsline {subsection}{\numberline {3.14.12}Case 12: Different Projects Need Different Results}{66}{subsection.3.14.12}%
+\contentsline {subsection}{\numberline {3.14.13}Case 13: Concurrent Identical Uploads}{66}{subsection.3.14.13}%
+\contentsline {subsection}{\numberline {3.14.14}Case 14: Zero Line Items Versus Failure}{66}{subsection.3.14.14}%
+\contentsline {section}{\numberline {3.15}Evaluation Framework}{66}{section.3.15}%
+\contentsline {section}{\numberline {3.16}Security and Production Hardening}{67}{section.3.16}%
+\contentsline {section}{\numberline {3.17}Known Scope Boundaries}{68}{section.3.17}%
+\contentsline {section}{\numberline {3.18}Final Interview Discussion}{69}{section.3.18}%
+\contentsline {chapter}{\numberline {4}Credit Risk Assessment Agent}{71}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Business Context and Stakeholders}{71}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Stakeholders}{72}{subsection.4.1.1}%
+\contentsline {section}{\numberline {4.2}Requirements and Success Metrics}{72}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Functional Requirements Discovery}{72}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Non-Functional Requirements Discovery}{73}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.2.3}Success Metrics}{74}{subsection.4.2.3}%
+\contentsline {subsubsection}{Business Metrics}{74}{section*.37}%
+\contentsline {subsubsection}{Technical Metrics}{74}{section*.38}%
+\contentsline {subsubsection}{Human Review Metrics}{74}{section*.39}%
+\contentsline {section}{\numberline {4.3}Data and Inputs}{74}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Input Layer 1: User-Submitted Case Information}{75}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}Input Layer 2: Document Pack}{75}{subsection.4.3.2}%
+\contentsline {subsection}{\numberline {4.3.3}Input Layer 3: External Optional Enrichment}{75}{subsection.4.3.3}%
+\contentsline {subsection}{\numberline {4.3.4}Input Layer 4: Internal Reference Data}{76}{subsection.4.3.4}%
+\contentsline {section}{\numberline {4.4}Solution Strategy and Pipeline Logic}{76}{section.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}End-to-End Pipeline}{76}{subsection.4.4.1}%
+\contentsline {subsection}{\numberline {4.4.2}End-to-End Flow Diagram}{77}{subsection.4.4.2}%
+\contentsline {subsection}{\numberline {4.4.3}Main Agents and Components}{77}{subsection.4.4.3}%
+\contentsline {subsubsection}{Tool-Based Extractors}{77}{section*.41}%
+\contentsline {subsubsection}{Deterministic Services}{79}{section*.42}%
+\contentsline {subsubsection}{Optional Enrichment Services}{79}{section*.43}%
+\contentsline {subsubsection}{Narrative Services}{79}{section*.44}%
+\contentsline {subsubsection}{Human Control}{79}{section*.45}%
+\contentsline {section}{\numberline {4.5}Deep Discussion on Pipeline Decisions}{79}{section.4.5}%
+\contentsline {subsection}{\numberline {4.5.1}Fast Accept and Background Execution}{79}{subsection.4.5.1}%
+\contentsline {subsection}{\numberline {4.5.2}Background Processing Sequence}{80}{subsection.4.5.2}%
+\contentsline {subsection}{\numberline {4.5.3}PDF Processing}{80}{subsection.4.5.3}%
+\contentsline {subsection}{\numberline {4.5.4}Why Tool Calling?}{80}{subsection.4.5.4}%
+\contentsline {subsection}{\numberline {4.5.5}Tool-Calling Extraction Sequence}{81}{subsection.4.5.5}%
+\contentsline {subsection}{\numberline {4.5.6}Financial Line-Item Extraction}{81}{subsection.4.5.6}%
+\contentsline {subsection}{\numberline {4.5.7}Correctness Gates for LLM Extraction}{82}{subsection.4.5.7}%
+\contentsline {subsection}{\numberline {4.5.8}Notes and Contingencies}{82}{subsection.4.5.8}%
+\contentsline {subsection}{\numberline {4.5.9}Facility Request Extraction}{82}{subsection.4.5.9}%
+\contentsline {subsection}{\numberline {4.5.10}yfinance Backfill}{83}{subsection.4.5.10}%
+\contentsline {subsection}{\numberline {4.5.11}Web and News Enrichment}{83}{subsection.4.5.11}%
+\contentsline {subsection}{\numberline {4.5.12}Optional Enrichment Flow}{83}{subsection.4.5.12}%
+\contentsline {section}{\numberline {4.6}Deterministic Financial Core}{83}{section.4.6}%
+\contentsline {subsection}{\numberline {4.6.1}Unit Normalization}{83}{subsection.4.6.1}%
+\contentsline {subsection}{\numberline {4.6.2}Derived Values}{85}{subsection.4.6.2}%
+\contentsline {subsection}{\numberline {4.6.3}Ratios}{85}{subsection.4.6.3}%
+\contentsline {subsection}{\numberline {4.6.4}Deterministic Analytics Flow}{86}{subsection.4.6.4}%
+\contentsline {subsection}{\numberline {4.6.5}Benchmarks and Trends}{86}{subsection.4.6.5}%
+\contentsline {subsection}{\numberline {4.6.6}Scorecard}{86}{subsection.4.6.6}%
+\contentsline {subsection}{\numberline {4.6.7}Scorecard Decision Sequence}{88}{subsection.4.6.7}%
+\contentsline {subsection}{\numberline {4.6.8}Hard Stops}{88}{subsection.4.6.8}%
+\contentsline {section}{\numberline {4.7}Memo Generation and Q\&A}{88}{section.4.7}%
+\contentsline {subsection}{\numberline {4.7.1}Memo Generation Flow}{89}{subsection.4.7.1}%
+\contentsline {section}{\numberline {4.8}High-Level Design}{89}{section.4.8}%
+\contentsline {subsection}{\numberline {4.8.1}Architecture Components}{89}{subsection.4.8.1}%
+\contentsline {subsection}{\numberline {4.8.2}High-Level Architecture Diagram}{91}{subsection.4.8.2}%
+\contentsline {section}{\numberline {4.9}Low-Level Design}{92}{section.4.9}%
+\contentsline {subsection}{\numberline {4.9.1}Request Lifecycle}{92}{subsection.4.9.1}%
+\contentsline {subsection}{\numberline {4.9.2}Core Application Modules}{92}{subsection.4.9.2}%
+\contentsline {subsection}{\numberline {4.9.3}Tool Loop Behavior}{93}{subsection.4.9.3}%
+\contentsline {subsection}{\numberline {4.9.4}Failure Handling}{93}{subsection.4.9.4}%
+\contentsline {subsection}{\numberline {4.9.5}Atomic Persistence}{94}{subsection.4.9.5}%
+\contentsline {subsection}{\numberline {4.9.6}Review and Rerun}{94}{subsection.4.9.6}%
+\contentsline {subsection}{\numberline {4.9.7}Review and Rerun Sequence}{94}{subsection.4.9.7}%
+\contentsline {section}{\numberline {4.10}Data Modeling}{94}{section.4.10}%
+\contentsline {subsection}{\numberline {4.10.1}Entity Relationship Diagram}{94}{subsection.4.10.1}%
+\contentsline {subsection}{\numberline {4.10.2}Join Paths Readers Should Remember}{94}{subsection.4.10.2}%
+\contentsline {subsection}{\numberline {4.10.3}Physical Table Structures}{97}{subsection.4.10.3}%
+\contentsline {subsubsection}{Table: \texttt {assessment\_versions}}{97}{section*.55}%
+\contentsline {subsubsection}{Table: \texttt {assessment\_documents}}{98}{section*.56}%
+\contentsline {subsubsection}{Table: \texttt {page\_chunks}}{98}{section*.57}%
+\contentsline {subsubsection}{Table: \texttt {line\_items}}{99}{section*.58}%
+\contentsline {subsubsection}{Table: \texttt {ratios}}{100}{section*.59}%
+\contentsline {subsubsection}{Table: \texttt {rating\_factors}}{101}{section*.60}%
+\contentsline {subsubsection}{Table: \texttt {credit\_memos}}{101}{section*.61}%
+\contentsline {subsubsection}{Table: \texttt {reviews}}{102}{section*.62}%
+\contentsline {subsection}{\numberline {4.10.4}Data Flow from Tables to UI}{102}{subsection.4.10.4}%
+\contentsline {subsection}{\numberline {4.10.5}Modeling Principles}{102}{subsection.4.10.5}%
+\contentsline {section}{\numberline {4.11}Product Screens and Reader Walkthrough}{103}{section.4.11}%
+\contentsline {subsection}{\numberline {4.11.1}Main Decision and Scorecard View}{103}{subsection.4.11.1}%
+\contentsline {subsection}{\numberline {4.11.2}Credit Memo View}{103}{subsection.4.11.2}%
+\contentsline {subsection}{\numberline {4.11.3}Trend Analysis View}{103}{subsection.4.11.3}%
+\contentsline {subsection}{\numberline {4.11.4}Sector Benchmark View}{106}{subsection.4.11.4}%
+\contentsline {section}{\numberline {4.12}Evaluation Framework}{106}{section.4.12}%
+\contentsline {subsection}{\numberline {4.12.1}Extraction Evaluation}{106}{subsection.4.12.1}%
+\contentsline {subsection}{\numberline {4.12.2}Deterministic Validation}{106}{subsection.4.12.2}%
+\contentsline {subsection}{\numberline {4.12.3}Narrative Evaluation}{106}{subsection.4.12.3}%
+\contentsline {subsection}{\numberline {4.12.4}Workflow Evaluation}{107}{subsection.4.12.4}%
+\contentsline {subsection}{\numberline {4.12.5}Business Evaluation}{107}{subsection.4.12.5}%
+\contentsline {section}{\numberline {4.13}Edge Cases and Failure Scenarios}{107}{section.4.13}%
+\contentsline {subsection}{\numberline {4.13.1}Case 1: No Text in PDF}{107}{subsection.4.13.1}%
+\contentsline {subsection}{\numberline {4.13.2}Case 2: Missing Facility Letter}{107}{subsection.4.13.2}%
+\contentsline {subsection}{\numberline {4.13.3}Case 3: Strong Ratios but Going-Concern Note}{108}{subsection.4.13.3}%
+\contentsline {subsection}{\numberline {4.13.4}Case 4: yfinance Disagreement}{108}{subsection.4.13.4}%
+\contentsline {subsection}{\numberline {4.13.5}Case 5: Same Company Name in Web Search}{108}{subsection.4.13.5}%
+\contentsline {subsection}{\numberline {4.13.6}Case 6: Partial Internal Failure}{108}{subsection.4.13.6}%
+\contentsline {subsection}{\numberline {4.13.7}Case 7: Double Submission}{108}{subsection.4.13.7}%
+\contentsline {subsection}{\numberline {4.13.8}Case 8: Low-Confidence Extraction Triggers Retry}{108}{subsection.4.13.8}%
+\contentsline {section}{\numberline {4.14}Deployment and Operations}{109}{section.4.14}%
+\contentsline {subsection}{\numberline {4.14.1}Current Operational Shape}{109}{subsection.4.14.1}%
+\contentsline {subsection}{\numberline {4.14.2}Why Single Replica Matters}{109}{subsection.4.14.2}%
+\contentsline {subsection}{\numberline {4.14.3}Monitoring Needs}{109}{subsection.4.14.3}%
+\contentsline {section}{\numberline {4.15}Current Gaps and Enhancement Roadmap}{109}{section.4.15}%
+\contentsline {subsection}{\numberline {4.15.1}Current Gaps}{110}{subsection.4.15.1}%
+\contentsline {subsection}{\numberline {4.15.2}Short-Term Enhancements}{110}{subsection.4.15.2}%
+\contentsline {subsection}{\numberline {4.15.3}Production Enhancements}{110}{subsection.4.15.3}%
+\contentsline {subsection}{\numberline {4.15.4}Advanced Enhancements}{110}{subsection.4.15.4}%
+\contentsline {section}{\numberline {4.16}Final Interview Discussion}{111}{section.4.16}%
+\contentsline {chapter}{\numberline {5}HNI Customer Onboarding Agent}{113}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Business Context and Stakeholders}{113}{section.5.1}%
+\contentsline {subsection}{\numberline {5.1.1}Stakeholders}{114}{subsection.5.1.1}%
+\contentsline {section}{\numberline {5.2}Requirements and Success Metrics}{114}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Functional Requirements Discovery}{115}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Output Requirements}{115}{subsection.5.2.2}%
+\contentsline {subsection}{\numberline {5.2.3}Historical KYC Requirements}{116}{subsection.5.2.3}%
+\contentsline {subsection}{\numberline {5.2.4}Non-Functional Requirements Discovery}{116}{subsection.5.2.4}%
+\contentsline {subsection}{\numberline {5.2.5}Success Metrics}{117}{subsection.5.2.5}%
+\contentsline {subsubsection}{Business Metrics}{117}{section*.69}%
+\contentsline {subsubsection}{Extraction and Ownership Metrics}{117}{section*.70}%
+\contentsline {subsubsection}{Screening and Risk Metrics}{117}{section*.71}%
+\contentsline {subsubsection}{Workflow and Reliability Metrics}{118}{section*.72}%
+\contentsline {section}{\numberline {5.3}Data and Inputs}{118}{section.5.3}%
+\contentsline {subsection}{\numberline {5.3.1}Input Layer 1: Client and Case Information}{118}{subsection.5.3.1}%
+\contentsline {subsection}{\numberline {5.3.2}Input Layer 2: KYC Document Pack}{119}{subsection.5.3.2}%
+\contentsline {subsection}{\numberline {5.3.3}Input Layer 3: Public OSINT Evidence}{119}{subsection.5.3.3}%
+\contentsline {subsection}{\numberline {5.3.4}Input Layer 4: Reference Data and Policy Configuration}{120}{subsection.5.3.4}%
+\contentsline {section}{\numberline {5.4}Solution Strategy and Pipeline Logic}{120}{section.5.4}%
+\contentsline {subsection}{\numberline {5.4.1}Core Principle}{120}{subsection.5.4.1}%
+\contentsline {subsection}{\numberline {5.4.2}Workflow A: Document Onboarding}{121}{subsection.5.4.2}%
+\contentsline {subsection}{\numberline {5.4.3}Workflow B: Name Search}{121}{subsection.5.4.3}%
+\contentsline {subsection}{\numberline {5.4.4}End-to-End Pipeline Diagram}{122}{subsection.5.4.4}%
+\contentsline {subsection}{\numberline {5.4.5}Main Agents and Components}{122}{subsection.5.4.5}%
+\contentsline {subsubsection}{Document Components}{122}{section*.74}%
+\contentsline {subsubsection}{OSINT Components}{122}{section*.75}%
+\contentsline {subsubsection}{Deterministic Components}{122}{section*.76}%
+\contentsline {subsubsection}{Narrative Component}{122}{section*.77}%
+\contentsline {subsubsection}{Persistence and Interface Components}{124}{section*.78}%
+\contentsline {section}{\numberline {5.5}Deep Discussion on Pipeline Decisions}{124}{section.5.5}%
+\contentsline {subsection}{\numberline {5.5.1}Fast Accept and Background Execution}{124}{subsection.5.5.1}%
+\contentsline {subsection}{\numberline {5.5.2}Document Page Index}{124}{subsection.5.5.2}%
+\contentsline {subsection}{\numberline {5.5.3}Document Structure Extraction}{125}{subsection.5.5.3}%
+\contentsline {subsection}{\numberline {5.5.4}Source of Wealth}{125}{subsection.5.5.4}%
+\contentsline {subsection}{\numberline {5.5.5}Identity Verification}{126}{subsection.5.5.5}%
+\contentsline {subsection}{\numberline {5.5.6}Name-Based OSINT Collection}{126}{subsection.5.5.6}%
+\contentsline {subsection}{\numberline {5.5.7}Web Evidence Credibility}{127}{subsection.5.5.7}%
+\contentsline {subsection}{\numberline {5.5.8}UBO Resolution}{127}{subsection.5.5.8}%
+\contentsline {subsection}{\numberline {5.5.9}Deterministic Screening}{128}{subsection.5.5.9}%
+\contentsline {subsection}{\numberline {5.5.10}Deterministic Risk Scorecard}{128}{subsection.5.5.10}%
+\contentsline {subsection}{\numberline {5.5.11}EDD Narrative Generation}{129}{subsection.5.5.11}%
+\contentsline {section}{\numberline {5.6}Deterministic Fraud and KYC Risk Core}{130}{section.5.6}%
+\contentsline {subsection}{\numberline {5.6.1}Applicant Resolution}{130}{subsection.5.6.1}%
+\contentsline {subsection}{\numberline {5.6.2}Effective Ownership}{130}{subsection.5.6.2}%
+\contentsline {subsection}{\numberline {5.6.3}Control-Based UBOs}{130}{subsection.5.6.3}%
+\contentsline {subsection}{\numberline {5.6.4}Fallback Senior Managing Official}{131}{subsection.5.6.4}%
+\contentsline {subsection}{\numberline {5.6.5}Opacity and Structure Signals}{131}{subsection.5.6.5}%
+\contentsline {subsection}{\numberline {5.6.6}Watchlist and Jurisdiction Matching}{131}{subsection.5.6.6}%
+\contentsline {subsection}{\numberline {5.6.7}Score Calculation}{131}{subsection.5.6.7}%
+\contentsline {subsection}{\numberline {5.6.8}Scorecard Decision Diagram}{131}{subsection.5.6.8}%
+\contentsline {section}{\numberline {5.7}EDD Narrative and Q\&A}{133}{section.5.7}%
+\contentsline {section}{\numberline {5.8}High-Level Design}{133}{section.5.8}%
+\contentsline {subsection}{\numberline {5.8.1}Architecture Components}{133}{subsection.5.8.1}%
+\contentsline {subsection}{\numberline {5.8.2}High-Level Architecture Diagram}{134}{subsection.5.8.2}%
+\contentsline {section}{\numberline {5.9}Low-Level Design}{135}{section.5.9}%
+\contentsline {subsection}{\numberline {5.9.1}Request Lifecycle}{135}{subsection.5.9.1}%
+\contentsline {subsection}{\numberline {5.9.2}Document Workflow Modules}{136}{subsection.5.9.2}%
+\contentsline {subsection}{\numberline {5.9.3}Name-Search Workflow Modules}{136}{subsection.5.9.3}%
+\contentsline {subsection}{\numberline {5.9.4}Background Wrapper Behavior}{136}{subsection.5.9.4}%
+\contentsline {subsection}{\numberline {5.9.5}Versioning}{137}{subsection.5.9.5}%
+\contentsline {subsection}{\numberline {5.9.6}Storage Behavior}{137}{subsection.5.9.6}%
+\contentsline {section}{\numberline {5.10}Data Modeling}{137}{section.5.10}%
+\contentsline {subsection}{\numberline {5.10.1}Entity Relationship Diagram}{137}{subsection.5.10.1}%
+\contentsline {subsection}{\numberline {5.10.2}Live and Declared Tables}{137}{subsection.5.10.2}%
+\contentsline {subsection}{\numberline {5.10.3}Physical Table Structures}{138}{subsection.5.10.3}%
+\contentsline {subsubsection}{Table: \texttt {cases}}{138}{section*.82}%
+\contentsline {subsubsection}{Table: \texttt {ubos}}{140}{section*.83}%
+\contentsline {subsubsection}{Table: \texttt {watchlist\_hits}}{140}{section*.84}%
+\contentsline {subsubsection}{Table: \texttt {edd\_measures}}{141}{section*.85}%
+\contentsline {subsubsection}{Table: \texttt {reviews}}{141}{section*.86}%
+\contentsline {subsection}{\numberline {5.10.4}Join Paths Readers Should Remember}{142}{subsection.5.10.4}%
+\contentsline {subsection}{\numberline {5.10.5}Data Flow from Tables to UI}{142}{subsection.5.10.5}%
+\contentsline {subsection}{\numberline {5.10.6}Modeling Principles}{142}{subsection.5.10.6}%
+\contentsline {section}{\numberline {5.11}Product Screens and Reader Walkthrough}{143}{section.5.11}%
+\contentsline {subsection}{\numberline {5.11.1}Document Upload View}{143}{subsection.5.11.1}%
+\contentsline {subsection}{\numberline {5.11.2}Name Search View}{144}{subsection.5.11.2}%
+\contentsline {subsection}{\numberline {5.11.3}Historical KYC View}{144}{subsection.5.11.3}%
+\contentsline {subsection}{\numberline {5.11.4}Result Interpretation}{146}{subsection.5.11.4}%
+\contentsline {section}{\numberline {5.12}Evaluation Framework}{146}{section.5.12}%
+\contentsline {subsection}{\numberline {5.12.1}Document Extraction Evaluation}{146}{subsection.5.12.1}%
+\contentsline {subsection}{\numberline {5.12.2}OSINT Evaluation}{146}{subsection.5.12.2}%
+\contentsline {subsection}{\numberline {5.12.3}Deterministic Engine Evaluation}{147}{subsection.5.12.3}%
+\contentsline {subsection}{\numberline {5.12.4}Narrative Evaluation}{147}{subsection.5.12.4}%
+\contentsline {subsection}{\numberline {5.12.5}Workflow Evaluation}{147}{subsection.5.12.5}%
+\contentsline {section}{\numberline {5.13}Edge Cases and Failure Scenarios}{148}{section.5.13}%
+\contentsline {subsection}{\numberline {5.13.1}Case 1: Missing Client Name}{148}{subsection.5.13.1}%
+\contentsline {subsection}{\numberline {5.13.2}Case 2: Unknown Case Type}{148}{subsection.5.13.2}%
+\contentsline {subsection}{\numberline {5.13.3}Case 3: Document Case Without Files}{148}{subsection.5.13.3}%
+\contentsline {subsection}{\numberline {5.13.4}Case 4: Scanned PDF}{149}{subsection.5.13.4}%
+\contentsline {subsection}{\numberline {5.13.5}Case 5: No Public Evidence}{149}{subsection.5.13.5}%
+\contentsline {subsection}{\numberline {5.13.6}Case 6: Common Name}{149}{subsection.5.13.6}%
+\contentsline {subsection}{\numberline {5.13.7}Case 7: Sanctions Match}{149}{subsection.5.13.7}%
+\contentsline {subsection}{\numberline {5.13.8}Case 8: Prohibited Jurisdiction}{149}{subsection.5.13.8}%
+\contentsline {subsection}{\numberline {5.13.9}Case 9: High-Risk Jurisdiction Only}{149}{subsection.5.13.9}%
+\contentsline {subsection}{\numberline {5.13.10}Case 10: Missing Ownership Percentage}{149}{subsection.5.13.10}%
+\contentsline {subsection}{\numberline {5.13.11}Case 11: Circular Ownership}{150}{subsection.5.13.11}%
+\contentsline {subsection}{\numberline {5.13.12}Case 12: Single Web Article}{150}{subsection.5.13.12}%
+\contentsline {subsection}{\numberline {5.13.13}Case 13: OSINT Provider Failure}{150}{subsection.5.13.13}%
+\contentsline {subsection}{\numberline {5.13.14}Case 14: Database Commit Failure}{150}{subsection.5.13.14}%
+\contentsline {subsection}{\numberline {5.13.15}Case 15: Concurrent Historical Assessments}{150}{subsection.5.13.15}%
+\contentsline {subsection}{\numberline {5.13.16}Case 16: Analyst Override}{150}{subsection.5.13.16}%
+\contentsline {subsection}{\numberline {5.13.17}Case 17: Low-Confidence Extraction Retry}{150}{subsection.5.13.17}%
+\contentsline {subsection}{\numberline {5.13.18}Case 18: Uncited Adverse Claim in Name Search}{151}{subsection.5.13.18}%
+\contentsline {section}{\numberline {5.14}Deployment and Operations}{151}{section.5.14}%
+\contentsline {subsection}{\numberline {5.14.1}Current Operational Shape}{151}{subsection.5.14.1}%
+\contentsline {subsection}{\numberline {5.14.2}Why Single Replica Matters}{151}{subsection.5.14.2}%
+\contentsline {subsection}{\numberline {5.14.3}Monitoring Needs}{152}{subsection.5.14.3}%
+\contentsline {section}{\numberline {5.15}Current Gaps and Enhancement Roadmap}{152}{section.5.15}%
+\contentsline {subsection}{\numberline {5.15.1}Current Gaps}{152}{subsection.5.15.1}%
+\contentsline {subsection}{\numberline {5.15.2}Short-Term Enhancements}{153}{subsection.5.15.2}%
+\contentsline {subsection}{\numberline {5.15.3}Production Enhancements}{153}{subsection.5.15.3}%
+\contentsline {subsection}{\numberline {5.15.4}Advanced Enhancements}{154}{subsection.5.15.4}%
+\contentsline {section}{\numberline {5.16}Final Interview Discussion}{154}{section.5.16}%
+\contentsline {chapter}{\numberline {6}Investment Research Copilot}{157}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Business Context and Stakeholders}{157}{section.6.1}%
+\contentsline {subsection}{\numberline {6.1.1}Stakeholders}{158}{subsection.6.1.1}%
+\contentsline {section}{\numberline {6.2}Requirements and Success Metrics}{158}{section.6.2}%
+\contentsline {subsection}{\numberline {6.2.1}Functional Requirements Discovery}{159}{subsection.6.2.1}%
+\contentsline {subsection}{\numberline {6.2.2}Construction Requirements}{159}{subsection.6.2.2}%
+\contentsline {subsection}{\numberline {6.2.3}Review, Rerun, and Q\&A}{160}{subsection.6.2.3}%
+\contentsline {subsection}{\numberline {6.2.4}Non-Functional Requirements Discovery}{160}{subsection.6.2.4}%
+\contentsline {subsection}{\numberline {6.2.5}Success Metrics}{161}{subsection.6.2.5}%
+\contentsline {subsubsection}{Business Metrics}{161}{section*.92}%
+\contentsline {subsubsection}{Data and Analytics Metrics}{161}{section*.93}%
+\contentsline {subsubsection}{Research and Narrative Metrics}{162}{section*.94}%
+\contentsline {subsubsection}{Operational Metrics}{162}{section*.95}%
+\contentsline {section}{\numberline {6.3}Data and Inputs}{162}{section.6.3}%
+\contentsline {subsection}{\numberline {6.3.1}Input Layer 1: Holdings and Transactions}{163}{subsection.6.3.1}%
+\contentsline {subsection}{\numberline {6.3.2}Input Layer 2: PDF Statement}{163}{subsection.6.3.2}%
+\contentsline {subsection}{\numberline {6.3.3}Input Layer 3: Market and Public Research Data}{163}{subsection.6.3.3}%
+\contentsline {subsection}{\numberline {6.3.4}Input Layer 4: Policy and Investment-Committee Configuration}{164}{subsection.6.3.4}%
+\contentsline {section}{\numberline {6.4}Solution Strategy and Pipeline Logic}{164}{section.6.4}%
+\contentsline {subsection}{\numberline {6.4.1}Core Principle}{164}{subsection.6.4.1}%
+\contentsline {subsection}{\numberline {6.4.2}Monitoring Pipeline}{165}{subsection.6.4.2}%
+\contentsline {subsection}{\numberline {6.4.3}Construction Pipeline}{165}{subsection.6.4.3}%
+\contentsline {subsection}{\numberline {6.4.4}End-to-End Pipeline Diagram}{166}{subsection.6.4.4}%
+\contentsline {subsection}{\numberline {6.4.5}Main Components}{166}{subsection.6.4.5}%
+\contentsline {subsubsection}{Monitoring Components}{166}{section*.97}%
+\contentsline {subsubsection}{Construction Components}{168}{section*.98}%
+\contentsline {subsubsection}{Shared Infrastructure}{168}{section*.99}%
+\contentsline {section}{\numberline {6.5}Deep Discussion on Pipeline Decisions}{168}{section.6.5}%
+\contentsline {subsection}{\numberline {6.5.1}Fast Accept and Background Execution}{168}{subsection.6.5.1}%
+\contentsline {subsection}{\numberline {6.5.2}Holdings Ingestion}{169}{subsection.6.5.2}%
+\contentsline {subsection}{\numberline {6.5.3}PDF Statement Transcription}{169}{subsection.6.5.3}%
+\contentsline {subsection}{\numberline {6.5.4}Pricing Source Priority}{170}{subsection.6.5.4}%
+\contentsline {subsection}{\numberline {6.5.5}Allocation and Mandate Drift}{171}{subsection.6.5.5}%
+\contentsline {subsection}{\numberline {6.5.6}Cash-Flow Reconciliation}{171}{subsection.6.5.6}%
+\contentsline {subsection}{\numberline {6.5.7}Risk Metrics and Limits}{171}{subsection.6.5.7}%
+\contentsline {subsection}{\numberline {6.5.8}News and Country Research}{172}{subsection.6.5.8}%
+\contentsline {subsection}{\numberline {6.5.9}Health Score}{172}{subsection.6.5.9}%
+\contentsline {subsection}{\numberline {6.5.10}Investment Committees}{173}{subsection.6.5.10}%
+\contentsline {subsection}{\numberline {6.5.11}Deterministic Construction}{173}{subsection.6.5.11}%
+\contentsline {subsection}{\numberline {6.5.12}LLM Construction}{174}{subsection.6.5.12}%
+\contentsline {subsection}{\numberline {6.5.13}Briefing, Q\&A, and Review}{175}{subsection.6.5.13}%
+\contentsline {section}{\numberline {6.6}Deterministic Portfolio Analytics Core}{175}{section.6.6}%
+\contentsline {subsection}{\numberline {6.6.1}Pricing and Market Value}{175}{subsection.6.6.1}%
+\contentsline {subsection}{\numberline {6.6.2}Allocation}{175}{subsection.6.6.2}%
+\contentsline {subsection}{\numberline {6.6.3}Analytics Primitives}{176}{subsection.6.6.3}%
+\contentsline {subsection}{\numberline {6.6.4}Drift and Rebalancing}{176}{subsection.6.6.4}%
+\contentsline {subsection}{\numberline {6.6.5}Cash Flow}{176}{subsection.6.6.5}%
+\contentsline {subsection}{\numberline {6.6.6}Risk Limits}{177}{subsection.6.6.6}%
+\contentsline {subsection}{\numberline {6.6.7}Alerts}{177}{subsection.6.6.7}%
+\contentsline {subsection}{\numberline {6.6.8}Health Score}{178}{subsection.6.6.8}%
+\contentsline {subsection}{\numberline {6.6.9}Construction Guardrails}{178}{subsection.6.6.9}%
+\contentsline {subsection}{\numberline {6.6.10}Deterministic Analytics Flow}{178}{subsection.6.6.10}%
+\contentsline {section}{\numberline {6.7}Memo Generation and Q\&A}{180}{section.6.7}%
+\contentsline {section}{\numberline {6.8}High-Level Design}{180}{section.6.8}%
+\contentsline {subsection}{\numberline {6.8.1}Architecture Components}{181}{subsection.6.8.1}%
+\contentsline {subsection}{\numberline {6.8.2}High-Level Architecture Diagram}{181}{subsection.6.8.2}%
+\contentsline {section}{\numberline {6.9}Low-Level Design}{181}{section.6.9}%
+\contentsline {subsection}{\numberline {6.9.1}Monitoring Request Lifecycle}{183}{subsection.6.9.1}%
+\contentsline {subsection}{\numberline {6.9.2}Construction Request Lifecycle}{183}{subsection.6.9.2}%
+\contentsline {subsection}{\numberline {6.9.3}Core Modules}{183}{subsection.6.9.3}%
+\contentsline {subsection}{\numberline {6.9.4}Failure Handling}{184}{subsection.6.9.4}%
+\contentsline {subsection}{\numberline {6.9.5}Re-run Behavior}{185}{subsection.6.9.5}%
+\contentsline {subsection}{\numberline {6.9.6}Review Behavior}{185}{subsection.6.9.6}%
+\contentsline {subsection}{\numberline {6.9.7}Audit Behavior}{185}{subsection.6.9.7}%
+\contentsline {section}{\numberline {6.10}Data Modeling}{186}{section.6.10}%
+\contentsline {subsection}{\numberline {6.10.1}Entity Relationship Diagram}{186}{subsection.6.10.1}%
+\contentsline {subsection}{\numberline {6.10.2}Physical Table Structures}{186}{subsection.6.10.2}%
+\contentsline {subsubsection}{Table: \texttt {portfolio\_runs}}{186}{section*.103}%
+\contentsline {subsubsection}{Table: \texttt {portfolio\_documents}}{187}{section*.104}%
+\contentsline {subsubsection}{Table: \texttt {holdings}}{188}{section*.105}%
+\contentsline {subsubsection}{Table: \texttt {alerts}}{188}{section*.106}%
+\contentsline {subsubsection}{Table: \texttt {rebalancing\_trades}}{189}{section*.107}%
+\contentsline {subsubsection}{Table: \texttt {briefings}}{189}{section*.108}%
+\contentsline {subsubsection}{Table: \texttt {reviews}}{190}{section*.109}%
+\contentsline {subsection}{\numberline {6.10.3}Join Paths Readers Should Remember}{190}{subsection.6.10.3}%
+\contentsline {subsection}{\numberline {6.10.4}Data Flow from Tables to UI}{191}{subsection.6.10.4}%
+\contentsline {subsection}{\numberline {6.10.5}Modeling Principles}{191}{subsection.6.10.5}%
+\contentsline {section}{\numberline {6.11}Product Screens and Reader Walkthrough}{192}{section.6.11}%
+\contentsline {subsection}{\numberline {6.11.1}Overview View}{192}{subsection.6.11.1}%
+\contentsline {subsection}{\numberline {6.11.2}Positions View}{192}{subsection.6.11.2}%
+\contentsline {subsection}{\numberline {6.11.3}Country Research View}{194}{subsection.6.11.3}%
+\contentsline {subsection}{\numberline {6.11.4}Trace View}{194}{subsection.6.11.4}%
+\contentsline {subsection}{\numberline {6.11.5}User-Control Panel}{194}{subsection.6.11.5}%
+\contentsline {section}{\numberline {6.12}Evaluation Framework}{195}{section.6.12}%
+\contentsline {subsection}{\numberline {6.12.1}Ingestion Evaluation}{195}{subsection.6.12.1}%
+\contentsline {subsection}{\numberline {6.12.2}Market and Allocation Evaluation}{195}{subsection.6.12.2}%
+\contentsline {subsection}{\numberline {6.12.3}Drift and Cash-Flow Evaluation}{195}{subsection.6.12.3}%
+\contentsline {subsection}{\numberline {6.12.4}Risk and Alert Evaluation}{196}{subsection.6.12.4}%
+\contentsline {subsection}{\numberline {6.12.5}Construction Evaluation}{196}{subsection.6.12.5}%
+\contentsline {subsection}{\numberline {6.12.6}Narrative Evaluation}{196}{subsection.6.12.6}%
+\contentsline {subsection}{\numberline {6.12.7}Workflow Evaluation}{197}{subsection.6.12.7}%
+\contentsline {section}{\numberline {6.13}Edge Cases and Failure Scenarios}{197}{section.6.13}%
+\contentsline {subsection}{\numberline {6.13.1}Case 1: No Holdings File and No Statement}{197}{subsection.6.13.1}%
+\contentsline {subsection}{\numberline {6.13.2}Case 2: Invalid Holdings Row}{197}{subsection.6.13.2}%
+\contentsline {subsection}{\numberline {6.13.3}Case 3: Missing Price}{197}{subsection.6.13.3}%
+\contentsline {subsection}{\numberline {6.13.4}Case 4: Missing Market History}{198}{subsection.6.13.4}%
+\contentsline {subsection}{\numberline {6.13.5}Case 5: Portfolio Breaches Equity Target}{198}{subsection.6.13.5}%
+\contentsline {subsection}{\numberline {6.13.6}Case 6: No Transaction Ledger}{198}{subsection.6.13.6}%
+\contentsline {subsection}{\numberline {6.13.7}Case 7: Unexpected Withdrawal}{198}{subsection.6.13.7}%
+\contentsline {subsection}{\numberline {6.13.8}Case 8: News Provider Failure}{198}{subsection.6.13.8}%
+\contentsline {subsection}{\numberline {6.13.9}Case 9: Country Research Failure}{198}{subsection.6.13.9}%
+\contentsline {subsection}{\numberline {6.13.10}Case 10: LLM Invents a Ticker}{198}{subsection.6.13.10}%
+\contentsline {subsection}{\numberline {6.13.11}Case 11: Guardrail-Infeasible Portfolio}{199}{subsection.6.13.11}%
+\contentsline {subsection}{\numberline {6.13.12}Case 12: Cross-Currency Portfolio}{199}{subsection.6.13.12}%
+\contentsline {subsection}{\numberline {6.13.13}Case 13: News Says a Company Has a Problem but Limit Checks Are Fine}{199}{subsection.6.13.13}%
+\contentsline {subsection}{\numberline {6.13.14}Case 14: Re-run After Uploaded Files Are Deleted}{199}{subsection.6.13.14}%
+\contentsline {subsection}{\numberline {6.13.15}Case 15: Review Correction}{199}{subsection.6.13.15}%
+\contentsline {subsection}{\numberline {6.13.16}Case 16: Bogus Portfolio ID}{200}{subsection.6.13.16}%
+\contentsline {section}{\numberline {6.14}Deployment and Operations}{200}{section.6.14}%
+\contentsline {subsection}{\numberline {6.14.1}Current Operational Shape}{200}{subsection.6.14.1}%
+\contentsline {subsection}{\numberline {6.14.2}Why Single Replica Matters}{200}{subsection.6.14.2}%
+\contentsline {subsection}{\numberline {6.14.3}Monitoring Needs}{201}{subsection.6.14.3}%
+\contentsline {section}{\numberline {6.15}Current Gaps and Enhancement Roadmap}{201}{section.6.15}%
+\contentsline {subsection}{\numberline {6.15.1}Current Gaps}{201}{subsection.6.15.1}%
+\contentsline {subsection}{\numberline {6.15.2}Short-Term Enhancements}{202}{subsection.6.15.2}%
+\contentsline {subsection}{\numberline {6.15.3}Production Enhancements}{202}{subsection.6.15.3}%
+\contentsline {subsection}{\numberline {6.15.4}Advanced Enhancements}{203}{subsection.6.15.4}%
+\contentsline {section}{\numberline {6.16}Final Interview Discussion}{203}{section.6.16}%

@@ -1,0 +1,18 @@
+%%{init: {'theme': 'base', 'themeVariables': {'fontFamily': 'Arial, Helvetica, sans-serif', 'fontSize': '26px', 'primaryTextColor': '#111111', 'lineColor': '#000000', 'primaryBorderColor': '#000000', 'primaryColor': '#ffffff', 'edgeLabelBackground': '#ffffff'}, 'flowchart': {'htmlLabels': true, 'useMaxWidth': false, 'nodeSpacing': 60, 'rankSpacing': 90, 'curve': 'basis', 'padding': 32, 'diagramPadding': 16, 'wrappingWidth': 200}, 'sequence': {'actorFontSize': '26px', 'actorFontWeight': 'bold', 'messageFontSize': '22px', 'noteFontSize': '22px', 'noteFontWeight': 'bold', 'actorMargin': 180, 'width': 230, 'height': 70, 'boxMargin': 15, 'messageMargin': 70, 'noteMargin': 25}, 'er': {'fontSize': 26}, 'state': {'fontSize': 26}}}%%
+flowchart TB
+    UI[Web UI or Streamlit UI] --> API[FastAPI assessment service]
+    API --> DOCS[Local document storage]
+    API --> DB[Postgres source of truth]
+    API --> VEC[pgvector page index]
+    API --> REDIS[Redis live phase tracker]
+    API --> LLM[LLM gateway]
+    API --> YF[yfinance optional backfill]
+    API --> WEB[DuckDuckGo web and news optional]
+    VEC --> TOOLS[search_pages and get_page tools]
+    TOOLS --> LLM
+    API --> CALC[Deterministic analytics core]
+    CALC --> MEMO[Memo and Q and A generation]
+    LLM --> MEMO
+    MEMO --> DB
+    DB --> REV[Review audit and version history]
+    classDef default font-size:26px,font-weight:bold,stroke-width:3px;

@@ -1,0 +1,24 @@
+%%{init: {'theme': 'base', 'themeVariables': {'fontFamily': 'Arial, Helvetica, sans-serif', 'fontSize': '26px', 'primaryTextColor': '#111111', 'lineColor': '#000000', 'primaryBorderColor': '#000000', 'primaryColor': '#ffffff', 'edgeLabelBackground': '#ffffff'}, 'flowchart': {'htmlLabels': true, 'useMaxWidth': false, 'nodeSpacing': 60, 'rankSpacing': 90, 'curve': 'basis', 'padding': 32, 'diagramPadding': 16, 'wrappingWidth': 200}, 'sequence': {'actorFontSize': '26px', 'actorFontWeight': 'bold', 'messageFontSize': '22px', 'noteFontSize': '22px', 'noteFontWeight': 'bold', 'actorMargin': 180, 'width': 230, 'height': 70, 'boxMargin': 15, 'messageMargin': 70, 'noteMargin': 25}, 'er': {'fontSize': 26}, 'state': {'fontSize': 26}}}%%
+flowchart TB
+    S["<b>1. Submit</b><br/>project_name + PDFs"]
+    H["<b>2. Hash (SHA-256)</b><br/>dedup identity"]
+    R["Reuse global document"]
+    C["Create document + folder"]
+    P["<b>3. Project row + links</b><br/>commit, return id fast"]
+    B["<b>4. Background job</b><br/>run_and_persist"]
+    M["<b>5. PDF to Markdown</b><br/>hybrid or full OCR"]
+    I["<b>6. Issuer LLM</b><br/>top-3 pages"]
+    F["<b>7. Classify tables</b><br/>3 small-LLM passes"]
+    E["<b>8. Extract + validate</b><br/>large LLM, 5 checks"]
+    V["<b>9. Persist survivors</b><br/>DELETE + INSERT"]
+    W["<b>10. Completed</b><br/>UI polls and reads"]
+    S --> H
+    H -->|hash hit| R
+    H -->|hash miss| C
+    R --> P
+    C --> P
+    P --> B --> M --> I --> F --> E
+    E -->|"issues: retry with<br/>correction addendum"| E
+    E --> V --> W
+    classDef step font-size:26px,font-weight:bold,stroke-width:3px;
+    class S,H,R,C,P,B,M,I,F,E,V,W step;

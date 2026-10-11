@@ -1,0 +1,83 @@
+\documentclass[11pt,letterpaper]{book}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[letterpaper,top=1in,bottom=1in,left=1in,right=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{amsmath,amssymb}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{array}
+\usepackage{xltabular}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage[htt]{hyphenat}
+\usepackage{hyperref}
+
+\graphicspath{{../diagrams/}}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  frame=single,
+  showstringspaces=false,
+  columns=flexible,
+  keepspaces=true
+}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  citecolor=blue,
+  urlcolor=blue
+}
+\usepackage{microtype}
+\setlength{\emergencystretch}{1.5em}
+
+% Dialogue: speaker label at margin, continuation lines aligned
+% with the start of the spoken text (hanging indent by label width)
+\newlength{\speakwid}
+\newcommand{\speaker}[2]{\par\noindent\hangindent=\speakwid\hangafter=1%
+  \makebox[\speakwid][l]{\textbf{#1:}}#2\par}
+\newcommand{\speakcont}[1]{\par{\leftskip=\speakwid\noindent#1\par}}
+
+
+\title{Building Agentic AI for BFSI: Real-World Use Cases}
+\author{Sai Dheeraj Gummadi}
+
+\begin{document}
+\settowidth{\speakwid}{\textbf{Interviewer:} }\addtolength{\speakwid}{0.5em}
+
+\frontmatter
+\input{front_title}
+\clearpage
+\input{front_copyright}
+\clearpage
+\input{front_about_author}
+\clearpage
+\input{front_preface}
+\clearpage
+% \input{front_who_for}
+% \clearpage
+% \input{front_how_to_use}
+% \clearpage
+% \input{front_case_studies}
+\clearpage
+\tableofcontents
+\clearpage
+% \listoffigures
+% \clearpage
+% \listoftables
+% \clearpage
+
+\mainmatter
+\input{ch01_technical_foundations}
+\input{ch02_banking_foundations}
+\input{ch03_findoc_data_extraction}
+\input{ch04_credit_risk}
+\input{ch05_hni_onboarding}
+\input{ch06_investment_research}
+
+\end{document}

@@ -1,0 +1,23 @@
+sequenceDiagram
+    participant U as Manager UI
+    participant API as FastAPI Routes
+    participant R as Redis DB0 Phase
+    participant J as Job BG or Celery
+    participant PG as Postgres
+
+    U->>API: POST /portfolios with CSV JSON PDF mandate mode
+    API->>PG: Insert run created plus documents commit
+    API->>R: Set phase to queued
+    API-->>U: 202 Accepted with run id fast
+    API->>J: Schedule background run
+    J->>PG: Update status to processing commit
+    J->>J: Ingest then price then allocate then drift trades
+    J->>J: Cashflow then risk limits
+    J->>J: News scan plus country LangGraph fail soft
+    J->>J: Alerts plus score plus briefings
+    J->>PG: Insert holdings alerts trades briefing plus update awaiting review
+    J->>R: Set phase to done
+    U->>API: GET /status poll every few seconds
+    API->>R: Get phase or Postgres on terminal
+    U->>API: GET /portfolios full result
+    U->>API: POST question review rerun plus GET audit

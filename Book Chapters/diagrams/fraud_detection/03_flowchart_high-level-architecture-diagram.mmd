@@ -1,0 +1,31 @@
+%%{init: {'theme': 'base', 'themeVariables': {'fontFamily': 'Arial, Helvetica, sans-serif', 'fontSize': '26px', 'primaryTextColor': '#111111', 'lineColor': '#000000', 'primaryBorderColor': '#000000', 'primaryColor': '#ffffff', 'edgeLabelBackground': '#ffffff'}, 'flowchart': {'htmlLabels': true, 'useMaxWidth': false, 'nodeSpacing': 60, 'rankSpacing': 90, 'curve': 'basis', 'padding': 32, 'diagramPadding': 16, 'wrappingWidth': 200}, 'sequence': {'actorFontSize': '26px', 'actorFontWeight': 'bold', 'messageFontSize': '22px', 'noteFontSize': '22px', 'noteFontWeight': 'bold', 'actorMargin': 180, 'width': 230, 'height': 70, 'boxMargin': 15, 'messageMargin': 70, 'noteMargin': 25}, 'er': {'fontSize': 26}, 'state': {'fontSize': 26}}}%%
+flowchart LR
+    UI["<b>Web UI</b><br/>Upload + Name Search<br/>+ Historical KYC"]
+    API["<b>KYC API</b><br/>onboarding_risk api main<br/>POST cases + GET result"]
+    UP["<b>Case uploads</b><br/>DOCUMENT_STORAGE_DIR<br/>case_id folder"]
+    BG["<b>Background wrappers</b><br/>run_pdf + run_subject<br/>in-process jobs"]
+    IDX["<b>Page index</b><br/>in-memory numpy cosine<br/>doc flow only"]
+    EXT["<b>Doc extractors T2-T5</b><br/>via LLM gateway<br/>structure + SOW<br/>+ identity + metadata"]
+    OSINT["<b>OSINT collect</b><br/>8 angles DDG Google<br/>Wiki news<br/>name flow only"]
+    PROF["<b>Profile synthesis</b><br/>via LLM gateway<br/>Profile360 + bridge<br/>S1 Ri Ci + web hits"]
+    RISK["<b>Deterministic risk core</b><br/>UBO + screening<br/>+ 11-factor scorecard"]
+    LLM["<b>LLM gateway</b><br/>OpenAI compatible<br/>temp 0.0"]
+    EDD["<b>EDD rationale LLM</b><br/>compact scorecard JSON<br/>measures + rationale"]
+    FILES["<b>Analysis folders</b><br/>analysis_storage<br/>Client + timestamp"]
+    DB[("<b>Postgres</b><br/>cases + ubos + hits<br/>+ measures + reviews")]
+    UI --> API
+    API --> UP
+    API --> BG
+    API --> LLM
+    BG --> IDX
+    IDX --> EXT
+    BG --> OSINT
+    OSINT --> PROF
+    EXT --> RISK
+    PROF --> RISK
+    LLM --> EDD
+    RISK --> EDD
+    EDD --> FILES
+    EDD --> DB
+    DB --> UI
+    classDef default font-size:26px,font-weight:bold,stroke-width:3px;

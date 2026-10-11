@@ -1,0 +1,30 @@
+sequenceDiagram
+    participant U as Analyst UI
+    participant API as FastAPI Service
+    participant BG as Background Wrapper
+    participant LLM as LLM Gateway
+    participant FS as File and Analysis Storage
+    participant DB as Postgres
+
+    U->>API: POST cases with client_name and type and PDFs
+    API->>FS: Save KYC PDFs under case_id folder
+    API-->>U: status queued with case_id no DB write
+    API->>BG: Schedule run_pdf or run_subject job
+    Note over BG: Index pages with global numbers
+    BG->>LLM: Extract structure parties edges roles
+    BG->>LLM: Extract source of wealth per party
+    BG->>LLM: Extract identity checks per party
+    BG->>LLM: Detect case metadata and applicant
+    Note over BG: Collect 8-angle OSINT evidence if name_search
+    BG->>LLM: Synthesize Profile360 JSON if name_search
+    Note over BG: Bridge profile to parties and web hits
+    Note over BG: Resolve UBOs with threshold 25 pct
+    Note over BG: Screen PEP sanctions adverse geography
+    Note over BG: Score 11 factors and apply hard stops
+    BG->>LLM: Write EDD rationale from compact JSON
+    BG->>FS: Write versioned analysis folder
+    BG->>DB: Commit cases plus ubos hits measures review
+    U->>API: GET status with progress guess until row exists
+    API-->>U: Current phase and progress
+    U->>API: GET result plus clients plus history
+    API-->>U: Risk band decision UBOs and measures

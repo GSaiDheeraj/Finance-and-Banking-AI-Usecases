@@ -1,0 +1,4 @@
+/* Bold labels only -- no size/layout overrides so mermaid measures text correctly */
+text, .label, .nodeLabel, .edgeLabel, span {
+  font-weight: bold;
+}

@@ -1,0 +1,15 @@
+%%{init: {'theme': 'default', 'themeVariables': {'fontFamily': 'Arial, Helvetica, sans-serif', 'fontSize': '22px', 'primaryTextColor': '#000000', 'lineColor': '#000000'}, 'flowchart': {'htmlLabels': true, 'useMaxWidth': true, 'nodeSpacing': 70, 'rankSpacing': 80, 'curve': 'basis', 'padding': 15}}}%%
+flowchart TB
+    U[User request] --> W{What is needed?}
+    W -->|Exact calculation or policy| D[Deterministic function]
+    W -->|Known sequence with branches| F[Orchestrated workflow]
+    W -->|One bounded language task| L[LLM application]
+    W -->|Evidence path cannot be fixed| A[Bounded tool-using agent]
+    L --> V[Schema and evidence validation]
+    A --> V
+    F --> V
+    D --> V
+    V --> H{Material decision or action?}
+    H -->|Yes| R[Human review or approved policy gate]
+    H -->|No| O[Return result]
+    R --> O

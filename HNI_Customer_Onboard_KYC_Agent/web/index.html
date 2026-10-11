@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fraud Detection Agent</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .tabs {
+            display: flex;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .tab {
+            padding: 15px 30px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-size: 1em;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .tab.active {
+            color: #f5576c;
+            border-bottom-color: #f5576c;
+        }
+        
+        .tab:hover {
+            color: #f5576c;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .form-section {
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-section:hover {
+            border-color: #f5576c;
+            background: #fff5f7;
+        }
+        
+        .form-section h2 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .form-section p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .input-group {
+            margin: 20px 0;
+            text-align: left;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1em;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(245, 87, 108, 0.4);
+        }
+        
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .results-section {
+            display: none;
+        }
+        
+        .results-section.active {
+            display: block;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #f5576c;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .status-message {
+            color: #666;
+            font-size: 1.1em;
+        }
+        
+        .result-card {
+            background: #fff5f7;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #f5576c;
+        }
+        
+        .result-card h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .risk-band {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .risk-band.LOW {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .risk-band.MEDIUM {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .risk-band.HIGH {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .risk-band.PROHIBITED {
+            background: #d6d8d9;
+            color: #1c1e21;
+        }
+        
+        .decision {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin: 15px 0;
+            color: #333;
+        }
+        
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .metric {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .metric-label {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+        
+        .metric-value {
+            color: #333;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        
+        .error-message {
+            background: #fee;
+            color: #c33;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 20px 0;
+            border-left: 4px solid #c33;
+        }
+        
+        .ubos-section, .watchlist-section, .edd-section {
+            margin-top: 20px;
+        }
+        
+        .section-title {
+            font-size: 1.3em;
+            color: #333;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .list-item {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            border-left: 3px solid #f5576c;
+        }
+        
+        .list-item strong {
+            color: #333;
+        }
+        
+        .history-item {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            border-left: 3px solid #f5576c;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .history-item:hover {
+            background: #fff5f7;
+            transform: translateX(5px);
+        }
+        
+        .history-item strong {
+            color: #333;
+        }
+        
+        .history-meta {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+        
+        .version-badge {
+            display: inline-block;
+            background: #f5576c;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Fraud Detection Agent</h1>
+            <p>Customer Onboarding Risk Assessment & KYC/EDD Scoring</p>
+        </div>
+        
+        <div class="content">
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('documents')">Document Upload</button>
+                <button class="tab" onclick="switchTab('name_search')">Name Search</button>
+                <button class="tab" onclick="switchTab('history')">Historical KYC</button>
+            </div>
+            
+            <div class="tab-content active" id="documents">
+                <div class="form-section">
+                    <h2>Upload KYC Documents</h2>
+                    <p>Upload KYC forms, trust deeds, ownership charts, and ID documents for analysis</p>
+                    <input type="file" id="fileInput" class="file-input" multiple accept=".pdf">
+                    <button class="btn" onclick="document.getElementById('fileInput').click()">Select Files</button>
+                    <div id="selectedFiles" style="margin-top: 15px; color: #666;"></div>
+                    <div class="input-group">
+                        <label for="clientName">Client Name</label>
+                        <input type="text" id="clientName" placeholder="Enter client name">
+                    </div>
+                    <button class="btn" id="analyzeBtn" disabled>Start Assessment</button>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="name_search">
+                <div class="form-section">
+                    <h2>Name-Based OSINT Search</h2>
+                    <p>Search for publicly available information about a client without documents</p>
+                    <div class="input-group">
+                        <label for="searchName">Client Name</label>
+                        <input type="text" id="searchName" placeholder="Enter client name">
+                    </div>
+                    <div class="input-group">
+                        <label for="searchAge">Age (optional)</label>
+                        <input type="text" id="searchAge" placeholder="Approximate age">
+                    </div>
+                    <div class="input-group">
+                        <label for="searchLocation">Location (optional)</label>
+                        <input type="text" id="searchLocation" placeholder="City, country">
+                    </div>
+                    <button class="btn" id="searchBtn">Start OSINT Search</button>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="history">
+                <div class="form-section">
+                    <h2>Historical KYC Analysis</h2>
+                    <p>View past assessments and analysis history for clients</p>
+                    <div class="input-group">
+                        <label for="clientSelect">Select Client</label>
+                        <select id="clientSelect" onchange="loadClientHistory()">
+                            <option value="">Loading clients...</option>
+                        </select>
+                    </div>
+                    <div id="historyContent" style="margin-top: 20px;">
+                        <p style="color: #666;">Select a client to view their analysis history</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="loading" id="loadingSection" style="display: none;">
+                <div class="loading-spinner"></div>
+                <p class="status-message" id="statusMessage">Processing...</p>
+            </div>
+            
+            <div class="results-section" id="resultsSection">
+                <div class="result-card">
+                    <h3>Risk Assessment Results</h3>
+                    <div id="resultsContent"></div>
+                </div>
+            </div>
+            
+            <div class="error-message" id="errorSection" style="display: none;"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = window.location.origin;
+        
+        const fileInput = document.getElementById('fileInput');
+        const selectedFiles = document.getElementById('selectedFiles');
+        const analyzeBtn = document.getElementById('analyzeBtn');
+        const searchBtn = document.getElementById('searchBtn');
+        const loadingSection = document.getElementById('loadingSection');
+        const resultsSection = document.getElementById('resultsSection');
+        const errorSection = document.getElementById('errorSection');
+        const statusMessage = document.getElementById('statusMessage');
+        const resultsContent = document.getElementById('resultsContent');
+        
+        let selectedFilesList = [];
+        let currentTab = 'documents';
+        
+        function switchTab(tab) {
+            currentTab = tab;
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(tab).classList.add('active');
+        }
+        
+        fileInput.addEventListener('change', (e) => {
+            selectedFilesList = Array.from(e.target.files);
+            selectedFiles.textContent = selectedFilesList.length > 0 
+                ? `Selected: ${selectedFilesList.map(f => f.name).join(', ')}`
+                : '';
+            updateAnalyzeButton();
+        });
+        
+        document.getElementById('clientName').addEventListener('input', updateAnalyzeButton);
+        
+        function updateAnalyzeButton() {
+            const clientName = document.getElementById('clientName').value;
+            analyzeBtn.disabled = selectedFilesList.length === 0 || !clientName;
+        }
+        
+        analyzeBtn.addEventListener('click', async () => {
+            if (selectedFilesList.length === 0) return;
+            
+            const clientName = document.getElementById('clientName').value;
+            if (!clientName) return;
+            
+            startAssessment('documents', clientName, selectedFilesList);
+        });
+        
+        searchBtn.addEventListener('click', async () => {
+            const searchName = document.getElementById('searchName').value;
+            if (!searchName) return;
+            
+            startAssessment('name_search', searchName, null);
+        });
+        
+        async function startAssessment(caseType, clientName, files) {
+            showLoading();
+            
+            try {
+                const formData = new FormData();
+                formData.append('client_name', clientName);
+                formData.append('case_type', caseType);
+                
+                if (files) {
+                    files.forEach(file => {
+                        formData.append('files', file);
+                    });
+                }
+                
+                const response = await fetch(`${API_BASE_URL}/cases`, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to create case');
+                }
+                
+                const caseData = await response.json();
+                statusMessage.textContent = 'Processing assessment...';
+                
+                await pollCaseStatus(caseData.case_id);
+                
+            } catch (error) {
+                showError(error.message);
+                hideLoading();
+            }
+        }
+        
+        async function pollCaseStatus(caseId) {
+            const maxAttempts = 60;
+            let attempts = 0;
+            
+            while (attempts < maxAttempts) {
+                try {
+                    const response = await fetch(`${API_BASE_URL}/cases/${caseId}/status`);
+                    const status = await response.json();
+                    
+                    statusMessage.textContent = `Current phase: ${status.current_phase} (${Math.round(status.progress * 100)}%)`;
+                    
+                    if (status.status === 'completed' || status.status === 'awaiting_review') {
+                        await fetchResults(caseId);
+                        return;
+                    }
+                    
+                    await new Promise(resolve => setTimeout(resolve, 5000));
+                    attempts++;
+                } catch (error) {
+                    console.error('Error polling status:', error);
+                    await new Promise(resolve => setTimeout(resolve, 5000));
+                    attempts++;
+                }
+            }
+            
+            showError('Assessment timed out. Please try again.');
+            hideLoading();
+        }
+        
+        async function fetchResults(caseId) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/cases/${caseId}/result`);
+                const results = await response.json();
+                
+                displayResults(results);
+                
+                hideLoading();
+                resultsSection.classList.add('active');
+                
+            } catch (error) {
+                showError('Failed to fetch results: ' + error.message);
+                hideLoading();
+            }
+        }
+        
+        function displayResults(results) {
+            let html = '';
+            
+            // Risk band and decision
+            html += `<div class="risk-band ${results.risk_band}">${results.risk_band} RISK</div>`;
+            html += `<div class="decision">Decision: ${results.decision}</div>`;
+            html += `<div style="margin: 15px 0;"><strong>Risk Score:</strong> ${results.risk_score}/100</div>`;
+            
+            // UBOs
+            if (results.ubos && results.ubos.length > 0) {
+                html += `
+                    <div class="ubos-section">
+                        <div class="section-title">Ultimate Beneficial Owners</div>
+                        ${results.ubos.map(ubo => `
+                            <div class="list-item">
+                                <strong>${ubo.party_name}</strong><br>
+                                Effective Ownership: ${ubo.effective_ownership_percentage}%<br>
+                                Basis: ${ubo.basis}
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+            
+            // Watchlist hits
+            if (results.watchlist_hits && results.watchlist_hits.length > 0) {
+                html += `
+                    <div class="watchlist-section">
+                        <div class="section-title">Watchlist Hits</div>
+                        ${results.watchlist_hits.map(hit => `
+                            <div class="list-item">
+                                <strong>${hit.party_name}</strong><br>
+                                List: ${hit.list_type}<br>
+                                Match: ${hit.matched_name} (${Math.round(hit.match_score * 100)}%)
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+            
+            // EDD measures
+            if (results.edd_measures && results.edd_measures.length > 0) {
+                html += `
+                    <div class="edd-section">
+                        <div class="section-title">Enhanced Due Diligence Measures</div>
+                        <ul style="margin-top: 10px; padding-left: 20px;">
+                            ${results.edd_measures.map(measure => `<li>${measure}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+            
+            resultsContent.innerHTML = html || '<p>No results available</p>';
+        }
+        
+        function showLoading() {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            loadingSection.style.display = 'block';
+            errorSection.style.display = 'none';
+            resultsSection.classList.remove('active');
+        }
+        
+        function hideLoading() {
+            loadingSection.style.display = 'none';
+            document.querySelectorAll('.tab-content').forEach(c => {
+                if (c.id === currentTab) c.classList.add('active');
+            });
+        }
+        
+        function showError(message) {
+            errorSection.textContent = message;
+            errorSection.style.display = 'block';
+        }
+        
+        // Load clients when page loads
+        document.addEventListener('DOMContentLoaded', loadClients);
+        
+        async function loadClients() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/clients`);
+                if (!response.ok) throw new Error('Failed to load clients');
+                
+                const clients = await response.json();
+                const select = document.getElementById('clientSelect');
+                select.innerHTML = '<option value="">Select a client...</option>';
+                
+                clients.forEach(client => {
+                    const option = document.createElement('option');
+                    option.value = client.client_name;
+                    option.textContent = `${client.client_name} (${client.total_analyses} analysis)`;
+                    select.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error loading clients:', error);
+                document.getElementById('clientSelect').innerHTML = 
+                    '<option value="">Failed to load clients</option>';
+            }
+        }
+        
+        async function loadClientHistory() {
+            const clientName = document.getElementById('clientSelect').value;
+            const historyContent = document.getElementById('historyContent');
+            
+            if (!clientName) {
+                historyContent.innerHTML = '<p style="color: #666;">Select a client to view their analysis history</p>';
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/clients/${encodeURIComponent(clientName)}/history`);
+                if (!response.ok) throw new Error('Failed to load client history');
+                
+                const history = await response.json();
+                
+                if (history.length === 0) {
+                    historyContent.innerHTML = '<p style="color: #666;">No analysis history found for this client</p>';
+                    return;
+                }
+                
+                let html = '<h3 style="margin-bottom: 15px;">Analysis History</h3>';
+                
+                history.forEach(analysis => {
+                    const date = analysis.completed_at ? new Date(analysis.completed_at).toLocaleString() : 'In progress';
+                    const riskClass = analysis.risk_band ? analysis.risk_band.toLowerCase() : '';
+                    
+                    html += `
+                        <div class="history-item" onclick="viewAnalysis('${analysis.case_id}')">
+                            <div>
+                                <strong>${analysis.case_type.toUpperCase()}</strong>
+                                <span class="version-badge">v${analysis.analysis_version}</span>
+                            </div>
+                            <div class="history-meta">
+                                ${date} | Status: ${analysis.status}
+                            </div>
+                            ${analysis.risk_score ? `
+                                <div class="history-meta">
+                                    Risk Score: ${analysis.risk_score}/100 | 
+                                    Band: <span class="risk-band ${riskClass.toUpperCase()}">${analysis.risk_band.toUpperCase()}</span> |
+                                    Decision: ${analysis.decision}
+                                </div>
+                            ` : ''}
+                        </div>
+                    `;
+                });
+                
+                historyContent.innerHTML = html;
+            } catch (error) {
+                console.error('Error loading client history:', error);
+                historyContent.innerHTML = '<p style="color: #c33;">Failed to load client history</p>';
+            }
+        }
+        
+        async function viewAnalysis(caseId) {
+            // Redirect to the results view for this case
+            currentTab = 'documents'; // Switch to a tab that can show results
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            
+            // Show loading
+            showLoading();
+            statusMessage.textContent = 'Loading analysis results...';
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/cases/${caseId}/result`);
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.detail || 'Failed to load analysis results');
+                }
+                
+                const results = await response.json();
+                displayResults(results);
+                hideLoading();
+                resultsSection.classList.add('active');
+            } catch (error) {
+                console.error('Error loading analysis:', error);
+                showError('Failed to load analysis results: ' + error.message);
+                hideLoading();
+                
+                // Return to history tab on error
+                switchTab('history');
+            }
+        }
+    </script>
+</body>
+</html>

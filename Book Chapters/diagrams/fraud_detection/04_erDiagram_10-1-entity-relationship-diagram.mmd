@@ -1,0 +1,104 @@
+erDiagram
+    CASES ||--o{ UBOS : "live DELETE plus INSERT"
+    CASES ||--o{ WATCHLIST_HITS : "live DELETE plus INSERT"
+    CASES ||--o{ EDD_MEASURES : "live DELETE plus INSERT"
+    CASES ||--o{ REVIEWS : "live INSERT-only system"
+    CASES ||--o{ CASE_DOCUMENTS : "declared never written"
+    CASES ||--o{ PAGE_CHUNKS : "declared never written"
+    CASES ||--o{ PARTIES : "declared never written"
+    CASES ||--o{ OWNERSHIP_EDGES : "declared never written"
+
+    CASES {
+        string id PK
+        string client_name "indexed"
+        string case_type "documents or name_search"
+        string status "completed or failed live"
+        float risk_score
+        string risk_band "UPPER"
+        string decision "UPPER"
+        string hard_stop_reason
+        json raw_result "full result blob"
+        json reasoning "step strings"
+        float latency_ms
+        int llm_call_count
+        int analysis_version
+        string storage_path
+        boolean is_latest
+    }
+    UBOS {
+        string id PK
+        string case_id FK
+        string party_id "P1 style"
+        string party_name
+        float effective_ownership_percentage
+        string basis "ownership or control or SMO"
+        json control_roles
+        json ownership_paths
+    }
+    WATCHLIST_HITS {
+        string id PK
+        string case_id FK
+        string party_id
+        string party_name
+        string list_type "pep or sanctions or adverse"
+        string matched_name
+        float match_score "ge 0.85"
+        string source_list "list or osint web"
+        string details
+        string tier
+    }
+    EDD_MEASURES {
+        string id PK
+        string case_id FK
+        string measure
+        string category
+        string severity
+    }
+    REVIEWS {
+        string id PK
+        string case_id FK
+        string reviewer "system today"
+        string action "auto mapped"
+        json corrected_fields
+        string reason
+        datetime reviewed_at
+    }
+    CASE_DOCUMENTS {
+        string id PK
+        string case_id FK
+        string filename
+        string storage_uri
+        string sha256_hash
+        int page_count
+        datetime uploaded_at
+    }
+    PAGE_CHUNKS {
+        string id PK
+        string case_id FK
+        string document_id FK
+        int page_number "global"
+        string doc_name
+        string text
+        json embedding "not persisted"
+    }
+    PARTIES {
+        string id PK
+        string case_id FK
+        string party_id "P1 style"
+        string name
+        string party_type
+        string country
+        boolean declared_pep
+        string source_document
+        int page
+    }
+    OWNERSHIP_EDGES {
+        string id PK
+        string case_id FK
+        string owner_id FK
+        string owned_id FK
+        float ownership_percentage
+        string ownership_type
+        string source_document
+        int page
+    }

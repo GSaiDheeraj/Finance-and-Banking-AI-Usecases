@@ -1,0 +1,18 @@
+%%{init: {'theme': 'base', 'themeVariables': {'fontFamily': 'Arial, Helvetica, sans-serif', 'fontSize': '26px', 'primaryTextColor': '#111111', 'lineColor': '#000000', 'primaryBorderColor': '#000000', 'primaryColor': '#ffffff', 'edgeLabelBackground': '#ffffff'}, 'flowchart': {'htmlLabels': true, 'useMaxWidth': false, 'nodeSpacing': 60, 'rankSpacing': 90, 'curve': 'basis', 'padding': 32, 'diagramPadding': 16, 'wrappingWidth': 200}, 'sequence': {'actorFontSize': '26px', 'actorFontWeight': 'bold', 'messageFontSize': '22px', 'noteFontSize': '22px', 'noteFontWeight': 'bold', 'actorMargin': 180, 'width': 230, 'height': 70, 'boxMargin': 15, 'messageMargin': 70, 'noteMargin': 25}, 'er': {'fontSize': 26}, 'state': {'fontSize': 26}}}%%
+sequenceDiagram
+    participant J as Background Job
+    participant E as Extraction Agent
+    participant V as Validators
+    participant A as Attribution Logic
+    participant DB as Postgres
+    J->>E: Extract line items
+    E-->>J: Structured line items
+    J->>V: Validate values and periods
+    V-->>J: Issues
+    alt Issues and iteration < 3
+        J->>A: Map issues to source tables
+        A-->>J: Correction notes
+        J->>E: Retry extraction with correction addendum
+    else No issues or iteration = 3
+        J->>DB: Persist survivors and validation errors
+    end

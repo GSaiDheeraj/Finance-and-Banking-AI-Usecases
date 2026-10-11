@@ -1,0 +1,18 @@
+%%{init: {'theme': 'base', 'themeVariables': {'fontFamily': 'Arial, Helvetica, sans-serif', 'fontSize': '26px', 'primaryTextColor': '#111111', 'lineColor': '#000000', 'primaryBorderColor': '#000000', 'primaryColor': '#ffffff', 'edgeLabelBackground': '#ffffff'}, 'flowchart': {'htmlLabels': true, 'useMaxWidth': false, 'nodeSpacing': 60, 'rankSpacing': 90, 'curve': 'basis', 'padding': 32, 'diagramPadding': 16, 'wrappingWidth': 200}, 'sequence': {'actorFontSize': '26px', 'actorFontWeight': 'bold', 'messageFontSize': '22px', 'noteFontSize': '22px', 'noteFontWeight': 'bold', 'actorMargin': 180, 'width': 230, 'height': 70, 'boxMargin': 15, 'messageMargin': 70, 'noteMargin': 25}, 'er': {'fontSize': 26}, 'state': {'fontSize': 26}}}%%
+flowchart TB
+    C(["<b>START</b>"])
+    S1["<b>created</b><br/>run row inserted<br/>phase queued"]
+    S2["<b>processing</b><br/>job started<br/>live phase updates"]
+    S3["<b>awaiting review</b><br/>success persisted<br/>score + briefing ready"]
+    S4["<b>validation review</b><br/>exception path<br/>no failed no completed at"]
+    S5["<b>approved</b><br/>review accepted"]
+    S6["<b>rejected</b><br/>review rejected"]
+    E(["<b>END</b>"])
+    C --> S1 -->|"job starts"| S2
+    S2 -->|"success persist"| S3
+    S2 -->|"exception"| S4
+    S3 -->|"review approved"| S5 --> E
+    S3 -->|"review rejected"| S6 --> E
+    S4 -->|"review approved"| S5
+    S4 -->|"review rejected"| S6
+    classDef default font-size:26px,font-weight:bold,stroke-width:3px;

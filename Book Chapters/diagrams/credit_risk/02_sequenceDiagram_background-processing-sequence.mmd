@@ -1,0 +1,28 @@
+%%{init: {'theme': 'base', 'themeVariables': {'fontFamily': 'Arial, Helvetica, sans-serif', 'fontSize': '26px', 'primaryTextColor': '#111111', 'lineColor': '#000000', 'primaryBorderColor': '#000000', 'primaryColor': '#ffffff', 'edgeLabelBackground': '#ffffff'}, 'flowchart': {'htmlLabels': true, 'useMaxWidth': false, 'nodeSpacing': 60, 'rankSpacing': 90, 'curve': 'basis', 'padding': 32, 'diagramPadding': 16, 'wrappingWidth': 200}, 'sequence': {'actorFontSize': '26px', 'actorFontWeight': 'bold', 'messageFontSize': '22px', 'noteFontSize': '22px', 'noteFontWeight': 'bold', 'actorMargin': 180, 'width': 230, 'height': 70, 'boxMargin': 15, 'messageMargin': 70, 'noteMargin': 25}, 'er': {'fontSize': 26}, 'state': {'fontSize': 26}}}%%
+sequenceDiagram
+    participant U as Analyst UI
+    participant API as FastAPI Service
+    participant FS as File Storage
+    participant DB as Postgres
+    participant RS as Redis Status
+    participant BG as Background Job
+
+    U->>API: POST /assessments
+    API->>FS: Save uploaded PDFs
+    API->>DB: Insert assessment_version with status created
+    API->>RS: Set phase to queued
+    API-->>U: 202 Accepted with version_id
+    API->>BG: Schedule background run
+    BG->>RS: Set phase to indexing_documents
+    BG->>DB: Persist documents and page chunks
+    BG->>RS: Set phase to extracting_financials
+    BG->>DB: Read indexed pages through tools
+    BG->>RS: Set phase to enriching_and_scoring
+    BG->>DB: Persist structured outputs
+    BG->>RS: Set phase to writing_memo
+    BG->>DB: Commit final results
+    BG->>RS: Set phase to done
+    U->>API: GET /status
+    API-->>U: Current phase
+    U->>API: GET /assessment
+    API-->>U: Final assessment

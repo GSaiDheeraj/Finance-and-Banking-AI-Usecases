@@ -1,0 +1,9 @@
+%%{init: {'theme': 'default', 'themeVariables': {'fontFamily': 'Arial, Helvetica, sans-serif', 'fontSize': '22px', 'primaryTextColor': '#000000', 'lineColor': '#000000'}, 'flowchart': {'htmlLabels': true, 'useMaxWidth': true, 'nodeSpacing': 70, 'rankSpacing': 80, 'curve': 'basis', 'padding': 15}}}%%
+flowchart TB
+    I[Interviewer: broad problem] --> Q[Candidate: clarifying questions]
+    Q --> C[Interviewer: context and constraints]
+    C --> M[Candidate: requirements and success metrics]
+    M --> D[Candidate: proposed design]
+    D --> P[Interviewer: probe assumptions and edge cases]
+    P --> T[Candidate: trade-offs, implementation, evaluation]
+    T --> R[Human decision and operational boundaries]

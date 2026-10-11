@@ -1,0 +1,46 @@
+# Local secrets - never commit
+# Covers root and every agent subdirectory (pattern without a slash matches in all dirs).
+.env
+.env.example
+.env.local
+.env.*
+*.env
+**/.env
+**/.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+ENV/
+*.egg-info/
+dist/
+build/
+
+# Test / lint caches
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+
+# Local data / uploads (recreated at runtime)
+data/
+*.pdf
+*.log
+*.crt
+
+# OS / IDE
+.DS_Store
+.vscode/
+.opencode/
+.ruff_cache/
+.idea/
+*.swp
+*.swo
+*~

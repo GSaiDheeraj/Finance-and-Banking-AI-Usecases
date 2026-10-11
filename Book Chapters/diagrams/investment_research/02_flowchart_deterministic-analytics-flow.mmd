@@ -1,0 +1,13 @@
+%%{init: {'theme': 'base', 'themeVariables': {'fontFamily': 'Arial, Helvetica, sans-serif', 'fontSize': '26px', 'primaryTextColor': '#111111', 'lineColor': '#000000', 'primaryBorderColor': '#000000', 'primaryColor': '#ffffff', 'edgeLabelBackground': '#ffffff'}, 'flowchart': {'htmlLabels': true, 'useMaxWidth': false, 'nodeSpacing': 60, 'rankSpacing': 90, 'curve': 'basis', 'padding': 32, 'diagramPadding': 16, 'wrappingWidth': 200}, 'sequence': {'actorFontSize': '26px', 'actorFontWeight': 'bold', 'messageFontSize': '22px', 'noteFontSize': '22px', 'noteFontWeight': 'bold', 'actorMargin': 180, 'width': 230, 'height': 70, 'boxMargin': 15, 'messageMargin': 70, 'noteMargin': 25}, 'er': {'fontSize': 26}, 'state': {'fontSize': 26}}}%%
+flowchart TB
+    A["<b>1. Price holdings</b><br/>input then market<br/>then cost else missing"]
+    B["<b>2. Allocate</b><br/>market value<br/>7 mixes + coverage"]
+    C["<b>3. Drift + trades</b><br/>IPS bands<br/>breach only trades"]
+    D["<b>4. Cashflow</b><br/>expected vs actual<br/>variance flags"]
+    E["<b>5. Risk metrics</b><br/>vol DD VaR beta<br/>TE HHI coverage"]
+    F["<b>6. Limit checks</b><br/>7 limits<br/>breach warn ok"]
+    G["<b>7. Alerts</b><br/>8 sources<br/>severity sorted"]
+    H["<b>8. Health score</b><br/>8 factors 0 to 100<br/>healthy to critical"]
+    I["<b>9. Briefing</b><br/>templated narrative<br/>actions + watch"]
+    A --> B --> C --> D --> E --> F --> G --> H --> I
+    classDef default font-size:26px,font-weight:bold,stroke-width:3px;

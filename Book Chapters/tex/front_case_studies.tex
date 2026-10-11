@@ -1,0 +1,56 @@
+\chapter*{How the Case Studies Are Structured}
+
+\section*{The Socratic Interview Format}
+
+The four case-study chapters use a sustained conversation between an interviewer and a candidate, not a collection of disconnected questions. The interviewer initially gives a deliberately broad problem. The candidate asks for the business context, users, decision boundary, documents, constraints, and measures of success. This is intentional: in a real discovery meeting, assuming an unstated requirement is often more dangerous than asking one more precise question.
+
+Once the requirements are confirmed, the conversation changes. The candidate leads with a solution and explains its mechanisms. The interviewer probes weak points: Why is this an agent instead of a fixed workflow? What happens when retrieval finds the wrong company? Why can't the model compute the score? What does ``fail safely'' mean in this particular pipeline? The candidate considers alternatives, names trade-offs, and connects each answer to the actual implementation.
+
+The dialogue also includes uncomfortable but necessary admissions. A prototype might rely on local disk, have an in-process background task instead of a durable queue, lack OCR for scanned PDFs, or define tables it never populates. Those facts do not make the case study less valuable. They make it more useful for understanding how production-readiness decisions are made.
+
+Chapters 1 and 2 are written in direct exposition. They establish shared technical and banking vocabulary so that Chapters 3--6 can focus on discovery, design reasoning, and implementation choices rather than redefining every term.
+
+\section*{A Note on the Four Case Studies}
+
+The case studies cover related but distinct problems:
+
+\begin{enumerate}
+\item \textbf{Credit risk assessment:} Extract evidence from borrower documents, compute financial indicators and a proposed risk assessment, draft a credit memo, and preserve human credit authority.
+\item \textbf{Financial-document intelligence:} Turn financial PDFs and tables into structured, traceable line items while handling document layouts, periods, units, and extraction validation.
+\item \textbf{Customer-onboarding KYC and EDD:} Identify people and ownership relationships, evaluate screening signals and due-diligence gaps, and support an authorized compliance decision.
+\item \textbf{Investment research and portfolio monitoring:} Ingest holdings and market data, calculate allocation and risk, propose bounded construction or rebalancing, and explain results to a reviewer.
+\end{enumerate}
+These are not four interchangeable ``agent templates.'' Each has a different business owner, data contract, failure cost, and approval boundary. The recurring architectural lesson is to use flexible model capabilities where the evidence is unstructured, and deterministic controls where financial correctness and accountability are required.
+
+\medskip\hrule\medskip
+\section*{How This Book Is Organized}
+
+\begin{xltabular}{\textwidth}{>{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X}
+\caption{How This Book Is Organized}\label{tab:how-this-book-is-organized-1}\\
+\hline
+\textbf{Part} & \textbf{Chapters} & \textbf{Content} & \textbf{Purpose} \\
+\hline
+\endfirsthead
+\caption[]{How This Book Is Organized (continued)}\\
+\hline
+\textbf{Part} & \textbf{Chapters} & \textbf{Content} & \textbf{Purpose} \\
+\hline
+\endhead
+Foundations & 1--2 & Technical foundations for agentic AI; banking and financial-services foundations & Build shared vocabulary and decision criteria \\
+Case studies & 3--6 & Four end-to-end systems presented as interview-style design conversations & Learn discovery, architecture, implementation, data modeling, evaluation, and trade-offs \\
+\hline
+\end{xltabular}
+
+\section*{Reading Path}
+
+\textbf{New to financial services?} Read Chapters 1 and 2 in order, then begin with the financial-document or credit case study. Return to the relevant definitions when you encounter unfamiliar terms.
+
+\textbf{Already building AI applications?} Skim Chapter 1 for the decision and trust boundaries, then use Chapter 2 to align on the relevant banking workflow before moving to the nearest case study.
+
+\textbf{Preparing for interviews?} Read each chapter as a live design exercise. Stop at each interviewer prompt, state your assumptions, and produce your own answer before continuing.
+
+\textbf{Planning a production rollout?} Start with the use case that resembles your system, then use Chapter 7 and the Appendix to challenge its storage, authorization, testing, failure recovery, observability, and human-review controls.
+
+\begin{quote}
+The aim of this book is not to make every financial workflow autonomous. It is to show how thoughtful use of AI can make evidence easier to find, analysis easier to explain, and systems more useful---without handing calculations, policy, or accountability to a model that cannot own them.
+\end{quote}

@@ -1,0 +1,18 @@
+%%{init: {'theme': 'base', 'themeVariables': {'fontFamily': 'Arial, Helvetica, sans-serif', 'fontSize': '26px', 'primaryTextColor': '#111111', 'lineColor': '#000000', 'primaryBorderColor': '#000000', 'primaryColor': '#ffffff', 'edgeLabelBackground': '#ffffff'}, 'flowchart': {'htmlLabels': true, 'useMaxWidth': false, 'nodeSpacing': 60, 'rankSpacing': 90, 'curve': 'basis', 'padding': 32, 'diagramPadding': 16, 'wrappingWidth': 200}, 'sequence': {'actorFontSize': '26px', 'actorFontWeight': 'bold', 'messageFontSize': '22px', 'noteFontSize': '22px', 'noteFontWeight': 'bold', 'actorMargin': 180, 'width': 230, 'height': 70, 'boxMargin': 15, 'messageMargin': 70, 'noteMargin': 25}, 'er': {'fontSize': 26}, 'state': {'fontSize': 26}}}%%
+flowchart TB
+    S["<b>1. Submit</b><br/>holdings CSV or JSON<br/>ledger PDF mandate mode"]
+    A["<b>2. Accept fast</b><br/>202 + run id<br/>save hash commit queued"]
+    W{"<b>3. Workflow</b><br/>monitoring<br/>or construction"}
+    M1["<b>4a. Monitor ingest</b><br/>alias maps or LLM<br/>PDF transcription"]
+    M2["<b>5a. Price + allocate</b><br/>yfinance quotes history<br/>coverage + 7 mixes"]
+    M3["<b>6a. Deterministic core</b><br/>drift trades cashflow<br/>risk metrics limits"]
+    M4["<b>7a. Evidence + score</b><br/>DDG news country graph<br/>alerts health briefing"]
+    C1["<b>4b. Universe</b><br/>curated + live quotes<br/>exclusions filters"]
+    C2["<b>5b. Two books</b><br/>deterministic +<br/>committees + LLM picks"]
+    C3["<b>6b. Guardrails</b><br/>caps water fill<br/>reprice metrics"]
+    R["<b>8. Persist + review</b><br/>awaiting review<br/>question rerun audit"]
+    S --> A --> W
+    W -->|"monitoring"| M1 --> M2 --> M3 --> M4 --> R
+    W -->|"construction"| C1 --> C2 --> C3 --> R
+    R -->|"rerun:<br/>new version"| W
+    classDef default font-size:26px,font-weight:bold,stroke-width:3px;
