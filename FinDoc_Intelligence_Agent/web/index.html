@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FinDoc Intelligence · Filing Workspace</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <div class="brand">
+        <h1>FinDoc Intelligence</h1>
+        <p>Upload a filing, read every reported fact with its page attached.</p>
+      </div>
+      <div class="health">
+        <span class="health-dot" id="healthDot"></span>
+        <span id="healthText">Checking API…</span>
+      </div>
+    </header>
+
+    <section class="stats" aria-label="Workspace totals">
+      <div class="stat">
+        <div class="stat-label">Filings stored</div>
+        <div class="stat-value" id="statDocs">–</div>
+        <div class="stat-sub">across all projects</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Facts extracted</div>
+        <div class="stat-value" id="statFacts">–</div>
+        <div class="stat-sub">one row per reported number</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Needs review</div>
+        <div class="stat-value" id="statFlagged">–</div>
+        <div class="stat-sub">validation flags open</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Workspace</div>
+        <div class="stat-value" id="statPages">Live</div>
+        <div class="stat-sub">local disk + optional archive</div>
+      </div>
+    </section>
+
+    <main class="workspace">
+      <nav class="tabs" id="tabs">
+        <button class="tab-btn active" data-tab="upload">Upload</button>
+        <button class="tab-btn" data-tab="library">Library</button>
+      </nav>
+
+      <section id="panel-upload" class="tab-panel active">
+        <h2 class="panel-title">Add filings to a new project</h2>
+        <p class="panel-hint">PDF annual reports and statements only. Identical re-uploads reuse the stored filing.</p>
+
+        <div class="dropzone" id="dropzone">
+          <h2>Drag filings here, or choose them</h2>
+          <p>Each page is kept searchable so numbers stay citable.</p>
+          <input type="file" id="filePicker" hidden multiple accept=".pdf">
+          <button class="btn ghost" id="pickBtn" type="button">Choose PDFs</button>
+        </div>
+
+        <div class="field-row">
+          <input class="text-input" id="projectName" placeholder="Project name (e.g. Q4 bank filings)" value="FinDoc Analysis">
+          <button class="btn" id="startBtn" type="button" disabled>Analyse filings</button>
+        </div>
+
+        <div id="fileChips"></div>
+
+        <div class="progress-wrap hidden" id="progress">
+          <div class="spinner"></div>
+          <p class="progress-note" id="progressNote">Working…</p>
+          <div class="progress-bar"><div id="progressFill"></div></div>
+          <div class="field-row" style="justify-content:center">
+            <button class="btn ghost" id="retryBtn" type="button">Back to upload</button>
+          </div>
+        </div>
+
+        <div class="notice hidden" id="uploadNotice"></div>
+        <div class="field-row">
+          <button class="btn hidden" id="openLibraryBtn" type="button">Open results in library</button>
+        </div>
+      </section>
+
+      <section id="panel-library" class="tab-panel">
+        <h2 class="panel-title">Filing library</h2>
+        <p class="panel-hint">Pick a filing on the left, then filter its facts by statement, text, or review flag.</p>
+        <div class="library">
+          <aside class="library-side">
+            <input class="search-input" id="docSearch" placeholder="Search filings…">
+            <div class="doc-list" id="docList"></div>
+          </aside>
+          <div>
+            <div class="toolbar">
+              <input class="search-input" id="factSearch" placeholder="Filter facts by label, period, currency…">
+              <label class="check"><input type="checkbox" id="flaggedOnly"> Flagged only</label>
+            </div>
+            <div class="toolbar" id="statementChips">
+              <button class="chip on" data-filter="all">All statements</button>
+              <button class="chip" data-filter="balance_sheet">Balance sheet</button>
+              <button class="chip" data-filter="income_statement">Income</button>
+              <button class="chip" data-filter="cash_flow">Cash flow</button>
+              <button class="chip" data-filter="changes_in_equity">Equity</button>
+              <button class="chip" data-filter="other">Other</button>
+            </div>
+            <div id="detail"><p class="empty">Choose a filing to inspect its facts.</p></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <p class="foot">Facts are read by the model and always carry a page — check the PDF before relying on a number.</p>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
